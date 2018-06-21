@@ -1,0 +1,15 @@
+#ifndef __COOLING_H__
+#define __COOLING_H__
+
+#include "can_ECUB.h"
+#include "stm32f1xx_hal.h"
+#include "stm32f1xx_hal_tim.h"
+#include "main.h"
+
+void fan_pwm_process(TIM_HandleTypeDef* fan, int value);
+void pump_pwm_process(TIM_HandleTypeDef* pomp, int value);
+void stop_PWM(TIM_HandleTypeDef* pump,TIM_HandleTypeDef* fan,ECUB_Status_t *ECUB_Status);
+void start_PWM(TIM_HandleTypeDef* pump,TIM_HandleTypeDef* fan,ECUB_Status_t *ECUB_Status);
+int pwm_check(ECUB_Status_t *ECUB_Status,CAN_HandleTypeDef *hcan);
+
+#endif
