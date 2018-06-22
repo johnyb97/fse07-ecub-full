@@ -63,7 +63,7 @@ void sortInsertion(uint32_t *array, uint16_t size) //function for sorting data a
 uint32_t compute_average(uint32_t *data,uint16_t number_of_data,uint16_t poss) //simple function to compute average form given array
 {
 	if (!number_of_data){
-		average = ((speeds_array[posicion_for_arrays-1] + 2*speeds_array[posicion_for_arrays]))/4; //just some correction
+		average = ((speeds_array[(posicion_for_arrays+254)%255] + 2*speeds_array[posicion_for_arrays]))/4; //just some correction
 		return average;
 	}
 	
@@ -78,7 +78,7 @@ uint32_t compute_average(uint32_t *data,uint16_t number_of_data,uint16_t poss) /
     average = ((temp[number_of_data>>1] + temp[(number_of_data>>1)-1]) >> 1)*(2*PI*RADIUS); //finds average
   }
 	
-	average = ((speeds_array[posicion_for_arrays-1] + 2*speeds_array[posicion_for_arrays])+average)/4; //just some correction
+	average = ((speeds_array[(posicion_for_arrays+254)%255] + 2*speeds_array[posicion_for_arrays])+average)/4; //just some correction
 	return average;
 }
 
@@ -109,7 +109,7 @@ void Can_WheelSpeed(CAN_HandleTypeDef *hcan){
 	  posicion_for_arrays = (posicion_for_arrays+1)%255; //moves possicion pointer
 	 	spins_array[posicion_for_arrays] = total_spins; //saves new values
 		times_array[posicion_for_arrays] = HAL_GetTick(); //time of new message
-		speeds_array[posicion_for_arrays] = ((total_spins-spins_array[(posicion_for_arrays-1)])/(HAL_GetTick()-times_array[(posicion_for_arrays-1)]))*(2*PI*RADIUS); //saves new speeds values
+		speeds_array[posicion_for_arrays] = ((total_spins-spins_array[(posicion_for_arrays+254)%255])/(HAL_GetTick()-times_array[(posicion_for_arrays+254)%255]))*(2*PI*RADIUS); //saves new speeds values
 		
 	 
 	  Wheel_can.WhR = compute_average(wsr_data,wsr_number_data,wsr_poss); //aritmetic average i hope
