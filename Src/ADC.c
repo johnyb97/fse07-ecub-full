@@ -10,28 +10,7 @@ volatile uint32_t ecua_u_value;
 volatile uint32_t lv_bat_u_value;
 volatile uint32_t service_box_u_value;
 volatile uint16_t adc_measurement[8];
-//verze 1
-/*
-void start_ADC(ADC_HandleTypeDef* ADC_handle){//zahajeni ADC komunikace
-	HAL_ADC_Start(ADC_handle);
-}
 
-void read_ADC(ADC_HandleTypeDef* ADC_handle){ //ziskat hodnotu z ADC mereni
-	HAL_ADC_ConvCpltCallback(ADC_handle); //cekej do konce smycky mereni
-	HAL_ADC_GetValue(ADC_handle); //ziskat data z mereni
-	ntc0_value = ADC_CHANNEL_12; //overit
-	ntc1_value = ADC_CHANNEL_13; //overit
-	ntc2_value = ADC_CHANNEL_2; //overit
-	ntc3_value = ADC_CHANNEL_3; //overit
-	ecua_u_value = (ADC_CHANNEL_15 *12); //nasobeno 12 podle schématu //overit
-	lv_bat_u_value = (ADC_CHANNEL_9 * 12); //nasobeno 12 podle schématu //overit
-	service_box_u_value = (ADC_CHANNEL_8 * 12); //nasobeno 12 podle schématu //overit
-}
-void stop_ADC(ADC_HandleTypeDef* ADC_handle){ //ukonceni komunikace
-	HAL_ADC_Stop(ADC_handle);
-}
-*/
-//verze 2
 void start_ADC(ADC_HandleTypeDef* ADC_handle)
 {
 	HAL_ADC_Start_DMA(ADC_handle,(uint32_t*)adc_measurement,8); //start DMA...it saves data into adc_measurement
@@ -41,7 +20,6 @@ void stop_newADC(ADC_HandleTypeDef* ADC_handle)
 {
 	HAL_ADC_Stop_DMA(ADC_handle); //end DMA communication
 }
-
 
 void HAL_ADC_ConvCpltCallback (ADC_HandleTypeDef* hadc)
 {

@@ -29,80 +29,13 @@ enum { ECUF_Dashboard_id = 0x3C5 };
 enum { ECUP_Status_id = 0x040 };
 enum { ECUP_Status_timeout = 500 };
 enum { MCF_GeneralReport_id = 0x100 };
+enum { MCF_ThermalMeasuresA_id = 0x303 };
+enum { MCF_ThermalMeasuresB_id = 0x304 };
 enum { MCR_GeneralReport_id = 0x110 };
+enum { MCR_ThermalMeasuresA_id = 0x313 };
+enum { MCR_ThermalMeasuresB_id = 0x314 };
 enum { VDCU_Status_id = 0x050 };
 enum { VDCU_Status_timeout = 500 };
-
-enum VDCU_CAL_DisIndex {
-    /* None */
-    VDCU_CAL_DisIndex_None = 0,
-    /* Front right displacement sensor calibration */
-    VDCU_CAL_DisIndex_DisFR = 1,
-    /* Front left displacement sensor calibration */
-    VDCU_CAL_DisIndex_DisFL = 2,
-    /* Rear right displacement sensor calibration */
-    VDCU_CAL_DisIndex_DisRR = 3,
-    /* Rear left displacement sensor calibration */
-    VDCU_CAL_DisIndex_DisRL = 4,
-};
-
-enum VDCU_Parameters {
-    /* Torque gain (0-128) */
-    VDCU_Parameters_TorqueGain = 0,
-    /* Maximum power in kW (0-120) */
-    VDCU_Parameters_PowerMax = 1,
-    /* Maximum regenerative power in kW (0-40) */
-    VDCU_Parameters_PowerMax_Gen = 2,
-    /* Request for reverse [0,1] */
-    VDCU_Parameters_Reverse_REQ = 3,
-    /* Racing mode (accel, skid, autox, endu ...) (0-9) */
-    VDCU_Parameters_Mode = 4,
-    /* Request for not limited performance [0,1] */
-    VDCU_Parameters_Turbo_REQ = 5,
-    /* Torque distribution between front/rear (0-100) */
-    VDCU_Parameters_Torque_Dist = 6,
-    /* Torque vectoring gain on front axle (0-200) */
-    VDCU_Parameters_TV_GainF = 7,
-    /* Torque vectoring gain on rear axle (0-200) */
-    VDCU_Parameters_TV_GainR = 8,
-    /* Maximum torque for rear axle (0-32) */
-    VDCU_Parameters_TorqueMaxF = 9,
-    /* Maximum torque for front axle (0-96) */
-    VDCU_Parameters_TorqueMaxR = 10,
-    /* Slip ratio controller slip setpoint (4-20) */
-    VDCU_Parameters_TC_SpSlip = 11,
-    /* Slip ratio controller Kp gain (0-) */
-    VDCU_Parameters_TC_Kp = 12,
-    /* Slip ratio controller Ki gain (0-) */
-    VDCU_Parameters_TC_Ki = 13,
-    /* Yaw controller Kp gain (0-) */
-    VDCU_Parameters_YC_Kp = 14,
-    /* Yaw controller Ki gain (0-) */
-    VDCU_Parameters_YC_Ki = 15,
-    /* ENABLE torque vectoring [0,1] */
-    VDCU_Parameters_TV_EN = 16,
-    /* ENABLE Slip ratio controller [0,1] */
-    VDCU_Parameters_TC_EN = 17,
-    /* ENABLE Yaw controller [0,1] */
-    VDCU_Parameters_YC_EN = 18,
-    /* ENABLE regenerative braking [0,1] */
-    VDCU_Parameters_GEN_EN = 19,
-    /* Pedal map selector (0-4) */
-    VDCU_Parameters_Ped_MAP = 20,
-    /* Field weakening (0-100) */
-    VDCU_Parameters_FW = 21,
-};
-
-enum ECUF_CAL_STWIndex {
-    /* None */
-    ECUF_CAL_STWIndex_None = 0,
-    /* Left position (output is positive) */
-    ECUF_CAL_STWIndex_STWLeft = 1,
-    /* Center position */
-    ECUF_CAL_STWIndex_STWCenter = 2,
-    /* Right position (output is negative) */
-    ECUF_CAL_STWIndex_STWRight = 3,
-};
 
 enum ECUA_StateAMS {
     /* without_fault */
@@ -195,6 +128,77 @@ enum ECUB_Notready_reason {
     ECUB_Notready_reason_TIMEOUT_VDCU = 9,
     /* Fault on PWM_fault pins */
     ECUB_Notready_reason_PWM_FAULT = 10,
+};
+
+enum VDCU_CAL_DisIndex {
+    /* None */
+    VDCU_CAL_DisIndex_None = 0,
+    /* Front right displacement sensor calibration */
+    VDCU_CAL_DisIndex_DisFR = 1,
+    /* Front left displacement sensor calibration */
+    VDCU_CAL_DisIndex_DisFL = 2,
+    /* Rear right displacement sensor calibration */
+    VDCU_CAL_DisIndex_DisRR = 3,
+    /* Rear left displacement sensor calibration */
+    VDCU_CAL_DisIndex_DisRL = 4,
+};
+
+enum VDCU_Parameters {
+    /* Torque gain (0-128) */
+    VDCU_Parameters_TorqueGain = 0,
+    /* Maximum power in kW (0-120) */
+    VDCU_Parameters_PowerMax = 1,
+    /* Maximum regenerative power in kW (0-40) */
+    VDCU_Parameters_PowerMax_Gen = 2,
+    /* Request for reverse [0,1] */
+    VDCU_Parameters_Reverse_REQ = 3,
+    /* Racing mode (accel, skid, autox, endu ...) (0-9) */
+    VDCU_Parameters_Mode = 4,
+    /* Request for not limited performance [0,1] */
+    VDCU_Parameters_Turbo_REQ = 5,
+    /* Torque distribution between front/rear (0-100) */
+    VDCU_Parameters_Torque_Dist = 6,
+    /* Torque vectoring gain on front axle (0-200) */
+    VDCU_Parameters_TV_GainF = 7,
+    /* Torque vectoring gain on rear axle (0-200) */
+    VDCU_Parameters_TV_GainR = 8,
+    /* Maximum torque for rear axle (0-32) */
+    VDCU_Parameters_TorqueMaxF = 9,
+    /* Maximum torque for front axle (0-96) */
+    VDCU_Parameters_TorqueMaxR = 10,
+    /* Slip ratio controller slip setpoint (4-20) */
+    VDCU_Parameters_TC_SpSlip = 11,
+    /* Slip ratio controller Kp gain (0-) */
+    VDCU_Parameters_TC_Kp = 12,
+    /* Slip ratio controller Ki gain (0-) */
+    VDCU_Parameters_TC_Ki = 13,
+    /* Yaw controller Kp gain (0-) */
+    VDCU_Parameters_YC_Kp = 14,
+    /* Yaw controller Ki gain (0-) */
+    VDCU_Parameters_YC_Ki = 15,
+    /* ENABLE torque vectoring [0,1] */
+    VDCU_Parameters_TV_EN = 16,
+    /* ENABLE Slip ratio controller [0,1] */
+    VDCU_Parameters_TC_EN = 17,
+    /* ENABLE Yaw controller [0,1] */
+    VDCU_Parameters_YC_EN = 18,
+    /* ENABLE regenerative braking [0,1] */
+    VDCU_Parameters_GEN_EN = 19,
+    /* Pedal map selector (0-4) */
+    VDCU_Parameters_Ped_MAP = 20,
+    /* Field weakening (0-100) */
+    VDCU_Parameters_FW = 21,
+};
+
+enum ECUF_CAL_STWIndex {
+    /* None */
+    ECUF_CAL_STWIndex_None = 0,
+    /* Left position (output is positive) */
+    ECUF_CAL_STWIndex_STWLeft = 1,
+    /* Center position */
+    ECUF_CAL_STWIndex_STWCenter = 2,
+    /* Right position (output is negative) */
+    ECUF_CAL_STWIndex_STWRight = 3,
 };
 
 /*
@@ -486,13 +490,10 @@ typedef struct ECUB_GLV_AMS_t {
 	/* Voltage GLV battery mux */
 	uint8_t	CellID;
 
-	/* Temperature GLV battery mux */
-	uint8_t	TempID;
-
-	/* Muxed GLV battery cell voltage */
+	/* Battery cell voltage */
 	uint16_t	Volt_cell;
 
-	/* Muxed GLV battery temperature */
+	/* Battery cell temperature */
 	uint8_t	Temp_cell;
 } ECUB_GLV_AMS_t;
 
@@ -638,7 +639,7 @@ typedef struct ECUB_TEMPAux_t {
 } ECUB_TEMPAux_t;
 
 /*
- * 
+ * Summary of unit status and faults
  */
 typedef struct ECUF_Status_t {
 	/* Shutdown circuit from SDB_Cockpit */
@@ -739,10 +740,10 @@ typedef struct ECUF_Dashboard_t {
 	/* 1-pressed / 0-not pressed */
 	uint8_t	SW3;
 
-	/* Ambient light level measured */
+	/* Ambient light level */
 	uint8_t	AmbientLight;
 
-	/*  */
+	/* Ambient temperature */
 	uint8_t	AmbientTemp;
 } ECUF_Dashboard_t;
 
@@ -835,6 +836,58 @@ typedef struct MCF_GeneralReport_t {
 } MCF_GeneralReport_t;
 
 /*
+ * Thermal measures for channel A.
+ */
+typedef struct MCF_ThermalMeasuresA_t {
+	/* Temperature of IGBT's heat sink. */
+	uint8_t	TIGBT;
+
+	/* Temperature estimation of IGBT chip. */
+	uint8_t	TIGBTJ;
+
+	/* Temperature of motor's connector. */
+	uint8_t	TMOTCON;
+
+	/* Temperature of motor's temp. sensor. */
+	uint8_t	TMOTSEN;
+
+	/* Temperature estimation of motor's winding. */
+	uint8_t	TMOTWIN;
+
+	/* Temperature of capacitor bank. */
+	uint8_t	TCAP;
+
+	/* Motor performance capacity utilization rate. */
+	uint8_t	TMOTI2T;
+} MCF_ThermalMeasuresA_t;
+
+/*
+ * Thermal measures for channel B.
+ */
+typedef struct MCF_ThermalMeasuresB_t {
+	/* Temperature of IGBT's heat sink. */
+	uint8_t	TIGBT;
+
+	/* Temperature estimation of IGBT chip. */
+	uint8_t	TIGBTJ;
+
+	/* Temperature of motor's connector. */
+	uint8_t	TMOTCON;
+
+	/* Temperature of motor's temp. sensor. */
+	uint8_t	TMOTSEN;
+
+	/* Temperature estimation of motor's winding. */
+	uint8_t	TMOTWIN;
+
+	/* Temperature of capacitor bank. */
+	uint8_t	TCAP;
+
+	/* Motor performance capacity utilization rate. */
+	uint8_t	TMOTI2T;
+} MCF_ThermalMeasuresB_t;
+
+/*
  * Actual settings and states, system faults.
  */
 typedef struct MCR_GeneralReport_t {
@@ -900,6 +953,58 @@ typedef struct MCR_GeneralReport_t {
 } MCR_GeneralReport_t;
 
 /*
+ * Thermal measures for channel A.
+ */
+typedef struct MCR_ThermalMeasuresA_t {
+	/* Temperature of IGBT's heat sink. */
+	uint8_t	TIGBT;
+
+	/* Temperature estimation of IGBT chip. */
+	uint8_t	TIGBTJ;
+
+	/* Temperature of motor's connector. */
+	uint8_t	TMOTCON;
+
+	/* Temperature of motor's temp. sensor. */
+	uint8_t	TMOTSEN;
+
+	/* Temperature estimation of motor's winding. */
+	uint8_t	TMOTWIN;
+
+	/* Temperature of capacitor bank. */
+	uint8_t	TCAP;
+
+	/* Motor performance capacity utilization rate. */
+	uint8_t	TMOTI2T;
+} MCR_ThermalMeasuresA_t;
+
+/*
+ * Thermal measures for channel B.
+ */
+typedef struct MCR_ThermalMeasuresB_t {
+	/* Temperature of IGBT's heat sink. */
+	uint8_t	TIGBT;
+
+	/* Temperature estimation of IGBT chip. */
+	uint8_t	TIGBTJ;
+
+	/* Temperature of motor's connector. */
+	uint8_t	TMOTCON;
+
+	/* Temperature of motor's temp. sensor. */
+	uint8_t	TMOTSEN;
+
+	/* Temperature estimation of motor's winding. */
+	uint8_t	TMOTWIN;
+
+	/* Temperature of capacitor bank. */
+	uint8_t	TCAP;
+
+	/* Motor performance capacity utilization rate. */
+	uint8_t	TMOTI2T;
+} MCR_ThermalMeasuresB_t;
+
+/*
  * VDCU systems status
  */
 typedef struct VDCU_Status_t {
@@ -956,7 +1061,7 @@ int ECUB_send_Wheelspeed(int16_t WhR, int16_t WhL, uint16_t Timestamp, uint8_t F
 int ECUB_Wheelspeed_need_to_send(void);
 
 int ECUB_send_GLV_AMS_s(const ECUB_GLV_AMS_t* data);
-int ECUB_send_GLV_AMS(enum ECUB_Batt_code BattState, uint8_t FT_Batt, uint8_t FT_AMS, uint8_t FT_Charger, uint16_t Volt, uint8_t Curr, uint8_t CellID, uint8_t TempID, uint16_t Volt_cell, uint8_t Temp_cell);
+int ECUB_send_GLV_AMS(enum ECUB_Batt_code BattState, uint8_t FT_Batt, uint8_t FT_AMS, uint8_t FT_Charger, uint16_t Volt, uint8_t Curr, uint8_t CellID, uint16_t Volt_cell, uint8_t Temp_cell);
 int ECUB_GLV_AMS_need_to_send(void);
 
 int ECUB_send_Cooling_s(const ECUB_Cooling_t* data);
@@ -995,10 +1100,30 @@ int MCF_decode_GeneralReport(const uint8_t* bytes, size_t length, uint8_t* SDC_I
 int MCF_get_GeneralReport(MCF_GeneralReport_t* data_out);
 void MCF_GeneralReport_on_receive(int (*callback)(MCF_GeneralReport_t* data));
 
+int MCF_decode_ThermalMeasuresA_s(const uint8_t* bytes, size_t length, MCF_ThermalMeasuresA_t* data_out);
+int MCF_decode_ThermalMeasuresA(const uint8_t* bytes, size_t length, uint8_t* TIGBT_out, uint8_t* TIGBTJ_out, uint8_t* TMOTCON_out, uint8_t* TMOTSEN_out, uint8_t* TMOTWIN_out, uint8_t* TCAP_out, uint8_t* TMOTI2T_out);
+int MCF_get_ThermalMeasuresA(MCF_ThermalMeasuresA_t* data_out);
+void MCF_ThermalMeasuresA_on_receive(int (*callback)(MCF_ThermalMeasuresA_t* data));
+
+int MCF_decode_ThermalMeasuresB_s(const uint8_t* bytes, size_t length, MCF_ThermalMeasuresB_t* data_out);
+int MCF_decode_ThermalMeasuresB(const uint8_t* bytes, size_t length, uint8_t* TIGBT_out, uint8_t* TIGBTJ_out, uint8_t* TMOTCON_out, uint8_t* TMOTSEN_out, uint8_t* TMOTWIN_out, uint8_t* TCAP_out, uint8_t* TMOTI2T_out);
+int MCF_get_ThermalMeasuresB(MCF_ThermalMeasuresB_t* data_out);
+void MCF_ThermalMeasuresB_on_receive(int (*callback)(MCF_ThermalMeasuresB_t* data));
+
 int MCR_decode_GeneralReport_s(const uint8_t* bytes, size_t length, MCR_GeneralReport_t* data_out);
 int MCR_decode_GeneralReport(const uint8_t* bytes, size_t length, uint8_t* SDC_IN_out, uint8_t* SDC_MSCB_out, uint8_t* SDC_MPCB_out, uint8_t* SDC_HVC_out, uint8_t* SDC_MPCA_out, uint8_t* SDC_MSCA_out, uint8_t* DISCH_out, uint8_t* POA_out, uint8_t* POA_PS_out, uint8_t* POB_out, uint8_t* POB_PS_out, uint8_t* PWMA_out, uint8_t* FWA_out, uint8_t* GENA_out, uint8_t* DIRA_out, uint8_t* PWMB_out, uint8_t* FWB_out, uint8_t* GENB_out, uint8_t* DIRB_out, uint8_t* HB_out);
 int MCR_get_GeneralReport(MCR_GeneralReport_t* data_out);
 void MCR_GeneralReport_on_receive(int (*callback)(MCR_GeneralReport_t* data));
+
+int MCR_decode_ThermalMeasuresA_s(const uint8_t* bytes, size_t length, MCR_ThermalMeasuresA_t* data_out);
+int MCR_decode_ThermalMeasuresA(const uint8_t* bytes, size_t length, uint8_t* TIGBT_out, uint8_t* TIGBTJ_out, uint8_t* TMOTCON_out, uint8_t* TMOTSEN_out, uint8_t* TMOTWIN_out, uint8_t* TCAP_out, uint8_t* TMOTI2T_out);
+int MCR_get_ThermalMeasuresA(MCR_ThermalMeasuresA_t* data_out);
+void MCR_ThermalMeasuresA_on_receive(int (*callback)(MCR_ThermalMeasuresA_t* data));
+
+int MCR_decode_ThermalMeasuresB_s(const uint8_t* bytes, size_t length, MCR_ThermalMeasuresB_t* data_out);
+int MCR_decode_ThermalMeasuresB(const uint8_t* bytes, size_t length, uint8_t* TIGBT_out, uint8_t* TIGBTJ_out, uint8_t* TMOTCON_out, uint8_t* TMOTSEN_out, uint8_t* TMOTWIN_out, uint8_t* TCAP_out, uint8_t* TMOTI2T_out);
+int MCR_get_ThermalMeasuresB(MCR_ThermalMeasuresB_t* data_out);
+void MCR_ThermalMeasuresB_on_receive(int (*callback)(MCR_ThermalMeasuresB_t* data));
 
 int VDCU_decode_Status_s(const uint8_t* bytes, size_t length, VDCU_Status_t* data_out);
 int VDCU_decode_Status(const uint8_t* bytes, size_t length, uint8_t* State_out, uint8_t* FT_Dis_Cal_out, uint8_t* FT_Sensor_out, uint8_t* Temp_derating_out, uint8_t* ACP_derate_out, uint8_t* Disch_ACT_out, uint8_t* Reverse_ACT_out, uint8_t* TV_ENABLED_out, uint8_t* TC_ENABLED_out, uint8_t* YC_ENABLED_out, uint8_t* TC_ACT_out, uint8_t* YC_ACT_out);

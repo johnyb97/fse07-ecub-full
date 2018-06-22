@@ -36,3 +36,9 @@ ecub_v0.2\cooling_circuit.o: ../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_s
 ecub_v0.2\cooling_circuit.o: ../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_tim.h
 ecub_v0.2\cooling_circuit.o: ../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_tim_ex.h
 ecub_v0.2\cooling_circuit.o: ../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_uart.h
+ecub_v0.2\cooling_circuit.o: ../Inc/carstate.h
+ecub_v0.2\cooling_circuit.o: C:\Keil_v5\ARM\ARMCC\Bin\..\include\string.h
+ecub_v0.2\cooling_circuit.o: ../Inc/BrakeLight.h
+ecub_v0.2\cooling_circuit.o: ../Inc/carstate.h
+ecub_v0.2\cooling_circuit.o: ../Inc/periphery_set.h
+ecub_v0.2\cooling_circuit.o: ../Inc/cooling_circuit.h

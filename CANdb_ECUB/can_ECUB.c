@@ -18,8 +18,16 @@ CAN_msg_status_t ECUP_Status_status;
 ECUP_Status_t ECUP_Status_data;
 CAN_msg_status_t MCF_GeneralReport_status;
 MCF_GeneralReport_t MCF_GeneralReport_data;
+CAN_msg_status_t MCF_ThermalMeasuresA_status;
+MCF_ThermalMeasuresA_t MCF_ThermalMeasuresA_data;
+CAN_msg_status_t MCF_ThermalMeasuresB_status;
+MCF_ThermalMeasuresB_t MCF_ThermalMeasuresB_data;
 CAN_msg_status_t MCR_GeneralReport_status;
 MCR_GeneralReport_t MCR_GeneralReport_data;
+CAN_msg_status_t MCR_ThermalMeasuresA_status;
+MCR_ThermalMeasuresA_t MCR_ThermalMeasuresA_data;
+CAN_msg_status_t MCR_ThermalMeasuresB_status;
+MCR_ThermalMeasuresB_t MCR_ThermalMeasuresB_data;
 CAN_msg_status_t VDCU_Status_status;
 VDCU_Status_t VDCU_Status_data;
 
@@ -36,7 +44,11 @@ void candbInit(void) {
     canInitMsgStatus(&ECUF_Dashboard_status, -1);
     canInitMsgStatus(&ECUP_Status_status, 500);
     canInitMsgStatus(&MCF_GeneralReport_status, -1);
+    canInitMsgStatus(&MCF_ThermalMeasuresA_status, -1);
+    canInitMsgStatus(&MCF_ThermalMeasuresB_status, -1);
     canInitMsgStatus(&MCR_GeneralReport_status, -1);
+    canInitMsgStatus(&MCR_ThermalMeasuresA_status, -1);
+    canInitMsgStatus(&MCR_ThermalMeasuresB_status, -1);
     canInitMsgStatus(&VDCU_Status_status, 500);
 }
 
@@ -199,7 +211,7 @@ int ECUB_send_GLV_AMS_s(const ECUB_GLV_AMS_t* data) {
     buffer[1] = data->Volt;
     buffer[2] = (data->Volt >> 8);
     buffer[3] = data->Curr;
-    buffer[4] = (data->CellID & 0x0F) | ((data->TempID & 0x0F) << 4);
+    buffer[4] = (data->CellID & 0x0F);
     buffer[5] = data->Volt_cell;
     buffer[6] = (data->Volt_cell >> 8);
     buffer[7] = data->Temp_cell;
@@ -207,13 +219,13 @@ int ECUB_send_GLV_AMS_s(const ECUB_GLV_AMS_t* data) {
     return txSendCANMessage(bus_CAN1_powertrain, ECUB_GLV_AMS_id, buffer, sizeof(buffer));
 }
 
-int ECUB_send_GLV_AMS(enum ECUB_Batt_code BattState, uint8_t FT_Batt, uint8_t FT_AMS, uint8_t FT_Charger, uint16_t Volt, uint8_t Curr, uint8_t CellID, uint8_t TempID, uint16_t Volt_cell, uint8_t Temp_cell) {
+int ECUB_send_GLV_AMS(enum ECUB_Batt_code BattState, uint8_t FT_Batt, uint8_t FT_AMS, uint8_t FT_Charger, uint16_t Volt, uint8_t Curr, uint8_t CellID, uint16_t Volt_cell, uint8_t Temp_cell) {
     uint8_t buffer[8];
     buffer[0] = (BattState & 0x0F) | (FT_Batt ? 16 : 0) | (FT_AMS ? 32 : 0) | (FT_Charger ? 64 : 0);
     buffer[1] = Volt;
     buffer[2] = (Volt >> 8);
     buffer[3] = Curr;
-    buffer[4] = (CellID & 0x0F) | ((TempID & 0x0F) << 4);
+    buffer[4] = (CellID & 0x0F);
     buffer[5] = Volt_cell;
     buffer[6] = (Volt_cell >> 8);
     buffer[7] = Temp_cell;
@@ -583,6 +595,94 @@ void MCF_GeneralReport_on_receive(int (*callback)(MCF_GeneralReport_t* data)) {
     MCF_GeneralReport_status.on_receive = (void (*)(void)) callback;
 }
 
+int MCF_decode_ThermalMeasuresA_s(const uint8_t* bytes, size_t length, MCF_ThermalMeasuresA_t* data_out) {
+    if (length < 8)
+        return 0;
+
+    data_out->TIGBT = bytes[0];
+    data_out->TIGBTJ = bytes[1];
+    data_out->TMOTCON = bytes[2];
+    data_out->TMOTSEN = bytes[3];
+    data_out->TMOTWIN = bytes[4];
+    data_out->TCAP = bytes[5];
+    data_out->TMOTI2T = bytes[6];
+    return 1;
+}
+
+int MCF_decode_ThermalMeasuresA(const uint8_t* bytes, size_t length, uint8_t* TIGBT_out, uint8_t* TIGBTJ_out, uint8_t* TMOTCON_out, uint8_t* TMOTSEN_out, uint8_t* TMOTWIN_out, uint8_t* TCAP_out, uint8_t* TMOTI2T_out) {
+    if (length < 8)
+        return 0;
+
+    *TIGBT_out = bytes[0];
+    *TIGBTJ_out = bytes[1];
+    *TMOTCON_out = bytes[2];
+    *TMOTSEN_out = bytes[3];
+    *TMOTWIN_out = bytes[4];
+    *TCAP_out = bytes[5];
+    *TMOTI2T_out = bytes[6];
+    return 1;
+}
+
+int MCF_get_ThermalMeasuresA(MCF_ThermalMeasuresA_t* data_out) {
+    if (!(MCF_ThermalMeasuresA_status.flags & CAN_MSG_RECEIVED))
+        return 0;
+
+    if (data_out)
+        memcpy(data_out, &MCF_ThermalMeasuresA_data, sizeof(MCF_ThermalMeasuresA_t));
+
+    int flags = MCF_ThermalMeasuresA_status.flags;
+    MCF_ThermalMeasuresA_status.flags &= ~CAN_MSG_PENDING;
+    return flags;
+}
+
+void MCF_ThermalMeasuresA_on_receive(int (*callback)(MCF_ThermalMeasuresA_t* data)) {
+    MCF_ThermalMeasuresA_status.on_receive = (void (*)(void)) callback;
+}
+
+int MCF_decode_ThermalMeasuresB_s(const uint8_t* bytes, size_t length, MCF_ThermalMeasuresB_t* data_out) {
+    if (length < 8)
+        return 0;
+
+    data_out->TIGBT = bytes[0];
+    data_out->TIGBTJ = bytes[1];
+    data_out->TMOTCON = bytes[2];
+    data_out->TMOTSEN = bytes[3];
+    data_out->TMOTWIN = bytes[4];
+    data_out->TCAP = bytes[5];
+    data_out->TMOTI2T = bytes[6];
+    return 1;
+}
+
+int MCF_decode_ThermalMeasuresB(const uint8_t* bytes, size_t length, uint8_t* TIGBT_out, uint8_t* TIGBTJ_out, uint8_t* TMOTCON_out, uint8_t* TMOTSEN_out, uint8_t* TMOTWIN_out, uint8_t* TCAP_out, uint8_t* TMOTI2T_out) {
+    if (length < 8)
+        return 0;
+
+    *TIGBT_out = bytes[0];
+    *TIGBTJ_out = bytes[1];
+    *TMOTCON_out = bytes[2];
+    *TMOTSEN_out = bytes[3];
+    *TMOTWIN_out = bytes[4];
+    *TCAP_out = bytes[5];
+    *TMOTI2T_out = bytes[6];
+    return 1;
+}
+
+int MCF_get_ThermalMeasuresB(MCF_ThermalMeasuresB_t* data_out) {
+    if (!(MCF_ThermalMeasuresB_status.flags & CAN_MSG_RECEIVED))
+        return 0;
+
+    if (data_out)
+        memcpy(data_out, &MCF_ThermalMeasuresB_data, sizeof(MCF_ThermalMeasuresB_t));
+
+    int flags = MCF_ThermalMeasuresB_status.flags;
+    MCF_ThermalMeasuresB_status.flags &= ~CAN_MSG_PENDING;
+    return flags;
+}
+
+void MCF_ThermalMeasuresB_on_receive(int (*callback)(MCF_ThermalMeasuresB_t* data)) {
+    MCF_ThermalMeasuresB_status.on_receive = (void (*)(void)) callback;
+}
+
 int MCR_decode_GeneralReport_s(const uint8_t* bytes, size_t length, MCR_GeneralReport_t* data_out) {
     if (length < 8)
         return 0;
@@ -651,6 +751,94 @@ int MCR_get_GeneralReport(MCR_GeneralReport_t* data_out) {
 
 void MCR_GeneralReport_on_receive(int (*callback)(MCR_GeneralReport_t* data)) {
     MCR_GeneralReport_status.on_receive = (void (*)(void)) callback;
+}
+
+int MCR_decode_ThermalMeasuresA_s(const uint8_t* bytes, size_t length, MCR_ThermalMeasuresA_t* data_out) {
+    if (length < 8)
+        return 0;
+
+    data_out->TIGBT = bytes[0];
+    data_out->TIGBTJ = bytes[1];
+    data_out->TMOTCON = bytes[2];
+    data_out->TMOTSEN = bytes[3];
+    data_out->TMOTWIN = bytes[4];
+    data_out->TCAP = bytes[5];
+    data_out->TMOTI2T = bytes[6];
+    return 1;
+}
+
+int MCR_decode_ThermalMeasuresA(const uint8_t* bytes, size_t length, uint8_t* TIGBT_out, uint8_t* TIGBTJ_out, uint8_t* TMOTCON_out, uint8_t* TMOTSEN_out, uint8_t* TMOTWIN_out, uint8_t* TCAP_out, uint8_t* TMOTI2T_out) {
+    if (length < 8)
+        return 0;
+
+    *TIGBT_out = bytes[0];
+    *TIGBTJ_out = bytes[1];
+    *TMOTCON_out = bytes[2];
+    *TMOTSEN_out = bytes[3];
+    *TMOTWIN_out = bytes[4];
+    *TCAP_out = bytes[5];
+    *TMOTI2T_out = bytes[6];
+    return 1;
+}
+
+int MCR_get_ThermalMeasuresA(MCR_ThermalMeasuresA_t* data_out) {
+    if (!(MCR_ThermalMeasuresA_status.flags & CAN_MSG_RECEIVED))
+        return 0;
+
+    if (data_out)
+        memcpy(data_out, &MCR_ThermalMeasuresA_data, sizeof(MCR_ThermalMeasuresA_t));
+
+    int flags = MCR_ThermalMeasuresA_status.flags;
+    MCR_ThermalMeasuresA_status.flags &= ~CAN_MSG_PENDING;
+    return flags;
+}
+
+void MCR_ThermalMeasuresA_on_receive(int (*callback)(MCR_ThermalMeasuresA_t* data)) {
+    MCR_ThermalMeasuresA_status.on_receive = (void (*)(void)) callback;
+}
+
+int MCR_decode_ThermalMeasuresB_s(const uint8_t* bytes, size_t length, MCR_ThermalMeasuresB_t* data_out) {
+    if (length < 8)
+        return 0;
+
+    data_out->TIGBT = bytes[0];
+    data_out->TIGBTJ = bytes[1];
+    data_out->TMOTCON = bytes[2];
+    data_out->TMOTSEN = bytes[3];
+    data_out->TMOTWIN = bytes[4];
+    data_out->TCAP = bytes[5];
+    data_out->TMOTI2T = bytes[6];
+    return 1;
+}
+
+int MCR_decode_ThermalMeasuresB(const uint8_t* bytes, size_t length, uint8_t* TIGBT_out, uint8_t* TIGBTJ_out, uint8_t* TMOTCON_out, uint8_t* TMOTSEN_out, uint8_t* TMOTWIN_out, uint8_t* TCAP_out, uint8_t* TMOTI2T_out) {
+    if (length < 8)
+        return 0;
+
+    *TIGBT_out = bytes[0];
+    *TIGBTJ_out = bytes[1];
+    *TMOTCON_out = bytes[2];
+    *TMOTSEN_out = bytes[3];
+    *TMOTWIN_out = bytes[4];
+    *TCAP_out = bytes[5];
+    *TMOTI2T_out = bytes[6];
+    return 1;
+}
+
+int MCR_get_ThermalMeasuresB(MCR_ThermalMeasuresB_t* data_out) {
+    if (!(MCR_ThermalMeasuresB_status.flags & CAN_MSG_RECEIVED))
+        return 0;
+
+    if (data_out)
+        memcpy(data_out, &MCR_ThermalMeasuresB_data, sizeof(MCR_ThermalMeasuresB_t));
+
+    int flags = MCR_ThermalMeasuresB_status.flags;
+    MCR_ThermalMeasuresB_status.flags &= ~CAN_MSG_PENDING;
+    return flags;
+}
+
+void MCR_ThermalMeasuresB_on_receive(int (*callback)(MCR_ThermalMeasuresB_t* data)) {
+    MCR_ThermalMeasuresB_status.on_receive = (void (*)(void)) callback;
 }
 
 int VDCU_decode_Status_s(const uint8_t* bytes, size_t length, VDCU_Status_t* data_out) {
@@ -769,6 +957,28 @@ void candbHandleMessage(uint32_t timestamp, int bus, CAN_ID_t id, const uint8_t*
 
         break;
     }
+    case MCF_ThermalMeasuresA_id: {
+        if (!MCF_decode_ThermalMeasuresA_s(payload, payload_length, &MCF_ThermalMeasuresA_data))
+            break;
+
+        canUpdateMsgStatusOnReceive(&MCF_ThermalMeasuresA_status, timestamp);
+
+        if (MCF_ThermalMeasuresA_status.on_receive)
+            ((int (*)(MCF_ThermalMeasuresA_t*)) MCF_ThermalMeasuresA_status.on_receive)(&MCF_ThermalMeasuresA_data);
+
+        break;
+    }
+    case MCF_ThermalMeasuresB_id: {
+        if (!MCF_decode_ThermalMeasuresB_s(payload, payload_length, &MCF_ThermalMeasuresB_data))
+            break;
+
+        canUpdateMsgStatusOnReceive(&MCF_ThermalMeasuresB_status, timestamp);
+
+        if (MCF_ThermalMeasuresB_status.on_receive)
+            ((int (*)(MCF_ThermalMeasuresB_t*)) MCF_ThermalMeasuresB_status.on_receive)(&MCF_ThermalMeasuresB_data);
+
+        break;
+    }
     case MCR_GeneralReport_id: {
         if (!MCR_decode_GeneralReport_s(payload, payload_length, &MCR_GeneralReport_data))
             break;
@@ -777,6 +987,28 @@ void candbHandleMessage(uint32_t timestamp, int bus, CAN_ID_t id, const uint8_t*
 
         if (MCR_GeneralReport_status.on_receive)
             ((int (*)(MCR_GeneralReport_t*)) MCR_GeneralReport_status.on_receive)(&MCR_GeneralReport_data);
+
+        break;
+    }
+    case MCR_ThermalMeasuresA_id: {
+        if (!MCR_decode_ThermalMeasuresA_s(payload, payload_length, &MCR_ThermalMeasuresA_data))
+            break;
+
+        canUpdateMsgStatusOnReceive(&MCR_ThermalMeasuresA_status, timestamp);
+
+        if (MCR_ThermalMeasuresA_status.on_receive)
+            ((int (*)(MCR_ThermalMeasuresA_t*)) MCR_ThermalMeasuresA_status.on_receive)(&MCR_ThermalMeasuresA_data);
+
+        break;
+    }
+    case MCR_ThermalMeasuresB_id: {
+        if (!MCR_decode_ThermalMeasuresB_s(payload, payload_length, &MCR_ThermalMeasuresB_data))
+            break;
+
+        canUpdateMsgStatusOnReceive(&MCR_ThermalMeasuresB_status, timestamp);
+
+        if (MCR_ThermalMeasuresB_status.on_receive)
+            ((int (*)(MCR_ThermalMeasuresB_t*)) MCR_ThermalMeasuresB_status.on_receive)(&MCR_ThermalMeasuresB_data);
 
         break;
     }

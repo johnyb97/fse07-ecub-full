@@ -195,10 +195,6 @@ int main(void)
 	txProcess(); //translate message
 	carstate_process(&hspi2,&hcan1); //entire carstate logic
 	Can_WheelSpeed(&hcan1);
-	if(ECUB_Wheelspeed_need_to_send()){
-		ECUB_send_Wheelspeed_s(&ECUB_Wheel);
-		HAL_CAN_Receive_IT(&hcan1,CAN_FIFO0);
-	}
 	if(ECUB_GLV_AMS_need_to_send()){
 		ECUB_send_GLV_AMS_s(&ECUB_GLV);
 		HAL_CAN_Receive_IT(&hcan1,CAN_FIFO0);

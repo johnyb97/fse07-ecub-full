@@ -12,6 +12,7 @@ static uint32_t time_last_can; //time since last measurement
 static uint8_t wsr_number_data; //number of new data since last can message (max 8)
 static uint8_t wsl_number_data; //number of new data since last can message (max 8)
 static ECUB_Wheelspeed_t Wheel_can; //can structure
+int32_t i, key, j; //for sortInsertion function
 uint32_t *temp; //only used in compute_average fuction
 uint32_t average; //only used in compute_average fuction
 uint16_t number_good_data; //only used in compute_average fuction
@@ -38,7 +39,6 @@ void stop_WS_measure(TIM_HandleTypeDef *WSR,TIM_HandleTypeDef *WSL) //should sto
 
 void sortInsertion(uint32_t *array, uint16_t size) //function for sorting data array
 {
-   int i, key, j;
    for (i = 1; i < size; i++)
    {
        key = array[i];
