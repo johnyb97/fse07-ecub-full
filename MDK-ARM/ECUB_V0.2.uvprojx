@@ -336,7 +336,7 @@
               <MiscControls></MiscControls>
               <Define>USE_HAL_DRIVER,STM32F105xC</Define>
               <Undefine></Undefine>
-              <IncludePath>../Inc;../Drivers/STM32F1xx_HAL_Driver/Inc;../Drivers/STM32F1xx_HAL_Driver/Inc/Legacy;../Drivers/CMSIS/Device/ST/STM32F1xx/Include;../Drivers/CMSIS/Include;..\CANdb_ECUB</IncludePath>
+              <IncludePath>../Inc;../Drivers/STM32F1xx_HAL_Driver/Inc;../Drivers/STM32F1xx_HAL_Driver/Inc/Legacy;../Drivers/CMSIS/Device/ST/STM32F1xx/Include;../Drivers/CMSIS/Include;..\CANdb_ECUB;..\Eforce_lib</IncludePath>
             </VariousControls>
           </Cads>
           <Aads>
@@ -509,6 +509,21 @@
               <FileName>tx.h</FileName>
               <FileType>5</FileType>
               <FilePath>..\CANdb_ECUB\tx2\tx.h</FilePath>
+            </File>
+            <File>
+              <FileName>ltc6804.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\Eforce_lib\ltc6804.c</FilePath>
+            </File>
+            <File>
+              <FileName>ltc6804.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>..\Eforce_lib\ltc6804.h</FilePath>
+            </File>
+            <File>
+              <FileName>ltc6804_conf.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>..\Eforce_lib\ltc6804_conf.h</FilePath>
             </File>
           </Files>
         </Group>

@@ -14,6 +14,7 @@
 "ecub_v0.2\can_ecub.o"
 "ecub_v0.2\tx2_can.o"
 "ecub_v0.2\tx2_ringbuf.o"
+"ecub_v0.2\ltc6804.o"
 "ecub_v0.2\stm32f1xx_hal_can.o"
 "ecub_v0.2\stm32f1xx_hal_gpio.o"
 "ecub_v0.2\stm32f1xx_hal_rcc_ex.o"
