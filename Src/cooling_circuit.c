@@ -62,11 +62,6 @@ void stop_PWM(TIM_HandleTypeDef* pump,TIM_HandleTypeDef* fan, ECUB_Status_t *ECU
 }
 
 void fan_pwm_process(TIM_HandleTypeDef* fan, int value){ //set PWM for Fan1, Fan2 and Fan3
-	if(HAL_GPIO_ReadPin(LED2_GPIO_Port,LED2_Pin)==GPIO_PIN_RESET){ //debug LED
-		HAL_GPIO_WritePin(LED2_GPIO_Port,LED2_Pin,GPIO_PIN_SET); //debug LED
-	}else{
-		HAL_GPIO_WritePin(LED2_GPIO_Port,LED2_Pin,GPIO_PIN_RESET); //debug LED
-	}
 	fan_values.Pulse = value*10; //accuracy possible in numbers from 0-1000...10% is 100 value :) 
 	HAL_TIM_OC_ConfigChannel(fan,&fan_values,1); //set PWM for air conditioning....pilots need to stay cool :)
 	HAL_TIM_OC_ConfigChannel(fan,&fan_values,2); //set PWM for air conditioning....pilots need to stay cool :)
@@ -78,11 +73,6 @@ void fan_pwm_process(TIM_HandleTypeDef* fan, int value){ //set PWM for Fan1, Fan
 
 
 void pump_pwm_process(TIM_HandleTypeDef* pump, int value){ //set PWM for Pump1 and Pump2
-	if(HAL_GPIO_ReadPin(LED3_GPIO_Port,LED3_Pin)==GPIO_PIN_RESET){ //debug LED
-		HAL_GPIO_WritePin(LED3_GPIO_Port,LED3_Pin,GPIO_PIN_SET); //debug LED
-	}else{
-		HAL_GPIO_WritePin(LED3_GPIO_Port,LED3_Pin,GPIO_PIN_RESET); //debug LED
-	}
 	pump_values.Pulse = value*10; //accuracy possible in numbers from 0-1000...10% is 100 value :)
 	HAL_TIM_OC_ConfigChannel(pump,&pump_values,1); //set PWM for water pump
 	HAL_TIM_OC_ConfigChannel(pump,&pump_values,2); //set PWM for water pump
@@ -92,32 +82,32 @@ void pump_pwm_process(TIM_HandleTypeDef* pump, int value){ //set PWM for Pump1 a
 
 int pwm_check(ECUB_Status_t *ECUB_Status,CAN_HandleTypeDef *hcan){
 	pwm_check_bool = 0; //any error present
-	if (HAL_GPIO_ReadPin(Fault_Fan1_2_GPIO_Port,Fault_Fan1_2_Pin)){ //check if error on fan1,2 pin
-		if(!pwm_check_bool){ // if no error detectet so far
-			pwm_check_bool = 1; //change error
-		}
-		ECUB_Status->FT_PWR5_OT = 1; //can message for fault of fan1,2
-	}
-	if (HAL_GPIO_ReadPin(Fault_EM__Fan3_GPIO_Port,Fault_EM__Fan3_Pin)){ //check if error on fan3...or Energy meter
-		if(!pwm_check_bool){ // if no error detectet so far
-			pwm_check_bool = 1; //change error
-		}
-		ECUB_Status->FT_PWR4_OT = 1; //can message for fault of fan 3 or Energy meter
-	}
-	if (HAL_GPIO_ReadPin(Fault_WP_GPIO_Port,Fault_WP_Pin)){ //check if error on Water Pump 1,2
-		if(!pwm_check_bool){ // if no error detectet so far
-			pwm_check_bool = 1; //change error
-		}
-		ECUB_Status->FT_PWR5_OT = 1; //can message for fault of Water Pump 1,2
-	}
 	if	(ECUB_Cooling_need_to_send()){ //if can message is needed to be send
+		if (HAL_GPIO_ReadPin(Fault_Fan1_2_GPIO_Port,Fault_Fan1_2_Pin)){ //check if error on fan1,2 pin
+			if(!pwm_check_bool){ // if no error detectet so far
+				pwm_check_bool = 1; //change error
+			}
+			ECUB_Status->FT_PWR5_OT = 1; //can message for fault of fan1,2
+		}
+		if (HAL_GPIO_ReadPin(Fault_EM__Fan3_GPIO_Port,Fault_EM__Fan3_Pin)){ //check if error on fan3...or Energy meter
+			if(!pwm_check_bool){ // if no error detectet so far
+				pwm_check_bool = 1; //change error
+			}
+			ECUB_Status->FT_PWR4_OT = 1; //can message for fault of fan 3 or Energy meter
+		}
+		if (HAL_GPIO_ReadPin(Fault_WP_GPIO_Port,Fault_WP_Pin)){ //check if error on Water Pump 1,2
+			if(!pwm_check_bool){ // if no error detectet so far
+				pwm_check_bool = 1; //change error
+			}
+			ECUB_Status->FT_PWR5_OT = 1; //can message for fault of Water Pump 1,2
+		}
 		ECUB_send_Cooling_s(&ECUB_COOL); //send can message
 		HAL_CAN_Receive_IT(hcan,CAN_FIFO0); //just fix HAL can config
 	}
 	return pwm_check_bool; //returns if any error present
 }
 
-void Cooling_procces(TIM_HandleTypeDef *fans,TIM_HandleTypeDef *pumps, uint32_t temp_left_before, uint32_t temp_left_after, uint32_t temp_right_before, uint32_t temp_right_after)
+void Cooling_process_intern(TIM_HandleTypeDef *fans,TIM_HandleTypeDef *pumps, uint32_t temp_left_before, uint32_t temp_left_after, uint32_t temp_right_before, uint32_t temp_right_after)
 {
 	if(!MCR_get_ThermalMeasuresA(&MCR_Engine_A)){ //if can message not recived
 		fan_pwm_process(fans,100); //sets fans to 100%

@@ -73,12 +73,8 @@ UART_HandleTypeDef huart5;
 /* Private variables ---------------------------------------------------------*/
 CanRxMsgTypeDef canRxMsg1; //can1 structure for reciving raw data 
 CanRxMsgTypeDef canRxMsg2; //can2 structure for reciving raw data
-ECUB_Wheelspeed_t ECUB_Wheel; //can structure for sending data
-ECUB_GLV_AMS_t ECUB_GLV; //can structure for sending data
-ECUB_Cooling_t ECUB_COOL; //can structure for sending data 
 ECUB_Power_dist_t ECUB_POW; //can structure for sending data
 ECUB_TEMPSuspR_t ECUB_TEMP; //can structure for sending data
-ECUB_TEMPAux_t ECUB_TEMP_AUX; //can structure for sending data
 /* USER CODE END PV */
 
 /* Private function prototypes -----------------------------------------------*/
@@ -194,18 +190,12 @@ int main(void)
   {
 	txProcess(); //translate message
 	carstate_process(&hspi2,&hcan1); //entire carstate logic
-	Can_WheelSpeed(&hcan1);
-	if(ECUB_GLV_AMS_need_to_send()){
-		ECUB_send_GLV_AMS_s(&ECUB_GLV);
-		HAL_CAN_Receive_IT(&hcan1,CAN_FIFO0);
-	}
+	Can_WheelSpeed(&hcan1); //wheelspeed 
+	cooling_poccess(&htim1,&htim2,&hcan2); //cooling process main function
+	pwm_check(get_can_state(),&hcan1); //function sendindg pwm can message
 	if	(ECUB_TEMPSuspR_need_to_send()){
 		ECUB_send_TEMPSuspR_s(&ECUB_TEMP);
 		HAL_CAN_Receive_IT(&hcan1,CAN_FIFO0);
-	}
-	if	(ECUB_TEMPAux_need_to_send()){
-		ECUB_send_TEMPAux_s(&ECUB_TEMP_AUX);
-		HAL_CAN_Receive_IT(&hcan2,CAN_FIFO0);
 	}
 	if	(ECUB_Power_dist_need_to_send()){
 		ECUB_send_Power_dist_s(&ECUB_POW);

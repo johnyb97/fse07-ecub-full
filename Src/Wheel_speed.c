@@ -14,15 +14,15 @@ static ECUB_Wheelspeed_t Wheel_can; //can structure
 uint32_t total_spins; //number of total number of rotation of wheel
 uint32_t spins_array[255]; //number of spins for past can messagess
 uint32_t times_array[255]; //times for past can messagess
-uint32_t speeds_array[255]; //estimated speed for past can messagess
-uint32_t estimated_array_speed; //speed estimated from previous arrays
+double speeds_array[255]; //estimated speed for past can messagess
+double estimated_array_speed; //speed estimated from previous arrays
 uint8_t posicion_for_arrays; //pointer to current possicion for spins array,times array and speeds array
 int32_t i, key, j; //for sortInsertion function
 uint32_t *temp; //only used in compute_average fuction
-uint32_t average; //only used in compute_average fuction
-
-#define PI 3.14159265359F //pi constant
-#define RADIUS 0.5F //radius of wheels
+double average; //only used in compute_average fuction
+double circuit; //circuit of wheels
+#define PI 3.14159265359 //pi constant
+#define RADIUS 0.5 //radius of wheels
 
 void start_WS_measure(TIM_HandleTypeDef *WSR,TIM_HandleTypeDef *WSL) //should start dma measurement of wheel speed
 { 
@@ -39,6 +39,7 @@ void start_WS_measure(TIM_HandleTypeDef *WSR,TIM_HandleTypeDef *WSL) //should st
 	spins_array[posicion_for_arrays] = 0; //sets starting values
 	times_array[posicion_for_arrays] = 0; //sets starting values
 	speeds_array[posicion_for_arrays] = 0; //sets starting values
+	circuit = 2*PI*RADIUS; //circuit of wheels
 }
 
 void stop_WS_measure(TIM_HandleTypeDef *WSR,TIM_HandleTypeDef *WSL) //should stop dma measurement of wheel speed
@@ -49,22 +50,22 @@ void stop_WS_measure(TIM_HandleTypeDef *WSR,TIM_HandleTypeDef *WSL) //should sto
 
 void sortInsertion(uint32_t *array, uint16_t size) //function for sorting data array
 {
-   for (i = 1; i < size; i++){
-       key = array[i];
-       j = i-1;
-       while (j >= 0 && array[j] > key){
-           array[j+1] = array[j];
-           j = j-1;
+   for (i = 1; i < size; i++){ //goes through all data
+       key = array[i]; // current data are compared
+       j = i-1; //it is compared with previous data in array 
+       while (j >= 0 && array[j] > key){ //while not begining of array and current data are larger than key
+           array[j+1] = array[j]; //change prev and current data
+           j = j-1; //moves possicion closer to begining 
        }
-       array[j+1] = key;
+       array[j+1] = key; //puts key to last possicion
    }
 }
 
 uint32_t compute_average(uint32_t *data,uint16_t number_of_data,uint16_t poss) //simple function to compute average form given array
 {
-	if (!number_of_data){
+	if (!number_of_data){ //if none rotation accured since last can message
 		average = ((speeds_array[(posicion_for_arrays+254)%255] + 2*speeds_array[posicion_for_arrays]))/4; //just some correction
-		return average;
+		return average; //estimated speed
 	}
 	
 	for(int i=0; i < number_of_data; i++){ //just creates new temp array
@@ -73,13 +74,13 @@ uint32_t compute_average(uint32_t *data,uint16_t number_of_data,uint16_t poss) /
 	
 	sortInsertion(temp,number_of_data); //sorts given data
 	if(number_of_data % 2){ //number of data is even
-    average = (temp[number_of_data >> 1])*(2*PI*RADIUS); //finds average
+    average = (temp[number_of_data >> 1])*(circuit); //finds average
   }else{
-    average = ((temp[number_of_data>>1] + temp[(number_of_data>>1)-1]) >> 1)*(2*PI*RADIUS); //finds average
+    average = ((temp[number_of_data>>1] + temp[(number_of_data>>1)-1]) >> 1)*(circuit); //finds average
   }
 	
 	average = ((speeds_array[(posicion_for_arrays+254)%255] + 2*speeds_array[posicion_for_arrays])+average)/4; //just some correction
-	return average;
+	return average; //estimated speed
 }
 
 void HAL_TIM_IC_CaptureCallback(TIM_HandleTypeDef *htim)
@@ -109,7 +110,7 @@ void Can_WheelSpeed(CAN_HandleTypeDef *hcan){
 	  posicion_for_arrays = (posicion_for_arrays+1)%255; //moves possicion pointer
 	 	spins_array[posicion_for_arrays] = total_spins; //saves new values
 		times_array[posicion_for_arrays] = HAL_GetTick(); //time of new message
-		speeds_array[posicion_for_arrays] = ((total_spins-spins_array[(posicion_for_arrays+254)%255])/(HAL_GetTick()-times_array[(posicion_for_arrays+254)%255]))*(2*PI*RADIUS); //saves new speeds values
+		speeds_array[posicion_for_arrays] = ((total_spins-spins_array[(posicion_for_arrays+254)%255])/(HAL_GetTick()-times_array[(posicion_for_arrays+254)%255]))*(circuit); //saves new speeds values
 		
 	 
 	  Wheel_can.WhR = compute_average(wsr_data,wsr_number_data,wsr_poss); //aritmetic average i hope

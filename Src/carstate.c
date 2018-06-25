@@ -327,6 +327,6 @@ void carstate_process(SPI_HandleTypeDef * SPI_handle,CAN_HandleTypeDef* hcan){ /
 			ECUB_Status.CarState_Notready = state_notready; //put NOTREADY reason to can message
  		  ECUB_send_Status_s(&ECUB_Status); //sendidng can message
 			ECUB_Status.SEQ++; //message just for check that this message is different from last one
-			HAL_CAN_Receive_IT(hcan,CAN_FIFO0);
+			HAL_CAN_Receive_IT(hcan,CAN_FIFO0); //fixes hal can structure
 		}
 }

@@ -525,6 +525,16 @@
               <FileType>5</FileType>
               <FilePath>..\Eforce_lib\ltc6804_conf.h</FilePath>
             </File>
+            <File>
+              <FileName>LvBattery.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>..\Inc\LvBattery.h</FilePath>
+            </File>
+            <File>
+              <FileName>LvBattery.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\Src\LvBattery.c</FilePath>
+            </File>
           </Files>
         </Group>
         <Group>
