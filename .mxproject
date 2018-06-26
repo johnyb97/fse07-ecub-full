@@ -1,7 +1,7 @@
 [PreviousGenFiles]
-HeaderPath=C:/Users/janbe/Desktop/ECUB_NEW/Inc
+HeaderPath=C:/Users/janbe/Desktop/fse07-ecub-full/Inc
 HeaderFiles=stm32f1xx_it.h;stm32f1xx_hal_conf.h;main.h;
-SourcePath=C:/Users/janbe/Desktop/ECUB_NEW/Src
+SourcePath=C:/Users/janbe/Desktop/fse07-ecub-full/Src
 SourceFiles=stm32f1xx_it.c;stm32f1xx_hal_msp.c;main.c;
 
 [PreviousLibFiles]

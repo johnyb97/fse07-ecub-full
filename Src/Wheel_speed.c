@@ -26,8 +26,8 @@ double circuit; //circuit of wheels
 
 void start_WS_measure(TIM_HandleTypeDef *WSR,TIM_HandleTypeDef *WSL) //should start dma measurement of wheel speed
 { 
-	HAL_TIM_Encoder_Start_DMA(WSR,TIM_CHANNEL_ALL,&WSRA,&WSRB,4); //configuration for wheelspeed right
-	HAL_TIM_Encoder_Start_DMA(WSL,TIM_CHANNEL_ALL,&WSLA,&WSLB,4); //configuration for wheelspeed left
+	HAL_TIM_Encoder_Start_IT(WSR,TIM_CHANNEL_ALL); //configuration for wheelspeed right
+	HAL_TIM_Encoder_Start_IT(WSL,TIM_CHANNEL_ALL); //configuration for wheelspeed left
 	WSRA = 0; //starting speed
 	WSRB = 0; //starting speed
 	WSLA = 0; //starting speed

@@ -63,8 +63,6 @@ TIM_HandleTypeDef htim1;
 TIM_HandleTypeDef htim2;
 TIM_HandleTypeDef htim3;
 TIM_HandleTypeDef htim5;
-DMA_HandleTypeDef hdma_tim3_ch4_up;
-DMA_HandleTypeDef hdma_tim5_ch3_up;
 
 UART_HandleTypeDef huart4;
 UART_HandleTypeDef huart5;
@@ -104,7 +102,7 @@ void HAL_TIM_MspPostInit(TIM_HandleTypeDef *htim);
 
 /* USER CODE BEGIN 0 */
 void HAL_CAN_RxCpltCallback(CAN_HandleTypeDef* hcan){	//callback for reciving can data
-	HAL_GPIO_TogglePin(LED1_GPIO_Port,LED1_Pin); //toggles led every times something is recived from can
+	HAL_GPIO_TogglePin(LED5_GPIO_Port,LED5_Pin); //toggles led every times something is recived from can
 	if (hcan->Instance == CAN1){ //callback is called after canRxMsg1 is filled form can1
 		txReceiveCANMessage(bus_CAN1_powertrain,canRxMsg1.StdId,&canRxMsg1.Data,canRxMsg1.DLC); //resifre given raw data to candb structures
 	}else if(hcan->Instance == CAN2){ //callback is called after canRxMsg1 is filled form can1
@@ -159,12 +157,16 @@ int main(void)
   /* USER CODE BEGIN 2 */
 	CAN_eforce(&hcan1,CAN1,&canRxMsg1);
 	CAN_eforce(&hcan2,CAN2,&canRxMsg2);
+	
 	txInit();
 	candbInit();
 	HAL_GPIO_TogglePin(LED1_GPIO_Port,LED1_Pin);
 	HAL_GPIO_TogglePin(LED2_GPIO_Port,LED2_Pin);
 	HAL_GPIO_TogglePin(LED3_GPIO_Port,LED3_Pin);
 	HAL_GPIO_TogglePin(LED4_GPIO_Port,LED4_Pin);
+	HAL_GPIO_TogglePin(LED5_GPIO_Port,LED5_Pin);
+	HAL_GPIO_TogglePin(LED6_GPIO_Port,LED6_Pin);
+	HAL_GPIO_TogglePin(LED7_GPIO_Port,LED7_Pin);
 	carstate_init(); //initial carstate 
 	start_ADC(&hadc1);
 	HAL_SPI_MspInit(&hspi2);
@@ -192,10 +194,10 @@ int main(void)
 	carstate_process(&hspi2,&hcan1); //entire carstate logic
 	Can_WheelSpeed(&hcan1); //wheelspeed 
 	cooling_poccess(&htim1,&htim2,&hcan2); //cooling process main function
-	pwm_check(get_can_state(),&hcan1); //function sendindg pwm can message
+	pwm_check(get_can_state(),&hcan2); //function sendindg pwm can message
 	if	(ECUB_TEMPSuspR_need_to_send()){
 		ECUB_send_TEMPSuspR_s(&ECUB_TEMP);
-		HAL_CAN_Receive_IT(&hcan1,CAN_FIFO0);
+		HAL_CAN_Receive_IT(&hcan2,CAN_FIFO0);
 	}
 	if	(ECUB_Power_dist_need_to_send()){
 		ECUB_send_Power_dist_s(&ECUB_POW);
@@ -375,7 +377,7 @@ static void MX_CAN1_Init(void)
 
   hcan1.Instance = CAN1;
   hcan1.Init.Prescaler = 9;
-  hcan1.Init.Mode = CAN_MODE_SILENT_LOOPBACK;
+  hcan1.Init.Mode = CAN_MODE_NORMAL;
   hcan1.Init.SJW = CAN_SJW_1TQ;
   hcan1.Init.BS1 = CAN_BS1_6TQ;
   hcan1.Init.BS2 = CAN_BS2_1TQ;
@@ -398,7 +400,7 @@ static void MX_CAN2_Init(void)
 
   hcan2.Instance = CAN2;
   hcan2.Init.Prescaler = 9;
-  hcan2.Init.Mode = CAN_MODE_SILENT_LOOPBACK;
+  hcan2.Init.Mode = CAN_MODE_NORMAL;
   hcan2.Init.SJW = CAN_SJW_1TQ;
   hcan2.Init.BS1 = CAN_BS1_6TQ;
   hcan2.Init.BS2 = CAN_BS2_1TQ;
@@ -712,18 +714,11 @@ static void MX_DMA_Init(void)
 {
   /* DMA controller clock enable */
   __HAL_RCC_DMA1_CLK_ENABLE();
-  __HAL_RCC_DMA2_CLK_ENABLE();
 
   /* DMA interrupt init */
   /* DMA1_Channel1_IRQn interrupt configuration */
   HAL_NVIC_SetPriority(DMA1_Channel1_IRQn, 0, 0);
   HAL_NVIC_EnableIRQ(DMA1_Channel1_IRQn);
-  /* DMA1_Channel3_IRQn interrupt configuration */
-  HAL_NVIC_SetPriority(DMA1_Channel3_IRQn, 0, 0);
-  HAL_NVIC_EnableIRQ(DMA1_Channel3_IRQn);
-  /* DMA2_Channel2_IRQn interrupt configuration */
-  HAL_NVIC_SetPriority(DMA2_Channel2_IRQn, 0, 0);
-  HAL_NVIC_EnableIRQ(DMA2_Channel2_IRQn);
 
 }
 
