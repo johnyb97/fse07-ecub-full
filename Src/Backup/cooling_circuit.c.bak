@@ -17,28 +17,19 @@ uint64_t last_temp_check_time; //check for gradualy changing temperature
 uint32_t last_temp_check_SensorsSensors_diff; //temperature during last temperature check
 uint32_t last_temp_check_EngineSensors_diff; //temperature during last temperature check
 
-#define MAX_ENGINE_TEMP 80 //maximal alowed engines temperature
+#define MAX_ENGINE_TEMP 110 //maximal alowed engines temperature
 #define MOTORS_COOL 40 //temperature below what we shut down cooling circuit
-#define TEMP_LIMIT 70 //temp when all goes to max and warnings are sended via can message
+#define TEMP_LIMIT 90 //temp when all goes to max and warnings are sended via can message
 #define CAN_TEMP_OFSET 40 //ofset of temperature in can message
-#define TEMP_CHECK_TIME_DIFERENCE 5000 //ms time between two checks of temperature
+#define TEMP_CHECK_TIME_DIFERENCE 1000 //ms time between two checks of temperature
 
 
 void start_PWM(TIM_HandleTypeDef* pump,TIM_HandleTypeDef* fan, ECUB_Status_t *ECUB_Status){ //start pwm
-	
-	fan_values.OCMode = TIM_OCMODE_PWM1; //copied from main...
-  fan_values.OCPolarity = TIM_OCPOLARITY_HIGH; //copied from main...
-  fan_values.OCFastMode = TIM_OCFAST_DISABLE; //copied from main...
-	
-	pump_values.OCMode = TIM_OCMODE_PWM1; //copied from main...
-  pump_values.OCPolarity = TIM_OCPOLARITY_HIGH; //copied from main...
-  pump_values.OCFastMode = TIM_OCFAST_DISABLE; //copied from main...
-	
-	HAL_TIM_PWM_Start(fan,1); //start for fan channel 1
-	HAL_TIM_PWM_Start(fan,2); //start for fan channel 2
-	HAL_TIM_PWM_Start(fan,3); //start for fan channel 3
-	HAL_TIM_PWM_Start(pump,1); //start for water pump channel 1
-	HAL_TIM_PWM_Start(pump,2); //start for water pump channel 2
+	HAL_TIM_PWM_Start(fan,TIM_CHANNEL_1); //start for fan channel 1
+	HAL_TIM_PWM_Start(fan,TIM_CHANNEL_2); //start for fan channel 2
+	HAL_TIM_PWM_Start(fan,TIM_CHANNEL_3); //start for fan channel 3
+	HAL_TIM_PWM_Start(pump,TIM_CHANNEL_3); //start for water pump channel 1
+	HAL_TIM_PWM_Start(pump,TIM_CHANNEL_4); //start for water pump channel 2
 	ECUB_Status->PWR_FAN1_EN = 1; //can message
 	ECUB_Status->PWR_FAN2_EN = 1; //can message
 	ECUB_Status->PWR_FAN3_EN = 1; //can message
@@ -49,11 +40,11 @@ void start_PWM(TIM_HandleTypeDef* pump,TIM_HandleTypeDef* fan, ECUB_Status_t *EC
 }
 
 void stop_PWM(TIM_HandleTypeDef* pump,TIM_HandleTypeDef* fan, ECUB_Status_t *ECUB_Status){ //end pwm
-	HAL_TIM_PWM_Stop(fan,1); //end for fan channel 1
-	HAL_TIM_PWM_Stop(fan,2); //end for fan channel 2
-	HAL_TIM_PWM_Stop(fan,3); //end for fan channel 3
-	HAL_TIM_PWM_Stop(pump,1); //end for water pump channel 1
-	HAL_TIM_PWM_Stop(pump,2); //end for water pump channel 2
+	HAL_TIM_PWM_Stop(fan,TIM_CHANNEL_1); //end for fan channel 1
+	HAL_TIM_PWM_Stop(fan,TIM_CHANNEL_2); //end for fan channel 2
+	HAL_TIM_PWM_Stop(fan,TIM_CHANNEL_3); //end for fan channel 3
+	HAL_TIM_PWM_Stop(pump,TIM_CHANNEL_3); //end for water pump channel 1
+	HAL_TIM_PWM_Stop(pump,TIM_CHANNEL_4); //end for water pump channel 2
 	ECUB_Status->PWR_FAN1_EN = 0; //can message
 	ECUB_Status->PWR_FAN2_EN = 0; //can message
 	ECUB_Status->PWR_FAN3_EN = 0; //can message
@@ -62,10 +53,20 @@ void stop_PWM(TIM_HandleTypeDef* pump,TIM_HandleTypeDef* fan, ECUB_Status_t *ECU
 }
 
 void fan_pwm_process(TIM_HandleTypeDef* fan, int value){ //set PWM for Fan1, Fan2 and Fan3
+	if(value){
+	HAL_GPIO_WritePin(DRV_reset_GPIO_Port,DRV_reset_Pin,GPIO_PIN_SET);
+	}else{
+	HAL_GPIO_WritePin(DRV_reset_GPIO_Port,DRV_reset_Pin,GPIO_PIN_RESET);
+	}
+	__HAL_TIM_SET_COMPARE(fan,TIM_CHANNEL_1,(value*10));
+	__HAL_TIM_SET_COMPARE(fan,TIM_CHANNEL_2,(value*10));
+	__HAL_TIM_SET_COMPARE(fan,TIM_CHANNEL_3,(value*10));
+	/*
 	fan_values.Pulse = value*10; //accuracy possible in numbers from 0-1000...10% is 100 value :) 
 	HAL_TIM_OC_ConfigChannel(fan,&fan_values,1); //set PWM for air conditioning....pilots need to stay cool :)
 	HAL_TIM_OC_ConfigChannel(fan,&fan_values,2); //set PWM for air conditioning....pilots need to stay cool :)
 	HAL_TIM_OC_ConfigChannel(fan,&fan_values,3); //set PWM for air conditioning....pilots need to stay cool :)
+	*/
 	ECUB_COOL.FAN1 = value; //can message
 	ECUB_COOL.FAN2 = value; //can message
 	ECUB_COOL.FAN3 = value; //can message
@@ -73,9 +74,18 @@ void fan_pwm_process(TIM_HandleTypeDef* fan, int value){ //set PWM for Fan1, Fan
 
 
 void pump_pwm_process(TIM_HandleTypeDef* pump, int value){ //set PWM for Pump1 and Pump2
+	if(value){
+	HAL_GPIO_WritePin(DRV_reset_GPIO_Port,DRV_reset_Pin,GPIO_PIN_SET);
+	}else{
+	HAL_GPIO_WritePin(DRV_reset_GPIO_Port,DRV_reset_Pin,GPIO_PIN_RESET);
+	}
+	__HAL_TIM_SET_COMPARE(pump,TIM_CHANNEL_3,(value*10));
+	__HAL_TIM_SET_COMPARE(pump,TIM_CHANNEL_4,(value*10));
+	/*
 	pump_values.Pulse = value*10; //accuracy possible in numbers from 0-1000...10% is 100 value :)
 	HAL_TIM_OC_ConfigChannel(pump,&pump_values,1); //set PWM for water pump
 	HAL_TIM_OC_ConfigChannel(pump,&pump_values,2); //set PWM for water pump
+	*/
 	ECUB_COOL.WP1 = value/10; //can message...devided 10...can factor == 10
 	ECUB_COOL.WP2 = value/10; //can message...devided 10...can factor == 10
 }
@@ -216,7 +226,7 @@ void Cooling_process_intern(TIM_HandleTypeDef *fans,TIM_HandleTypeDef *pumps, ui
 		}
 		fan_pwm_process(fans,new_pwm_value);
 	}
-	if (max_engine_temperature>MOTORS_COOL){ //if temperature of engines is low enagth to shut down the cooling circute
+	if (max_engine_temperature<MOTORS_COOL){ //if temperature of engines is low enagth to shut down the cooling circute
 		fan_pwm_process(fans,0); //stops fans
 		pump_pwm_process(pumps,0); //stops pumps
 	}

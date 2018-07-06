@@ -1,7 +1,6 @@
 #ifndef __COOLING_H__
 #define __COOLING_H__
 
-#include "can_ECUB.h"
 #include "stm32f1xx_hal.h"
 #include "stm32f1xx_hal_tim.h"
 #include "main.h"

@@ -1,4 +1,3 @@
-
 #include <tx2/ringbuf.h>
 
 int ringbufCanRead(volatile ringbuf_t* rb, size_t length) {

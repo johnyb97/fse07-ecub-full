@@ -1,30 +1,13 @@
 #include "periphery_set.h"
 
 static GPIO_PinState pinstate;
-static uint32_t RTDS_countdowm = 0;
 static uint32_t last_bat_check = 0;
 static uint32_t wait_for_next = 0;
 
-#define RTDS_time 2000 //cas hrani RTDS
 #define reference_voltage_battery 5 //spravne napeti na baterce
 #define pauza 10 //cas v milisekundach urceny pro odlozeni vykonani funkce
 
-uint32_t play_RTDS(void) //hraje RTDS ton...snad
-	{
-	if(!RTDS_countdowm){ //pokud nehraje ton
-		HAL_GPIO_WritePin(RTDS_GPIO_Port, RTDS_Pin, GPIO_PIN_SET); //zapnuti RTDS (ready to drive sound)
-		RTDS_countdowm = HAL_GetTick() + RTDS_time; //odpocet 2s
-		return 0;
-	}else{
-		if(RTDS_countdowm<HAL_GetTick()){
-			HAL_GPIO_WritePin(RTDS_GPIO_Port, RTDS_Pin, GPIO_PIN_RESET); //vypnuti RTDS (ready to drive sound)
-			RTDS_countdowm = 0; //konec odpoctu
-			return 1; //vraci 1 pro zmenu stavu
-		}else{
-			return 0;	// vraci 0 pro zustani ve stejnem stavu
-		}
-	}
-}
+
 
 
 uint32_t units_set(GPIO_PinState state,ECUB_Status_t *ECUB_Status) //zapnuti vypnuti napajeni jednotek
@@ -171,17 +154,42 @@ void battery_state_process(uint32_t battery_voltage) //nabijeni baterky
 			break;
 	}
 }
-void set_SDB_led(GPIO_PinState state,ECUB_Status_t *ECUB_Status) //nastaveni LEDky pro pro SDB
+void set_SDB_led(GPIO_PinState state,ECUB_Status_t *ECUB_Status,uint8_t which) //nastaveni LEDky pro pro SDB
 	{
-	if(HAL_GPIO_ReadPin(SDBR_GPIO_Port,SDBR_Pin)!=state){ //pokud je treba zmenin stav LEDek
-		HAL_GPIO_WritePin(SDBR_GPIO_Port,SDBR_Pin,state); //zmen stav prave LEDky
-		HAL_GPIO_WritePin(SDBL_GPIO_Port,SDBL_Pin,state); //zmen stav leve LEDky
-		if (state == SET){
-				ECUB_Status->SDBL_LED_EN = 1; //can message
-				ECUB_Status->SDBR_LED_EN = 1; //can message
-			}else{
-				ECUB_Status->SDBL_LED_EN = 0; //can message
-				ECUB_Status->SDBR_LED_EN = 0; //can message
-			}
-	}
+		switch (which){
+			case 1:
+					if(HAL_GPIO_ReadPin(SDBL_GPIO_Port,SDBL_Pin)!=state){ //pokud je treba zmenin stav LEDek
+						HAL_GPIO_WritePin(SDBL_GPIO_Port,SDBL_Pin,state); //zmen stav prave LEDky
+						if (state == SET){
+							ECUB_Status->SDBL_LED_EN = 1; //can message
+						}else{
+							ECUB_Status->SDBL_LED_EN = 0; //can message
+						}
+					}
+				break;
+			case 2:
+					if(HAL_GPIO_ReadPin(SDBR_GPIO_Port,SDBR_Pin)!=state){ //pokud je treba zmenin stav LEDek
+						HAL_GPIO_WritePin(SDBR_GPIO_Port,SDBR_Pin,state); //zmen stav prave LEDky
+						if (state == SET){
+							ECUB_Status->SDBR_LED_EN = 1; //can message
+						}else{
+							ECUB_Status->SDBR_LED_EN = 0; //can message
+						}
+					}
+				break;
+			case 3:
+					if(HAL_GPIO_ReadPin(SDBR_GPIO_Port,SDBR_Pin)!=state){ //pokud je treba zmenin stav LEDek
+						HAL_GPIO_WritePin(SDBR_GPIO_Port,SDBR_Pin,state); //zmen stav prave LEDky
+						HAL_GPIO_WritePin(SDBL_GPIO_Port,SDBL_Pin,state); //zmen stav leve LEDky
+						if (state == SET){
+							ECUB_Status->SDBL_LED_EN = 1; //can message
+							ECUB_Status->SDBR_LED_EN = 1; //can message
+						}else{
+							ECUB_Status->SDBL_LED_EN = 0; //can message
+							ECUB_Status->SDBR_LED_EN = 0; //can message
+						}
+					}
+				break;
+		}
+	
 }

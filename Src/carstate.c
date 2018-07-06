@@ -3,6 +3,7 @@
 #define CS_NOT_READY_LOCK_TIME			3000 // ms time to do nothing after error(notready)
 #define CS_BSPD_LATCH_WRITING_DELAY		200 // ms countdown after crititcal error
 #define LED_blink 100 //ms for bling led
+#define LED_SDC_BLINK 200 //blinking led for SDC
 #define SDC_ECUF_OFFSET 8 //bit ofset for SDC data ECUF (front)
 #define SDC_SDBL_OFFSET 9 //bit ofset for SDC data SDBL (shut down buton left)
 #define SDC_SDBR_OFFSET 10 //bit ofset for SDC data SDBR (shut down buton right)
@@ -16,21 +17,46 @@ static ECUB_Status_t				ECUB_Status; //can message
 static ECUB_Power_dist_t		ECUB_Power; // can message
 static enum ECUB_CarState 					state; //car state 
 static enum ECUB_Notready_reason		state_notready;  //reason for notready car state
-static enum ECUB_Batt_code					batt_code; //state battery (charging)
 //enum ECUB_Power_code				pow_code; //error pow now
 
 static uint32_t			cs_not_ready_lock = 0; //time to do nothing after error (notready)
 static uint32_t			cs_latch_write_delay = 0; //time to fix critical error or latch happends
 static uint16_t			SDC_measure; 
-static uint8_t				SDC_error;
+static uint8_t			SDC_error;
 static uint32_t			LED_blink_time; //time of last led blink
 static uint32_t			number_of_bliks; //number of blinks
+uint8_t							parity_check_summ; //parity check if SDC measure correctly recived  
+uint8_t							parity_for; //number used in for cycle inside parity check
+uint8_t							SDC_parity_control; //number used in for cycle inside parity check
+
 
 static ECUP_Status_t ECUP_data; //data form can status ECUP
 static ECUF_Dashboard_t ECUF_Dash_data; //data from can ECUF dashboard
 static ECUF_Status_t ECUF_Status_data; //data from can ECUF dashboard
 static ECUA_Status_t ECUA_data; //data from can ECUA
+static uint32_t time_SDC_blink_L; //time variable for blinking led
+static uint32_t time_SDC_blink_R; //time variable for blinking led
 
+static uint32_t RTDS_countdowm = 0;
+#define RTDS_time 2000 //cas hrani RTDS
+
+
+uint32_t play_RTDS(void) //hraje RTDS ton...snad
+	{
+	if(!RTDS_countdowm){ //pokud nehraje ton
+		HAL_GPIO_WritePin(RTDS_GPIO_Port, RTDS_Pin, GPIO_PIN_SET); //zapnuti RTDS (ready to drive sound)
+		RTDS_countdowm = HAL_GetTick() + RTDS_time; //odpocet 2s
+		return 0;
+	}else{
+		if(RTDS_countdowm<HAL_GetTick()){
+			HAL_GPIO_WritePin(RTDS_GPIO_Port, RTDS_Pin, GPIO_PIN_RESET); //vypnuti RTDS (ready to drive sound)
+			RTDS_countdowm = 0; //konec odpoctu
+			return 1; //vraci 1 pro zmenu stavu
+		}else{
+			return 0;	// vraci 0 pro zustani ve stejnem stavu
+		}
+	}
+}
 
 enum ECUB_CarState* get_state(){ // gives current car state outside carstate.c
 	return &state;
@@ -39,80 +65,190 @@ enum ECUB_CarState* get_state(){ // gives current car state outside carstate.c
 ECUB_Status_t* get_can_state(){
 	return &ECUB_Status;
 }
+/*which 1 = right which 2 = left else all set*/
+void blink_SDB(ECUB_Status_t *ECUB_status,uint8_t which){
+	switch (which){
+		case 1:
+			if (time_SDC_blink_R){
+				if((time_SDC_blink_R+LED_SDC_BLINK)<HAL_GetTick()){
+					time_SDC_blink_R = HAL_GetTick();
+					if (HAL_GPIO_ReadPin(SDBR_GPIO_Port,SDBR_Pin)!= GPIO_PIN_SET){
+						HAL_GPIO_WritePin(SDBR_GPIO_Port,SDBR_Pin,GPIO_PIN_SET);
+					}else{
+						HAL_GPIO_WritePin(SDBR_GPIO_Port,SDBR_Pin,GPIO_PIN_RESET);
+					}
+				}
+			}else{
+			time_SDC_blink_R = HAL_GetTick();
+			}
+			break;
+		case 2:
+			if (time_SDC_blink_L){
+				if((time_SDC_blink_L+LED_SDC_BLINK<HAL_GetTick())){
+					time_SDC_blink_L = HAL_GetTick();
+					if (HAL_GPIO_ReadPin(SDBL_GPIO_Port,SDBL_Pin)!= GPIO_PIN_SET){
+						HAL_GPIO_WritePin(SDBL_GPIO_Port,SDBL_Pin,GPIO_PIN_SET);
+					}else{
+						HAL_GPIO_WritePin(SDBL_GPIO_Port,SDBL_Pin,GPIO_PIN_RESET);
+					}
+				}
+			}else{
+			time_SDC_blink_L = HAL_GetTick();
+			}
+			break;
+		default:
+			set_SDB_led(GPIO_PIN_SET,ECUB_status,which);
+	}
+			
+}
+
+int paritycheck(uint16_t SDC_measure) //check if message is correctly recived
+{
+	//check first parity bit
+	parity_check_summ = 0; 
+	for(parity_for = 8;parity_for<16;parity_for++){
+		if(SDC_measure & (1 << (parity_for))){
+			parity_check_summ++;
+		}
+	}
+	if(SDC_measure & (1 << 5)){
+		parity_check_summ++;
+	}
+	parity_check_summ = parity_check_summ%2;
+	if (!parity_check_summ){
+		return 0;
+	}
+	//end of check first parity bit
+	
+	//check second parity bit
+	parity_check_summ = 0; 
+	for(parity_for = 16;parity_for>12;parity_for--){
+		if(SDC_measure & (1 << (parity_for))){
+			parity_check_summ++;
+		}	
+	}
+	if(SDC_measure & (1 << 4)){
+		parity_check_summ++;
+	}
+	parity_check_summ = parity_check_summ%2;
+	if (!parity_check_summ){
+		return 0;
+	}
+	//end of check second parity bit
+	
+	//check third parity bit
+	parity_check_summ = 0; 
+	for(parity_for = 8;parity_for<12;parity_for++){
+		if(SDC_measure & (1 << (parity_for))){
+			parity_check_summ++;
+		}
+	}
+	if(SDC_measure & (1 << 3)){
+		parity_check_summ++;
+	}
+	parity_check_summ = parity_check_summ%2;
+	if (!parity_check_summ){
+		return 0;
+	}
+	//end of check third parity bit
+	
+	//check fourth parity bit
+	parity_check_summ = 0; 
+	for(parity_for = 10;parity_for<14;parity_for++){
+		if(SDC_measure & (1 << (parity_for))){
+			parity_check_summ++;
+		}
+	}
+	if(SDC_measure & (1 << 2)){
+		parity_check_summ++;
+	}
+	parity_check_summ = parity_check_summ%2;
+	if (!parity_check_summ){
+		return 0;
+	}
+	//end of check fourth parity bit
+	return 1; //if all correct
+
+}
 
 int measure_SDC(SPI_HandleTypeDef * SPI_handle){ //check SDC circuit
-	HAL_GPIO_WritePin(SDC_CS_GPIO_Port,SDC_CS_Pin,GPIO_PIN_RESET); //starts comunication...enable pin
-	HAL_SPI_TransmitReceive(SPI_handle,(uint8_t*)&SDC_measure,(uint8_t*)&SDC_measure,1,5); //recives 16bit number from SDC chip
-	HAL_GPIO_WritePin(SDC_CS_GPIO_Port,SDC_CS_Pin,GPIO_PIN_SET); //stops comunication...enable pin
-	SDC_error = 1;
-	if (!(SDC_measure & (1 << SDC_ECUF_OFFSET))){ // if ECUF bit is 1
+	for(SDC_parity_control = 0;SDC_parity_control<8;SDC_parity_control++){
+		HAL_GPIO_WritePin(SDC_CS_GPIO_Port,SDC_CS_Pin,GPIO_PIN_RESET); //starts comunication...enable pin
+		HAL_SPI_TransmitReceive(SPI_handle,(uint8_t*)&SDC_measure,(uint8_t*)&SDC_measure,1,5); //recives 16bit number from SDC chip
+		HAL_GPIO_WritePin(SDC_CS_GPIO_Port,SDC_CS_Pin,GPIO_PIN_SET); //stops comunication...enable pin
+		SDC_error = 0;
+		if (paritycheck(SDC_measure)){
+			break;
+		}
+	}
+	
+	if (!(SDC_measure & (1 << SDC_ECUF_OFFSET))){ // if ECUF bit is 0
 		ECUB_Status.SDC_FRONT = 0; //can message...reason for SDC disconect
-		change_to_NOT_READY(ECUB_Notready_reason_SDC_FAILURE); //change state because of critical error report
 		SDC_error = 1; //error find
 	}else{
 		ECUB_Status.SDC_FRONT = 1; //can message...reason for SDC disconect
 	}
 	
-	if (!(SDC_measure & (1 << SDC_SDBL_OFFSET))){ // if SDBL bit is 1
+	if (!(SDC_measure & (1 << SDC_SDBL_OFFSET))){ // if SDBL bit is 0
+		blink_SDB(&ECUB_Status,2);
+		change_to_NOT_READY(ECUB_Notready_reason_SDC_FAILURE);
 		ECUB_Status.SDC_SDBL = 0; //can message...reason for SDC disconect
-		change_to_NOT_READY(ECUB_Notready_reason_SDC_FAILURE); //change state because of critical error report
 		SDC_error = 1; //error find
 	}else{
+		HAL_GPIO_WritePin(SDBL_GPIO_Port,SDBL_Pin,GPIO_PIN_RESET);
 		ECUB_Status.SDC_SDBL = 1; //can message...reason for SDC disconect
 	}
 	
-	if (!(SDC_measure & (1 << SDC_SDBR_OFFSET))){ // if SDBR bit is 1
+	if (!(SDC_measure & (1 << SDC_SDBR_OFFSET))){ // if SDBR bit is 0
+		if(ECUB_Status.SDC_SDBL==0){
+			//blink_SDB(&ECUB_Status,1);
+			HAL_GPIO_WritePin(SDBR_GPIO_Port,SDBR_Pin,GPIO_PIN_RESET);
+		}else{
+			blink_SDB(&ECUB_Status,1);
+			change_to_NOT_READY(ECUB_Notready_reason_SDC_FAILURE);
+		}
 		ECUB_Status.SDC_SDBR = 0; //can message...reason for SDC disconect
-		change_to_NOT_READY(ECUB_Notready_reason_SDC_FAILURE); //change state because of critical error report
 		SDC_error = 1; //error find
 	}else{
+		HAL_GPIO_WritePin(SDBR_GPIO_Port,SDBR_Pin,GPIO_PIN_RESET);
 		ECUB_Status.SDC_SDBR = 1; //can message...reason for SDC disconect
 	}
 	
-	if (!(SDC_measure & (1 << SDC_ECUMCR_OFFSET))){ // if ECUMCR bit is 1
-		ECUB_Status.SDC_MCUR = 0; //can message...reason for SDC disconect
-		change_to_NOT_READY(ECUB_Notready_reason_SDC_FAILURE); //change state because of critical error report
+	if (!(SDC_measure & (1 << SDC_ECUMCR_OFFSET))){ // if ECUMCR bit is 0
+		ECUB_Status.SDC_MCUR = 0; //can message...reason for SDC disconect		
 		SDC_error = 1; //error find
 	}else{
 		ECUB_Status.SDC_MCUR = 1; //can message...reason for SDC disconect
 	}
 	
-	if (!(SDC_measure & (1 << SDC_ECUA_OFFSET))){ // if ECUA bit is 1
+	if (!(SDC_measure & (1 << SDC_ECUA_OFFSET))){ // if ECUA bit is 0
 		ECUB_Status.SDC_AMS = 0; //can message...reason for SDC disconect
-		change_to_NOT_READY(ECUB_Notready_reason_SDC_FAILURE); //change state because of critical error report
 		SDC_error = 1; //error find
 	}else{
-		ECUB_Status.SDC_FRONT = 1; //can message...reason for SDC disconect
+		ECUB_Status.SDC_AMS = 1; //can message...reason for SDC disconect
 	}
 	
-	if (!(SDC_measure & (1 << SDC_HVD_OFFSET))){ // if HVD bit is 1
+	if (!(SDC_measure & (1 << SDC_HVD_OFFSET))){ // if HVD bit is 0
 		ECUB_Status.SDC_HVD = 0; //can message...reason for SDC disconect
-		change_to_NOT_READY(ECUB_Notready_reason_SDC_FAILURE); //change state because of critical error report
 		SDC_error = 1; //error find
 	}else{
 		ECUB_Status.SDC_HVD = 1; //can message...reason for SDC disconect
 	}
 	
-	if (!(SDC_measure & (1 << SDC_BSPD_OFFSET))){ // if BSPD bit is 1
+	if (!(SDC_measure & (1 << SDC_BSPD_OFFSET))){ // if BSPD bit is 0
 		ECUB_Status.SDC_BSPD = 0; //can message...reason for SDC disconect
-		change_to_NOT_READY(ECUB_Notready_reason_SDC_FAILURE); //change state because of critical error report
 		SDC_error = 1; //error find
 	}else{
 		ECUB_Status.SDC_BSPD = 1; //can message...reason for SDC disconect
 	}
 	
-	if (!(SDC_measure & (1 << SDC_TSMS_OFFSET))){ // if TSMS bit is 1
+	if (!(SDC_measure & (1 << SDC_TSMS_OFFSET))){ // if TSMS bit is 0
 		ECUB_Status.SDC_TSMS = 0; //can message...reason for SDC disconect
-		change_to_NOT_READY(ECUB_Notready_reason_SDC_FAILURE); //change state because of critical error report
 		SDC_error = 1; //error find
 	}else{
 		ECUB_Status.SDC_TSMS = 1; //can message...reason for SDC disconect
 	}
-	
-	if (SDC_error){ //if any error found
-		return 1; //return something went wrong
-	} 
-	return 0; //return all ok
+	return SDC_error; //return error report 
 }
 
 
@@ -120,13 +256,18 @@ void change_to_NOT_READY(enum ECUB_Notready_reason reason){ //change car state t
 	state_notready = reason; //duvod not ready state
 	state = ECUB_CarState_NOT_READY; //set car state
 	cs_not_ready_lock = HAL_GetTick() + CS_NOT_READY_LOCK_TIME; //set time in NOTREADY after error
+	if(ECUB_Status.RTDS_EN){
+		HAL_GPIO_WritePin(RTDS_GPIO_Port, RTDS_Pin, GPIO_PIN_RESET);
+		ECUB_Status.RTDS_EN = 0; //RDTS don´t plat can message
+		RTDS_countdowm = 0;
+	}
 	if (HAL_GPIO_ReadPin(Fan2_GPIO_Port,Fan2_Pin) == GPIO_PIN_SET){ // if air conditioning still running
 		HAL_GPIO_WritePin(WP1_GPIO_Port,WP1_Pin,GPIO_PIN_RESET); //stops water pumps for air conditioning :(
 		HAL_GPIO_WritePin(WP2_GPIO_Port,WP2_Pin,GPIO_PIN_RESET); //stops water pumps for air conditioning :(
 		HAL_GPIO_WritePin(Fan1_GPIO_Port,Fan1_Pin,GPIO_PIN_RESET); //stops fans for air conditioning :(
 		HAL_GPIO_WritePin(Fan2_GPIO_Port,Fan2_Pin,GPIO_PIN_RESET); //stops fans for air conditioning :(	
 	}
-	set_SDB_led(GPIO_PIN_RESET,&ECUB_Status); //lights SDB leds on
+	//set_SDB_led(GPIO_PIN_RESET,&ECUB_Status); //lights SDB leds on
 }
 
 
@@ -165,7 +306,7 @@ void check_mess(void){ //check if all messages form other units are being recive
 		change_to_NOT_READY(ECUB_Notready_reason_TIMEOUT_MC); //reason not ready state
 	}
 	if(!VDCU_get_Status(NULL)){ //check if recived messsage and if did, copyed into given structure
-		change_to_NOT_READY(ECUB_Notready_reason_TIMEOUT_VDCU); //reason not ready state
+		//change_to_NOT_READY(ECUB_Notready_reason_TIMEOUT_VDCU); //reason not ready state
 	}
 	if(!MCF_get_GeneralReport(NULL)){ //check if recived messsage and if did, copyed into given structure
 		change_to_NOT_READY(ECUB_Notready_reason_TIMEOUT_MC); //reason not ready state
@@ -179,34 +320,27 @@ void blink_led(uint32_t number_of_blinks){
 		if (LED_blink_time<HAL_GetTick()){
 			HAL_GPIO_TogglePin(LED1_GPIO_Port,LED1_Pin); //debug LED
 			LED_blink_time = HAL_GetTick() + LED_blink; //sets time in led state
-			number_of_bliks++;
+			number_of_bliks++; //counts bliks 
 		}
 	}else{
 		LED_blink_time = HAL_GetTick() + LED_blink*10; //time of led time out 
-		number_of_bliks = 0;
+		number_of_bliks = 0; //resets bliks 
 	}
 }
 
 void carstate_process(SPI_HandleTypeDef * SPI_handle,CAN_HandleTypeDef* hcan){ //main car state machine
-	/*if (measure_SDC(SPI_handle)){ //measure if any error on SDC circute
-		HAL_GPIO_WritePin(LED3_GPIO_Port,LED3_Pin,GPIO_PIN_SET);
+	if (measure_SDC(SPI_handle)){ //measure if any error on SDC circute
+		//change_to_NOT_READY(ECUB_Notready_reason_SDC_FAILURE); //change state because of critical error report
+		HAL_GPIO_WritePin(LED3_GPIO_Port,LED3_Pin,GPIO_PIN_SET); //debug led
 	}else{
-		HAL_GPIO_WritePin(LED3_GPIO_Port,LED3_Pin,GPIO_PIN_RESET);
-	}*/
-	
-	
+		HAL_GPIO_WritePin(LED3_GPIO_Port,LED3_Pin,GPIO_PIN_RESET); //debug led
+	}
 	check_mess(); //check that messages are being recived
-	if(ECUA_data.AMSState != ECUA_StateAMS_All_OK){ //if AMS critical error report
-		set_latch_countdown(ECUB_Notready_reason_LATCH_AMS); //change state because of critical error report
-	}
-	if(ECUP_data.BPPC_Latch){ //if BSPD critical error report
-		set_latch_countdown(ECUB_Notready_reason_LATCH_BSPD); //change state because of critical error report
-	}
 	if (!ECUF_Status_data.SDC_SDBC){
 		change_to_NOT_READY(ECUB_Notready_reason_SDC_FAILURE);
 	}
 	if (!ECUF_Status_data.SDC_FWIL){
-		change_to_NOT_READY(ECUB_Notready_reason_SDC_FAILURE);
+		//change_to_NOT_READY(ECUB_Notready_reason_SDC_FAILURE);
 	}
 	if (!ECUF_Status_data.SDC_Inertia){
 		change_to_NOT_READY(ECUB_Notready_reason_SDC_FAILURE);
@@ -222,6 +356,11 @@ void carstate_process(SPI_HandleTypeDef * SPI_handle,CAN_HandleTypeDef* hcan){ /
 			state = ECUB_CarState_LATCHED; //krizovy stav auta
 			goto there_is_no_escape;
 		}
+	}
+	if (state>=ECUB_CarState_TS_ON){
+		HAL_GPIO_WritePin(TSALL_test_GPIO_Port,TSALL_test_Pin,GPIO_PIN_SET);
+	}else{
+		HAL_GPIO_WritePin(TSALL_test_GPIO_Port,TSALL_test_Pin,GPIO_PIN_RESET);
 	}
 	switch (state){ //main state automat
 		
@@ -240,16 +379,16 @@ void carstate_process(SPI_HandleTypeDef * SPI_handle,CAN_HandleTypeDef* hcan){ /
 			if(units_set(GPIO_PIN_SET,&ECUB_Status)){ //if all units have power
 				state = ECUB_CarState_TS_READY; //set car state
 			}
-			set_SDB_led(GPIO_PIN_SET,&ECUB_Status); //lights SDB leds on
+			//set_SDB_led(GPIO_PIN_SET,&ECUB_Status); //lights SDB leds on
 			state_notready = ECUB_Notready_reason_NONE; //error message delated 
 			break;
 			
 			
 		case ECUB_CarState_LATCHED: //critical error...only way to get from here is to shut down the car
 			there_is_no_escape:
-			set_SDB_led(GPIO_PIN_RESET,&ECUB_Status); //sets SDB leds off
-			units_set(GPIO_PIN_RESET,&ECUB_Status); //stops power to units
-			aux_set(GPIO_PIN_RESET,&ECUB_Status); //stop power to aux
+			set_SDB_led(GPIO_PIN_RESET,&ECUB_Status,3); //sets SDB leds off
+			//units_set(GPIO_PIN_RESET,&ECUB_Status); //stops power to units
+			//aux_set(GPIO_PIN_RESET,&ECUB_Status); //stop power to aux
 			if (HAL_GPIO_ReadPin(Fan2_GPIO_Port,Fan2_Pin) == GPIO_PIN_SET){ // if air conditioning still running
 				HAL_GPIO_WritePin(WP1_GPIO_Port,WP1_Pin,GPIO_PIN_RESET); //stops water pumps for air conditioning :(
 				HAL_GPIO_WritePin(WP2_GPIO_Port,WP2_Pin,GPIO_PIN_RESET); //stops water pumps for air conditioning :(
@@ -260,6 +399,7 @@ void carstate_process(SPI_HandleTypeDef * SPI_handle,CAN_HandleTypeDef* hcan){ /
 				ECUB_Status.CarState = state; //put state of car to can message
 				ECUB_Status.CarState_Notready = state_notready; //put NOTREADY reason to can message
 				ECUB_send_Status_s(&ECUB_Status); //sendidng can message
+				HAL_CAN_Receive_IT(hcan,CAN_FIFO0);
 				ECUB_Status.SEQ++; //message just for check that this message is different from last one
 			}
 			goto there_is_no_escape;
@@ -318,6 +458,13 @@ void carstate_process(SPI_HandleTypeDef * SPI_handle,CAN_HandleTypeDef* hcan){ /
 		}
 	
 		if (ECUB_Status_need_to_send()){ //if is needed to send can message
+			if(state == ECUB_CarState_STARTED){ //if state is in started SDC is measured only when can message is needed to be send
+				if (measure_SDC(SPI_handle)){ //measure if any error on SDC circute
+					HAL_GPIO_WritePin(LED3_GPIO_Port,LED3_Pin,GPIO_PIN_SET); //debug led
+				}else{
+					HAL_GPIO_WritePin(LED3_GPIO_Port,LED3_Pin,GPIO_PIN_RESET); //debug led
+				}
+			}
 			ECUB_Status.CarState = state; //put state of car to can message
 			ECUB_Status.CarState_Notready = state_notready; //put NOTREADY reason to can message
  		  ECUB_send_Status_s(&ECUB_Status); //sendidng can message

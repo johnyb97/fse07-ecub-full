@@ -44,3 +44,5 @@ ecub_v0.2\main.o: ../Inc/cooling_circuit.h
 ecub_v0.2\main.o: ../Inc/ADC.h
 ecub_v0.2\main.o: ../Inc/can_eforce_init.h
 ecub_v0.2\main.o: ../Inc/Wheel_speed.h
+ecub_v0.2\main.o: ../Inc/Brake_Sensors.h
+ecub_v0.2\main.o: ../Inc/LvBattery.h

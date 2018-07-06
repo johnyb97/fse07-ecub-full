@@ -1,10 +1,5 @@
 ecub_v0.2\cooling_circuit.o: ..\Src\cooling_circuit.c
 ecub_v0.2\cooling_circuit.o: ../Inc/cooling_circuit.h
-ecub_v0.2\cooling_circuit.o: ..\CANdb_ECUB\can_ECUB.h
-ecub_v0.2\cooling_circuit.o: ..\CANdb_ECUB\tx2/can.h
-ecub_v0.2\cooling_circuit.o: ..\CANdb_ECUB\tx2/tx.h
-ecub_v0.2\cooling_circuit.o: C:\Keil_v5\ARM\ARMCC\Bin\..\include\stdint.h
-ecub_v0.2\cooling_circuit.o: C:\Keil_v5\ARM\ARMCC\Bin\..\include\stdlib.h
 ecub_v0.2\cooling_circuit.o: ../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal.h
 ecub_v0.2\cooling_circuit.o: ../Inc/stm32f1xx_hal_conf.h
 ecub_v0.2\cooling_circuit.o: ../Inc/main.h
@@ -13,6 +8,7 @@ ecub_v0.2\cooling_circuit.o: ../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_d
 ecub_v0.2\cooling_circuit.o: ../Drivers/CMSIS/Device/ST/STM32F1xx/Include/stm32f1xx.h
 ecub_v0.2\cooling_circuit.o: ../Drivers/CMSIS/Device/ST/STM32F1xx/Include/stm32f105xc.h
 ecub_v0.2\cooling_circuit.o: ../Drivers/CMSIS/Include/core_cm3.h
+ecub_v0.2\cooling_circuit.o: C:\Keil_v5\ARM\ARMCC\Bin\..\include\stdint.h
 ecub_v0.2\cooling_circuit.o: ../Drivers/CMSIS/Include/core_cmInstr.h
 ecub_v0.2\cooling_circuit.o: ../Drivers/CMSIS/Include/cmsis_armcc.h
 ecub_v0.2\cooling_circuit.o: ../Drivers/CMSIS/Include/core_cmFunc.h
@@ -40,5 +36,9 @@ ecub_v0.2\cooling_circuit.o: ../Inc/carstate.h
 ecub_v0.2\cooling_circuit.o: C:\Keil_v5\ARM\ARMCC\Bin\..\include\string.h
 ecub_v0.2\cooling_circuit.o: ../Inc/BrakeLight.h
 ecub_v0.2\cooling_circuit.o: ../Inc/carstate.h
+ecub_v0.2\cooling_circuit.o: ..\CANdb_ECUB\can_ECUB.h
+ecub_v0.2\cooling_circuit.o: ..\CANdb_ECUB\tx2/can.h
+ecub_v0.2\cooling_circuit.o: ..\CANdb_ECUB\tx2/tx.h
+ecub_v0.2\cooling_circuit.o: C:\Keil_v5\ARM\ARMCC\Bin\..\include\stdlib.h
 ecub_v0.2\cooling_circuit.o: ../Inc/periphery_set.h
 ecub_v0.2\cooling_circuit.o: ../Inc/cooling_circuit.h

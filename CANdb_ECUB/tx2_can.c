@@ -1,12 +1,15 @@
 #include <tx2/can.h>
 #include <tx2/ringbuf.h>
+#include "stm32f1xx_hal.h"
+
 
 #ifndef TX_RECV_BUFFER_SIZE
-enum { TX_RECV_BUFFER_SIZE = 256 };
+enum { TX_RECV_BUFFER_SIZE = 512 };
 #endif
 
 static uint8_t recv_buf[TX_RECV_BUFFER_SIZE];
 static ringbuf_t recv_rb;
+static uint32_t checktime;
 
 static volatile int flags;
 
@@ -19,7 +22,7 @@ static void set_flag(int flag) {
 
 void txInit(void) {
 	flags = 0;
-
+	checktime = 0; 
 	recv_rb.data = recv_buf;
 	recv_rb.size = TX_RECV_BUFFER_SIZE;
 	recv_rb.readpos = 0;
@@ -52,8 +55,11 @@ void txProcess(void) {
 		// Read message header & data. The message in the rx buffer may not yet be complete,
 		// in that case we abort and try again next time.
 		if (ringbufTryRead(&recv_rb, (uint8_t*) &hdr, sizeof(hdr), &read_pos) == sizeof(hdr)
-				&& ringbufTryRead(&recv_rb, msg_data, hdr.length, &read_pos) == hdr.length) {
+				&& ringbufTryRead(&recv_rb, msg_data, hdr.length, &read_pos) == hdr.length) 
+		{
 			recv_rb.readpos = read_pos;
+			checktime = 0; 
+
 
 			// Call the user filter
 			if (txHandleCANMessage(hdr.timestamp, hdr.bus, hdr.id, msg_data, hdr.length) < 0)
@@ -63,6 +69,19 @@ void txProcess(void) {
 			// Call the CANdb dispatcher, if enabled.
 			candbHandleMessage(hdr.timestamp, hdr.bus, hdr.id, msg_data, hdr.length);
 #endif
+		}else{
+			if (!checktime){
+				checktime = HAL_GetTick();
+			}else{
+				if(checktime+5>HAL_GetTick()){
+					/*flags = 0;
+					checktime = 0; 
+					recv_rb.data = recv_buf;
+					recv_rb.size = TX_RECV_BUFFER_SIZE;
+					recv_rb.readpos = 0;
+					recv_rb.writepos = 0;*/
+				}
+			}
 		}
 	}
 }

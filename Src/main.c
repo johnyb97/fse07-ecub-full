@@ -3,36 +3,6 @@
   * @file           : main.c
   * @brief          : Main program body
   ******************************************************************************
-  ** This notice applies to any and all portions of this file
-  * that are not between comment pairs USER CODE BEGIN and
-  * USER CODE END. Other portions of this file, whether 
-  * inserted by the user or by software development tools
-  * are owned by their respective copyright owners.
-  *
-  * COPYRIGHT(c) 2018 STMicroelectronics
-  *
-  * Redistribution and use in source and binary forms, with or without modification,
-  * are permitted provided that the following conditions are met:
-  *   1. Redistributions of source code must retain the above copyright notice,
-  *      this list of conditions and the following disclaimer.
-  *   2. Redistributions in binary form must reproduce the above copyright notice,
-  *      this list of conditions and the following disclaimer in the documentation
-  *      and/or other materials provided with the distribution.
-  *   3. Neither the name of STMicroelectronics nor the names of its contributors
-  *      may be used to endorse or promote products derived from this software
-  *      without specific prior written permission.
-  *
-  * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS"
-  * AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE
-  * IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE
-  * DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT HOLDER OR CONTRIBUTORS BE LIABLE
-  * FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL
-  * DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR
-  * SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER
-  * CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY,
-  * OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
-  * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
-  *
   ******************************************************************************
   */
 /* Includes ------------------------------------------------------------------*/
@@ -47,6 +17,8 @@
 #include "Wheel_speed.h"
 #include "can_ECUB.h"
 #include "cooling_circuit.h"
+#include "Brake_Sensors.h"
+#include "LvBattery.h"
 /* USER CODE END Includes */
 
 /* Private variables ---------------------------------------------------------*/
@@ -72,7 +44,6 @@ UART_HandleTypeDef huart5;
 CanRxMsgTypeDef canRxMsg1; //can1 structure for reciving raw data 
 CanRxMsgTypeDef canRxMsg2; //can2 structure for reciving raw data
 ECUB_Power_dist_t ECUB_POW; //can structure for sending data
-ECUB_TEMPSuspR_t ECUB_TEMP; //can structure for sending data
 /* USER CODE END PV */
 
 /* Private function prototypes -----------------------------------------------*/
@@ -101,7 +72,7 @@ void HAL_TIM_MspPostInit(TIM_HandleTypeDef *htim);
 /* USER CODE END PFP */
 
 /* USER CODE BEGIN 0 */
-void HAL_CAN_RxCpltCallback(CAN_HandleTypeDef* hcan){	//callback for reciving can data
+/*void HAL_CAN_RxCpltCallback(CAN_HandleTypeDef* hcan){	//callback for reciving can data
 	HAL_GPIO_TogglePin(LED5_GPIO_Port,LED5_Pin); //toggles led every times something is recived from can
 	if (hcan->Instance == CAN1){ //callback is called after canRxMsg1 is filled form can1
 		txReceiveCANMessage(bus_CAN1_powertrain,canRxMsg1.StdId,&canRxMsg1.Data,canRxMsg1.DLC); //resifre given raw data to candb structures
@@ -110,7 +81,7 @@ void HAL_CAN_RxCpltCallback(CAN_HandleTypeDef* hcan){	//callback for reciving ca
 	}
 	HAL_CAN_Receive_IT(hcan,CAN_FIFO0);
 	__HAL_CAN_FIFO_RELEASE(hcan,CAN_FIFO0); //enables hcan fifo for next reciving 
-}
+}*/
 /* USER CODE END 0 */
 
 /**
@@ -168,21 +139,35 @@ int main(void)
 	HAL_GPIO_TogglePin(LED6_GPIO_Port,LED6_Pin);
 	HAL_GPIO_TogglePin(LED7_GPIO_Port,LED7_Pin);
 	carstate_init(); //initial carstate 
-	start_ADC(&hadc1);
+	//start_ADC(&hadc1);
 	HAL_SPI_MspInit(&hspi2);
 	HAL_GPIO_WritePin(SDC_CS_GPIO_Port,SDC_CS_Pin,GPIO_PIN_SET);
+	HAL_GPIO_WritePin(PTRCS_GPIO_Port,PTRCS_Pin,GPIO_PIN_SET); //select chip 
+	HAL_GPIO_WritePin(PTLCS_GPIO_Port,PTLCS_Pin,GPIO_PIN_SET); //select chip
+
 	HAL_CAN_Receive_IT(&hcan1,CAN_FIFO0);
 	
 	//some new spi
-	GPIO_InitTypeDef GPIO_InitStruct;
-	GPIO_InitStruct.Pin = GPIO_PIN_13;
-	GPIO_InitStruct.Mode = GPIO_MODE_AF_OD;
+	{GPIO_InitTypeDef GPIO_InitStruct;
+	GPIO_InitStruct.Pin = SDC_CS_Pin;
+	GPIO_InitStruct.Mode = GPIO_MODE_OUTPUT_OD;
 	GPIO_InitStruct.Pull = GPIO_NOPULL;
-	GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_LOW; 
-  HAL_GPIO_Init(GPIOB, &GPIO_InitStruct);
+	GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_MEDIUM; 
+  HAL_GPIO_Init(SDC_CS_GPIO_Port, &GPIO_InitStruct);}
+	
+	{GPIO_InitTypeDef GPIO_InitStruct;
+	GPIO_InitStruct.Pin = Charge_status_Pin;
+	GPIO_InitStruct.Mode = GPIO_MODE_INPUT;
+	GPIO_InitStruct.Pull = GPIO_PULLUP;
+	GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_MEDIUM; 
+  HAL_GPIO_Init(Charge_status_GPIO_Port, &GPIO_InitStruct);}
+	
 	//end of some new spi
+
+	LV_init();
 	start_PWM(&htim2, &htim1 , get_can_state()); //starts PWM for fans and pumps
-	start_WS_measure(&htim5,&htim3); //starts Wheel speed measurement...using DMA...
+	//start_WS_measure(&htim5,&htim3); //starts Wheel speed measurement...using DMA...
+	brake_sens_init(&hspi1); //init of brake sensors
 	while(!units_set(GPIO_PIN_SET,get_can_state())||(!aux_set(GPIO_PIN_SET,get_can_state()))){} //gives power to all units and aux
   /* USER CODE END 2 */
 
@@ -192,17 +177,16 @@ int main(void)
   {
 	txProcess(); //translate message
 	carstate_process(&hspi2,&hcan1); //entire carstate logic
-	Can_WheelSpeed(&hcan1); //wheelspeed 
+	//Can_WheelSpeed(&hcan1); //wheelspeed 
 	cooling_poccess(&htim1,&htim2,&hcan2); //cooling process main function
 	pwm_check(get_can_state(),&hcan2); //function sendindg pwm can message
-	if	(ECUB_TEMPSuspR_need_to_send()){
-		ECUB_send_TEMPSuspR_s(&ECUB_TEMP);
-		HAL_CAN_Receive_IT(&hcan2,CAN_FIFO0);
-	}
-	if	(ECUB_Power_dist_need_to_send()){
+	brake_sens_process(&hspi2,&hcan2); //measuring breake temperatures
+	LV_process(&hcan2); //measuring voltages on battery and debug for charging
+	if(ECUB_Power_dist_need_to_send()){
 		ECUB_send_Power_dist_s(&ECUB_POW);
 		HAL_CAN_Receive_IT(&hcan2,CAN_FIFO0);
 	}
+		
   /* USER CODE END WHILE */
 
   /* USER CODE BEGIN 3 */
@@ -429,7 +413,7 @@ static void MX_SPI1_Init(void)
   hspi1.Init.CLKPolarity = SPI_POLARITY_LOW;
   hspi1.Init.CLKPhase = SPI_PHASE_1EDGE;
   hspi1.Init.NSS = SPI_NSS_SOFT;
-  hspi1.Init.BaudRatePrescaler = SPI_BAUDRATEPRESCALER_16;
+  hspi1.Init.BaudRatePrescaler = SPI_BAUDRATEPRESCALER_32;
   hspi1.Init.FirstBit = SPI_FIRSTBIT_MSB;
   hspi1.Init.TIMode = SPI_TIMODE_DISABLE;
   hspi1.Init.CRCCalculation = SPI_CRCCALCULATION_DISABLE;
@@ -453,7 +437,7 @@ static void MX_SPI2_Init(void)
   hspi2.Init.CLKPolarity = SPI_POLARITY_LOW;
   hspi2.Init.CLKPhase = SPI_PHASE_1EDGE;
   hspi2.Init.NSS = SPI_NSS_SOFT;
-  hspi2.Init.BaudRatePrescaler = SPI_BAUDRATEPRESCALER_2;
+  hspi2.Init.BaudRatePrescaler = SPI_BAUDRATEPRESCALER_256;
   hspi2.Init.FirstBit = SPI_FIRSTBIT_MSB;
   hspi2.Init.TIMode = SPI_TIMODE_DISABLE;
   hspi2.Init.CRCCalculation = SPI_CRCCALCULATION_DISABLE;
@@ -601,25 +585,28 @@ static void MX_TIM2_Init(void)
 static void MX_TIM3_Init(void)
 {
 
-  TIM_Encoder_InitTypeDef sConfig;
+  TIM_ClockConfigTypeDef sClockSourceConfig;
   TIM_MasterConfigTypeDef sMasterConfig;
+  TIM_IC_InitTypeDef sConfigIC;
 
   htim3.Instance = TIM3;
-  htim3.Init.Prescaler = 0;
+  htim3.Init.Prescaler = 72;
   htim3.Init.CounterMode = TIM_COUNTERMODE_UP;
-  htim3.Init.Period = 65535;
+  htim3.Init.Period = 0xFFFF;
   htim3.Init.ClockDivision = TIM_CLOCKDIVISION_DIV1;
   htim3.Init.AutoReloadPreload = TIM_AUTORELOAD_PRELOAD_DISABLE;
-  sConfig.EncoderMode = TIM_ENCODERMODE_TI12;
-  sConfig.IC1Polarity = TIM_ICPOLARITY_RISING;
-  sConfig.IC1Selection = TIM_ICSELECTION_DIRECTTI;
-  sConfig.IC1Prescaler = TIM_ICPSC_DIV1;
-  sConfig.IC1Filter = 0;
-  sConfig.IC2Polarity = TIM_ICPOLARITY_RISING;
-  sConfig.IC2Selection = TIM_ICSELECTION_DIRECTTI;
-  sConfig.IC2Prescaler = TIM_ICPSC_DIV1;
-  sConfig.IC2Filter = 0;
-  if (HAL_TIM_Encoder_Init(&htim3, &sConfig) != HAL_OK)
+  if (HAL_TIM_Base_Init(&htim3) != HAL_OK)
+  {
+    _Error_Handler(__FILE__, __LINE__);
+  }
+
+  sClockSourceConfig.ClockSource = TIM_CLOCKSOURCE_INTERNAL;
+  if (HAL_TIM_ConfigClockSource(&htim3, &sClockSourceConfig) != HAL_OK)
+  {
+    _Error_Handler(__FILE__, __LINE__);
+  }
+
+  if (HAL_TIM_IC_Init(&htim3) != HAL_OK)
   {
     _Error_Handler(__FILE__, __LINE__);
   }
@@ -631,31 +618,43 @@ static void MX_TIM3_Init(void)
     _Error_Handler(__FILE__, __LINE__);
   }
 
+  sConfigIC.ICPolarity = TIM_INPUTCHANNELPOLARITY_RISING;
+  sConfigIC.ICSelection = TIM_ICSELECTION_DIRECTTI;
+  sConfigIC.ICPrescaler = TIM_ICPSC_DIV1;
+  sConfigIC.ICFilter = 0;
+  if (HAL_TIM_IC_ConfigChannel(&htim3, &sConfigIC, TIM_CHANNEL_1) != HAL_OK)
+  {
+    _Error_Handler(__FILE__, __LINE__);
+  }
+
 }
 
 /* TIM5 init function */
 static void MX_TIM5_Init(void)
 {
 
-  TIM_Encoder_InitTypeDef sConfig;
+  TIM_ClockConfigTypeDef sClockSourceConfig;
   TIM_MasterConfigTypeDef sMasterConfig;
+  TIM_IC_InitTypeDef sConfigIC;
 
   htim5.Instance = TIM5;
-  htim5.Init.Prescaler = 0;
+  htim5.Init.Prescaler = 72;
   htim5.Init.CounterMode = TIM_COUNTERMODE_UP;
-  htim5.Init.Period = 65535;
+  htim5.Init.Period = 0xFFFF;
   htim5.Init.ClockDivision = TIM_CLOCKDIVISION_DIV1;
   htim5.Init.AutoReloadPreload = TIM_AUTORELOAD_PRELOAD_DISABLE;
-  sConfig.EncoderMode = TIM_ENCODERMODE_TI12;
-  sConfig.IC1Polarity = TIM_ICPOLARITY_RISING;
-  sConfig.IC1Selection = TIM_ICSELECTION_DIRECTTI;
-  sConfig.IC1Prescaler = TIM_ICPSC_DIV1;
-  sConfig.IC1Filter = 0;
-  sConfig.IC2Polarity = TIM_ICPOLARITY_RISING;
-  sConfig.IC2Selection = TIM_ICSELECTION_DIRECTTI;
-  sConfig.IC2Prescaler = TIM_ICPSC_DIV1;
-  sConfig.IC2Filter = 0;
-  if (HAL_TIM_Encoder_Init(&htim5, &sConfig) != HAL_OK)
+  if (HAL_TIM_Base_Init(&htim5) != HAL_OK)
+  {
+    _Error_Handler(__FILE__, __LINE__);
+  }
+
+  sClockSourceConfig.ClockSource = TIM_CLOCKSOURCE_INTERNAL;
+  if (HAL_TIM_ConfigClockSource(&htim5, &sClockSourceConfig) != HAL_OK)
+  {
+    _Error_Handler(__FILE__, __LINE__);
+  }
+
+  if (HAL_TIM_IC_Init(&htim5) != HAL_OK)
   {
     _Error_Handler(__FILE__, __LINE__);
   }
@@ -663,6 +662,15 @@ static void MX_TIM5_Init(void)
   sMasterConfig.MasterOutputTrigger = TIM_TRGO_RESET;
   sMasterConfig.MasterSlaveMode = TIM_MASTERSLAVEMODE_DISABLE;
   if (HAL_TIMEx_MasterConfigSynchronization(&htim5, &sMasterConfig) != HAL_OK)
+  {
+    _Error_Handler(__FILE__, __LINE__);
+  }
+
+  sConfigIC.ICPolarity = TIM_INPUTCHANNELPOLARITY_RISING;
+  sConfigIC.ICSelection = TIM_ICSELECTION_DIRECTTI;
+  sConfigIC.ICPrescaler = TIM_ICPSC_DIV1;
+  sConfigIC.ICFilter = 0;
+  if (HAL_TIM_IC_ConfigChannel(&htim5, &sConfigIC, TIM_CHANNEL_1) != HAL_OK)
   {
     _Error_Handler(__FILE__, __LINE__);
   }
@@ -707,28 +715,7 @@ static void MX_UART5_Init(void)
 
 }
 
-/** 
-  * Enable DMA controller clock
-  */
-static void MX_DMA_Init(void) 
-{
-  /* DMA controller clock enable */
-  __HAL_RCC_DMA1_CLK_ENABLE();
-
-  /* DMA interrupt init */
-  /* DMA1_Channel1_IRQn interrupt configuration */
-  HAL_NVIC_SetPriority(DMA1_Channel1_IRQn, 0, 0);
-  HAL_NVIC_EnableIRQ(DMA1_Channel1_IRQn);
-
-}
-
-/** Configure pins as 
-        * Analog 
-        * Input 
-        * Output
-        * EVENT_OUT
-        * EXTI
-*/
+/* USER CODE BEGIN 4 */
 static void MX_GPIO_Init(void)
 {
 
@@ -827,8 +814,17 @@ static void MX_GPIO_Init(void)
 
 }
 
-/* USER CODE BEGIN 4 */
+static void MX_DMA_Init(void) 
+{
+  /* DMA controller clock enable */
+  __HAL_RCC_DMA1_CLK_ENABLE();
 
+  /* DMA interrupt init */
+  /* DMA1_Channel1_IRQn interrupt configuration */
+  HAL_NVIC_SetPriority(DMA1_Channel1_IRQn, 10, 10);
+  HAL_NVIC_EnableIRQ(DMA1_Channel1_IRQn);
+
+}
 /* USER CODE END 4 */
 
 /**
