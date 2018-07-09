@@ -38,3 +38,4 @@ ecub_v0.2\lvbattery.o: ..\CANdb_ECUB\can_ECUB.h
 ecub_v0.2\lvbattery.o: ..\CANdb_ECUB\tx2/can.h
 ecub_v0.2\lvbattery.o: ..\CANdb_ECUB\tx2/tx.h
 ecub_v0.2\lvbattery.o: C:\Keil_v5\ARM\ARMCC\Bin\..\include\stdlib.h
+ecub_v0.2\lvbattery.o: ../Inc/ADC.h

@@ -1,7 +1,8 @@
 #include "ADC.h"
 #include "cooling_circuit.h"
 
-#define ref_voltage 5000 //value for ADC equation from 0 to 5V in mV
+#define ref_voltage 3300 //value for ADC equation from 0 to 5V in mV
+#define TEMPERATURE_OUTSIDE 25; //outside temperature
 
 ECUB_TEMPAux_t ECUB_TEMP_AUX; //can structure for sending data
 volatile uint32_t ntc0_value;
@@ -11,11 +12,11 @@ volatile uint32_t ntc3_value;
 volatile uint32_t ecua_u_value;
 volatile uint32_t lv_bat_u_value;
 volatile uint32_t service_box_u_value;
-volatile uint16_t adc_measurement[8];
+volatile uint16_t adc_measurement[9];
 
 void start_ADC(ADC_HandleTypeDef* ADC_handle)
 {
-	HAL_ADC_Start_DMA(ADC_handle,(uint32_t*)adc_measurement,8); //start DMA...it saves data into adc_measurement
+	HAL_ADC_Start_DMA(ADC_handle,(uint32_t*)adc_measurement,9); //start DMA...it saves data into adc_measurement
 }
 
 void stop_newADC(ADC_HandleTypeDef* ADC_handle)
@@ -29,9 +30,16 @@ void HAL_ADC_ConvCpltCallback (ADC_HandleTypeDef* hadc)
 	ntc1_value = ((uint32_t)adc_measurement[4] * ref_voltage / 4095); //calculation voltage from raw ADC values...4095 range of value from ADC 
 	ntc2_value = ((uint32_t)adc_measurement[5] * ref_voltage / 4095); //calculation voltage from raw ADC values...4095 range of value from ADC 
 	ntc3_value = ((uint32_t)adc_measurement[6] * ref_voltage / 4095); //calculation voltage from raw ADC values...4095 range of value from ADC 
-	ecua_u_value = ((uint32_t)adc_measurement[7] * 12 * ref_voltage / 4095); //calculation voltage from raw ADC values...4095 range of value from ADC...12 is acording to hardware conection...rezistence devider
-	lv_bat_u_value = ((uint32_t)adc_measurement[2] * 12 * ref_voltage / 4095); //calculation voltage from raw ADC values...4095 range of value from ADC...12 is acording to hardware conection...rezistence devider
-	service_box_u_value = ((uint32_t)adc_measurement[1] * 12 * ref_voltage / 4095); //calculation voltage from raw ADC values...4095 range of value from ADC...12 is acording to hardware conection...rezistence devider
+	ecua_u_value = ((uint32_t)adc_measurement[7] * 11 * ref_voltage / 4095); //calculation voltage from raw ADC values...4095 range of value from ADC...12 is acording to hardware conection...rezistence devider
+	lv_bat_u_value = ((uint32_t)adc_measurement[2] * 11 * ref_voltage / 4095); //calculation voltage from raw ADC values...4095 range of value from ADC...12 is acording to hardware conection...rezistence devider
+	service_box_u_value = ((uint32_t)adc_measurement[1] * 11 * ref_voltage / 4095); //calculation voltage from raw ADC values...4095 range of value from ADC...12 is acording to hardware conection...rezistence devider
+}
+int LV_voltage_recive(void){
+	return (int)lv_bat_u_value;
+}
+
+uint32_t Chip_temperature(void){
+	return TEMPERATURE_OUTSIDE;
 }
 void cooling_poccess(TIM_HandleTypeDef *fan, TIM_HandleTypeDef *pumps,CAN_HandleTypeDef* hcan){
 	if((*get_state())>=ECUB_CarState_TS_ON){ //cooling only if not on LV battery

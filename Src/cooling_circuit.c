@@ -61,12 +61,6 @@ void fan_pwm_process(TIM_HandleTypeDef* fan, int value){ //set PWM for Fan1, Fan
 	__HAL_TIM_SET_COMPARE(fan,TIM_CHANNEL_1,(value*10));
 	__HAL_TIM_SET_COMPARE(fan,TIM_CHANNEL_2,(value*10));
 	__HAL_TIM_SET_COMPARE(fan,TIM_CHANNEL_3,(value*10));
-	/*
-	fan_values.Pulse = value*10; //accuracy possible in numbers from 0-1000...10% is 100 value :) 
-	HAL_TIM_OC_ConfigChannel(fan,&fan_values,1); //set PWM for air conditioning....pilots need to stay cool :)
-	HAL_TIM_OC_ConfigChannel(fan,&fan_values,2); //set PWM for air conditioning....pilots need to stay cool :)
-	HAL_TIM_OC_ConfigChannel(fan,&fan_values,3); //set PWM for air conditioning....pilots need to stay cool :)
-	*/
 	ECUB_COOL.FAN1 = value; //can message
 	ECUB_COOL.FAN2 = value; //can message
 	ECUB_COOL.FAN3 = value; //can message
@@ -81,11 +75,6 @@ void pump_pwm_process(TIM_HandleTypeDef* pump, int value){ //set PWM for Pump1 a
 	}
 	__HAL_TIM_SET_COMPARE(pump,TIM_CHANNEL_3,(value*10));
 	__HAL_TIM_SET_COMPARE(pump,TIM_CHANNEL_4,(value*10));
-	/*
-	pump_values.Pulse = value*10; //accuracy possible in numbers from 0-1000...10% is 100 value :)
-	HAL_TIM_OC_ConfigChannel(pump,&pump_values,1); //set PWM for water pump
-	HAL_TIM_OC_ConfigChannel(pump,&pump_values,2); //set PWM for water pump
-	*/
 	ECUB_COOL.WP1 = value/10; //can message...devided 10...can factor == 10
 	ECUB_COOL.WP2 = value/10; //can message...devided 10...can factor == 10
 }
@@ -229,6 +218,9 @@ void Cooling_process_intern(TIM_HandleTypeDef *fans,TIM_HandleTypeDef *pumps, ui
 	if (max_engine_temperature<MOTORS_COOL){ //if temperature of engines is low enagth to shut down the cooling circute
 		fan_pwm_process(fans,0); //stops fans
 		pump_pwm_process(pumps,0); //stops pumps
+	}
+	if(ECUB_COOL.FAN1>0){
+		pump_pwm_process(pumps,100);
 	}
 
 }

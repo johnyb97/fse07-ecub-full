@@ -10,8 +10,8 @@
 #define SDC_ECUMCR_OFFSET 11 //bit ofset for SDC data ECUMCR (back motor controler)
 #define SDC_ECUA_OFFSET 12 //bit ofset for SDC data ECUA (accupack)
 #define SDC_HVD_OFFSET 13 //bit ofset for SDC data HVD (high voltage disconect)
-#define SDC_BSPD_OFFSET 14 //bit ofset for SDC data BSPD (Brake System Plausibility Device)
-#define SDC_TSMS_OFFSET 15 //bit ofset for SDC data TSMS (Tractive System Master Switch)
+#define SDC_BSPD_OFFSET 15 //bit ofset for SDC data BSPD (Brake System Plausibility Device)
+#define SDC_TSMS_OFFSET 14 //bit ofset for SDC data TSMS (Tractive System Master Switch)
 
 static ECUB_Status_t				ECUB_Status; //can message
 static ECUB_Power_dist_t		ECUB_Power; // can message
@@ -190,7 +190,11 @@ int measure_SDC(SPI_HandleTypeDef * SPI_handle){ //check SDC circuit
 	}
 	
 	if (!(SDC_measure & (1 << SDC_SDBL_OFFSET))){ // if SDBL bit is 0
-		blink_SDB(&ECUB_Status,2);
+		if(ECUF_Status_data.SDC_SDBC){
+			blink_SDB(&ECUB_Status,2);
+		}else{
+			HAL_GPIO_WritePin(SDBL_GPIO_Port,SDBL_Pin,GPIO_PIN_RESET);
+		}
 		change_to_NOT_READY(ECUB_Notready_reason_SDC_FAILURE);
 		ECUB_Status.SDC_SDBL = 0; //can message...reason for SDC disconect
 		SDC_error = 1; //error find
@@ -201,11 +205,9 @@ int measure_SDC(SPI_HandleTypeDef * SPI_handle){ //check SDC circuit
 	
 	if (!(SDC_measure & (1 << SDC_SDBR_OFFSET))){ // if SDBR bit is 0
 		if(ECUB_Status.SDC_SDBL==0){
-			//blink_SDB(&ECUB_Status,1);
 			HAL_GPIO_WritePin(SDBR_GPIO_Port,SDBR_Pin,GPIO_PIN_RESET);
 		}else{
-			blink_SDB(&ECUB_Status,1);
-			change_to_NOT_READY(ECUB_Notready_reason_SDC_FAILURE);
+				blink_SDB(&ECUB_Status,1);
 		}
 		ECUB_Status.SDC_SDBR = 0; //can message...reason for SDC disconect
 		SDC_error = 1; //error find
@@ -244,7 +246,7 @@ int measure_SDC(SPI_HandleTypeDef * SPI_handle){ //check SDC circuit
 	
 	if (!(SDC_measure & (1 << SDC_TSMS_OFFSET))){ // if TSMS bit is 0
 		ECUB_Status.SDC_TSMS = 0; //can message...reason for SDC disconect
-		SDC_error = 1; //error find
+		//SDC_error = 1; //error find
 	}else{
 		ECUB_Status.SDC_TSMS = 1; //can message...reason for SDC disconect
 	}
@@ -291,7 +293,7 @@ int	carstate_init(void){ //car state at the begining
 
 void check_mess(void){ //check if all messages form other units are being recived
 	if(!ECUA_get_Status(&ECUA_data)){ //check if recived messsage and if did, copyed into given structure
-		change_to_NOT_READY(ECUB_Notready_reason_TIMEOUT_ECUA); //reason not ready state
+		//change_to_NOT_READY(ECUB_Notready_reason_TIMEOUT_ECUA); //reason not ready state
 	}
 	if(!ECUF_get_Status(&ECUF_Status_data)){ //check if recived messsage and if did, copyed into given structure
 		change_to_NOT_READY(ECUB_Notready_reason_TIMEOUT_ECUF); //reason not ready state
@@ -303,13 +305,13 @@ void check_mess(void){ //check if all messages form other units are being recive
 		change_to_NOT_READY(ECUB_Notready_reason_TIMEOUT_ECUP); //reason not ready state
 	}
 	if(!MCR_get_GeneralReport(NULL)){ //check if recived messsage and if did, copyed into given structure
-		change_to_NOT_READY(ECUB_Notready_reason_TIMEOUT_MC); //reason not ready state
+		//change_to_NOT_READY(ECUB_Notready_reason_TIMEOUT_MC); //reason not ready state
 	}
 	if(!VDCU_get_Status(NULL)){ //check if recived messsage and if did, copyed into given structure
 		//change_to_NOT_READY(ECUB_Notready_reason_TIMEOUT_VDCU); //reason not ready state
 	}
 	if(!MCF_get_GeneralReport(NULL)){ //check if recived messsage and if did, copyed into given structure
-		change_to_NOT_READY(ECUB_Notready_reason_TIMEOUT_MC); //reason not ready state
+		//change_to_NOT_READY(ECUB_Notready_reason_TIMEOUT_MC); //reason not ready state
 	}
 }
 
@@ -330,7 +332,7 @@ void blink_led(uint32_t number_of_blinks){
 
 void carstate_process(SPI_HandleTypeDef * SPI_handle,CAN_HandleTypeDef* hcan){ //main car state machine
 	if (measure_SDC(SPI_handle)){ //measure if any error on SDC circute
-		//change_to_NOT_READY(ECUB_Notready_reason_SDC_FAILURE); //change state because of critical error report
+		change_to_NOT_READY(ECUB_Notready_reason_SDC_FAILURE); //change state because of critical error report
 		HAL_GPIO_WritePin(LED3_GPIO_Port,LED3_Pin,GPIO_PIN_SET); //debug led
 	}else{
 		HAL_GPIO_WritePin(LED3_GPIO_Port,LED3_Pin,GPIO_PIN_RESET); //debug led
@@ -339,8 +341,8 @@ void carstate_process(SPI_HandleTypeDef * SPI_handle,CAN_HandleTypeDef* hcan){ /
 	if (!ECUF_Status_data.SDC_SDBC){
 		change_to_NOT_READY(ECUB_Notready_reason_SDC_FAILURE);
 	}
-	if (!ECUF_Status_data.SDC_FWIL){
-		//change_to_NOT_READY(ECUB_Notready_reason_SDC_FAILURE);
+	if(!ECUF_Status_data.SDC_FWIL){
+		change_to_NOT_READY(ECUB_Notready_reason_SDC_FAILURE);
 	}
 	if (!ECUF_Status_data.SDC_Inertia){
 		change_to_NOT_READY(ECUB_Notready_reason_SDC_FAILURE);
@@ -362,8 +364,9 @@ void carstate_process(SPI_HandleTypeDef * SPI_handle,CAN_HandleTypeDef* hcan){ /
 	}else{
 		HAL_GPIO_WritePin(TSALL_test_GPIO_Port,TSALL_test_Pin,GPIO_PIN_RESET);
 	}
+	
+	
 	switch (state){ //main state automat
-		
 		
 		case ECUB_CarState_NOT_READY: //starting and error state
 			blink_led(3); //sets to 2bliks period of debug led
@@ -379,7 +382,6 @@ void carstate_process(SPI_HandleTypeDef * SPI_handle,CAN_HandleTypeDef* hcan){ /
 			if(units_set(GPIO_PIN_SET,&ECUB_Status)){ //if all units have power
 				state = ECUB_CarState_TS_READY; //set car state
 			}
-			//set_SDB_led(GPIO_PIN_SET,&ECUB_Status); //lights SDB leds on
 			state_notready = ECUB_Notready_reason_NONE; //error message delated 
 			break;
 			
@@ -387,8 +389,6 @@ void carstate_process(SPI_HandleTypeDef * SPI_handle,CAN_HandleTypeDef* hcan){ /
 		case ECUB_CarState_LATCHED: //critical error...only way to get from here is to shut down the car
 			there_is_no_escape:
 			set_SDB_led(GPIO_PIN_RESET,&ECUB_Status,3); //sets SDB leds off
-			//units_set(GPIO_PIN_RESET,&ECUB_Status); //stops power to units
-			//aux_set(GPIO_PIN_RESET,&ECUB_Status); //stop power to aux
 			if (HAL_GPIO_ReadPin(Fan2_GPIO_Port,Fan2_Pin) == GPIO_PIN_SET){ // if air conditioning still running
 				HAL_GPIO_WritePin(WP1_GPIO_Port,WP1_Pin,GPIO_PIN_RESET); //stops water pumps for air conditioning :(
 				HAL_GPIO_WritePin(WP2_GPIO_Port,WP2_Pin,GPIO_PIN_RESET); //stops water pumps for air conditioning :(
@@ -413,6 +413,7 @@ void carstate_process(SPI_HandleTypeDef * SPI_handle,CAN_HandleTypeDef* hcan){ /
 					HAL_GPIO_WritePin(WP2_GPIO_Port,WP2_Pin,GPIO_PIN_SET); //starts water pumps for air conditioning
 					HAL_GPIO_WritePin(Fan1_GPIO_Port,Fan1_Pin,GPIO_PIN_SET); //starts fans for air conditioning
 					HAL_GPIO_WritePin(Fan2_GPIO_Port,Fan2_Pin,GPIO_PIN_SET); //starts fans for air conditioning
+					HAL_GPIO_WritePin(SDC_complete_GPIO_Port,SDC_complete_Pin,GPIO_PIN_SET);
 					state = ECUB_CarState_PRECHARGE; //set car state
 				}
 			}else{
@@ -423,7 +424,7 @@ void carstate_process(SPI_HandleTypeDef * SPI_handle,CAN_HandleTypeDef* hcan){ /
 			
 		case ECUB_CarState_PRECHARGE: //precharge condenser if i got it right
 			blink_led(7); //sets to 4bliks period of debug led			
-			if ((!ECUA_data.FT_ANY)&&(!ECUA_data.AMSState)&&(ECUA_data.AIRsState)){ //mising precharge finished
+			if ((!ECUA_data.FT_ANY)&&(ECUA_data.AIRsState == 9)){//(!ECUA_data.AMSState)&&(ECUA_data.AIRsState)){ //mising precharge finished
 				state = ECUB_CarState_TS_ON; //set car state
 			}				
 			break;
@@ -464,6 +465,21 @@ void carstate_process(SPI_HandleTypeDef * SPI_handle,CAN_HandleTypeDef* hcan){ /
 				}else{
 					HAL_GPIO_WritePin(LED3_GPIO_Port,LED3_Pin,GPIO_PIN_RESET); //debug led
 				}
+			}
+			if (HAL_GPIO_ReadPin(Det1_GPIO_Port,Det1_Pin) == GPIO_PIN_SET){ //check if modules are present
+				ECUB_Status.Det_MOD1 = 1; //module is present can message 
+			}else{
+				ECUB_Status.Det_MOD1 = 0; //module is not present can message
+			}
+			if (HAL_GPIO_ReadPin(Det2_GPIO_Port,Det2_Pin) == GPIO_PIN_SET){ //check if modules are present
+				ECUB_Status.Det_MOD2 = 1; //module is present can message
+			}else{
+				ECUB_Status.Det_MOD2 = 0; //module is not present can message
+			}
+			if (HAL_GPIO_ReadPin(Det3_GPIO_Port,Det3_Pin) == GPIO_PIN_SET){ //check if modules are present
+				ECUB_Status.Det_MOD3 = 1; //module is present can message
+			}else{
+				ECUB_Status.Det_MOD3 = 0; //module is not present can message
 			}
 			ECUB_Status.CarState = state; //put state of car to can message
 			ECUB_Status.CarState_Notready = state_notready; //put NOTREADY reason to can message

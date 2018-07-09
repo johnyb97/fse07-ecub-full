@@ -224,8 +224,8 @@ void HAL_CAN_MspInit(CAN_HandleTypeDef* hcan)
     __HAL_AFIO_REMAP_CAN2_ENABLE();
 
     /* CAN2 interrupt Init */
-    HAL_NVIC_SetPriority(CAN2_TX_IRQn, 0, 0);
-    HAL_NVIC_EnableIRQ(CAN2_TX_IRQn);
+    //HAL_NVIC_SetPriority(CAN2_TX_IRQn, 0, 0);
+    //HAL_NVIC_EnableIRQ(CAN2_TX_IRQn);
     HAL_NVIC_SetPriority(CAN2_RX0_IRQn, 0, 0);
     HAL_NVIC_EnableIRQ(CAN2_RX0_IRQn);
     HAL_NVIC_SetPriority(CAN2_RX1_IRQn, 0, 0);

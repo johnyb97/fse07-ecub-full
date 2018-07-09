@@ -17,6 +17,7 @@
 "ecub_v0.2\main.o"
 "ecub_v0.2\stm32f1xx_it.o"
 "ecub_v0.2\stm32f1xx_hal_msp.o"
+"ecub_v0.2\watchdog.o"
 "ecub_v0.2\stm32f1xx_hal_gpio_ex.o"
 "ecub_v0.2\stm32f1xx_hal_adc.o"
 "ecub_v0.2\stm32f1xx_hal_adc_ex.o"

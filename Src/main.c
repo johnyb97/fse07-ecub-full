@@ -139,7 +139,7 @@ int main(void)
 	HAL_GPIO_TogglePin(LED6_GPIO_Port,LED6_Pin);
 	HAL_GPIO_TogglePin(LED7_GPIO_Port,LED7_Pin);
 	carstate_init(); //initial carstate 
-	//start_ADC(&hadc1);
+	start_ADC(&hadc1);
 	HAL_SPI_MspInit(&hspi2);
 	HAL_GPIO_WritePin(SDC_CS_GPIO_Port,SDC_CS_Pin,GPIO_PIN_SET);
 	HAL_GPIO_WritePin(PTRCS_GPIO_Port,PTRCS_Pin,GPIO_PIN_SET); //select chip 
@@ -166,7 +166,7 @@ int main(void)
 
 	LV_init();
 	start_PWM(&htim2, &htim1 , get_can_state()); //starts PWM for fans and pumps
-	//start_WS_measure(&htim5,&htim3); //starts Wheel speed measurement...using DMA...
+	start_WS_measure(&htim5,&htim3); //starts Wheel speed measurement...using DMA...
 	brake_sens_init(&hspi1); //init of brake sensors
 	while(!units_set(GPIO_PIN_SET,get_can_state())||(!aux_set(GPIO_PIN_SET,get_can_state()))){} //gives power to all units and aux
   /* USER CODE END 2 */
@@ -177,7 +177,7 @@ int main(void)
   {
 	txProcess(); //translate message
 	carstate_process(&hspi2,&hcan1); //entire carstate logic
-	//Can_WheelSpeed(&hcan1); //wheelspeed 
+	Can_WheelSpeed(&hcan1,&htim3,&htim5); //wheelspeed 
 	cooling_poccess(&htim1,&htim2,&hcan2); //cooling process main function
 	pwm_check(get_can_state(),&hcan2); //function sendindg pwm can message
 	brake_sens_process(&hspi2,&hcan2); //measuring breake temperatures
@@ -274,7 +274,7 @@ static void MX_ADC1_Init(void)
   hadc1.Init.DiscontinuousConvMode = DISABLE;
   hadc1.Init.ExternalTrigConv = ADC_SOFTWARE_START;
   hadc1.Init.DataAlign = ADC_DATAALIGN_RIGHT;
-  hadc1.Init.NbrOfConversion = 8;
+  hadc1.Init.NbrOfConversion = 9;
   if (HAL_ADC_Init(&hadc1) != HAL_OK)
   {
     _Error_Handler(__FILE__, __LINE__);
@@ -352,7 +352,12 @@ static void MX_ADC1_Init(void)
   {
     _Error_Handler(__FILE__, __LINE__);
   }
-
+	sConfig.Channel = ADC_CHANNEL_TEMPSENSOR;
+  sConfig.Rank = ADC_REGULAR_RANK_9;
+  if (HAL_ADC_ConfigChannel(&hadc1, &sConfig) != HAL_OK)
+  {
+    _Error_Handler(__FILE__, __LINE__);
+  }
 }
 
 /* CAN1 init function */

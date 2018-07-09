@@ -15,8 +15,8 @@ double perimeter; //circuit of wheels
 
 void start_WS_measure(TIM_HandleTypeDef *tim_WSR,TIM_HandleTypeDef *tim_WSL) //should start dma measurement of wheel speed
 { 
-	HAL_TIM_Base_Start_IT(tim_WSR); //configuration for wheelspeed right
-	HAL_TIM_Base_Start_IT(tim_WSL); //configuration for wheelspeed left
+	//HAL_TIM_Base_Start_IT(tim_WSR); //configuration for wheelspeed right
+	//HAL_TIM_Base_Start_IT(tim_WSL); //configuration for wheelspeed left	
 	HAL_TIM_IC_Start_IT(tim_WSR,TIM_CHANNEL_1); //configuration for wheelspeed left
 	HAL_TIM_IC_Start_IT(tim_WSL,TIM_CHANNEL_1); //configuration for wheelspeed left
 	perimeter = 2*PI*RADIUS; //circuit of wheels
@@ -25,11 +25,11 @@ void HAL_TIM_PeriodElapsedCallback(TIM_HandleTypeDef *htim)
 {
 	if(htim->Instance==TIM3)
 	{
-		HAL_GPIO_TogglePin(LED7_GPIO_Port,LED7_Pin);
 	}
 }
 void HAL_TIM_IC_CaptureCallback(TIM_HandleTypeDef *htim)
 {
+	HAL_GPIO_TogglePin(LED4_GPIO_Port,LED4_Pin);
 	if(htim->Instance==TIM3)
 	{
 		TIM3->CNT = 0;
@@ -71,7 +71,7 @@ uint32_t compute_average(uint32_t *data,uint16_t number_of_data,uint16_t poss) /
 	return average; //estimated speed
 }
 
-void Can_WheelSpeed(CAN_HandleTypeDef *hcan)
+void Can_WheelSpeed(CAN_HandleTypeDef *hcan,TIM_HandleTypeDef *htim3,TIM_HandleTypeDef *htim5)
 {
 
 	
