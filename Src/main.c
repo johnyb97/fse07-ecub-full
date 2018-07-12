@@ -8,6 +8,7 @@
 /* Includes ------------------------------------------------------------------*/
 #include "main.h"
 #include "stm32f1xx_hal.h"
+#include "ltc6804.h"
 
 /* USER CODE BEGIN Includes */
 #include "carstate.h"
@@ -161,6 +162,13 @@ int main(void)
 	GPIO_InitStruct.Pull = GPIO_PULLUP;
 	GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_MEDIUM; 
   HAL_GPIO_Init(Charge_status_GPIO_Port, &GPIO_InitStruct);}
+	LTC_DRV_SPI_CSHigh();
+	{GPIO_InitTypeDef GPIO_InitStruct;
+	GPIO_InitStruct.Pin = Bat_cs_Pin;
+	GPIO_InitStruct.Mode = GPIO_MODE_OUTPUT_PP;
+	GPIO_InitStruct.Pull = GPIO_NOPULL;
+	GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_LOW; 
+  HAL_GPIO_Init(Bat_cs_GPIO_Port, &GPIO_InitStruct);}
 	
 	//end of some new spi
 

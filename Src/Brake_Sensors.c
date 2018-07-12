@@ -55,7 +55,7 @@ void brake_sens_init(SPI_HandleTypeDef * hspi){
 	HAL_SPI_Transmit(hspi,config_register_write,2,60); //sends config data
 	HAL_GPIO_WritePin(PTRCS_GPIO_Port,PTRCS_Pin,GPIO_PIN_SET); //select chip 
 	
-config_spi(1,hspi); //configurates given SPI to current chip (only necessary because harware is wrong)
+	config_spi(1,hspi); //configurates given SPI to current chip (only necessary because harware is wrong)
 
 	HAL_GPIO_WritePin(PTLCS_GPIO_Port,PTLCS_Pin,GPIO_PIN_RESET); //select chip
 	HAL_Delay(10);	

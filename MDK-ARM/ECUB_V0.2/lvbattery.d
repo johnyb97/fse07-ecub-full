@@ -34,8 +34,10 @@ ecub_v0.2\lvbattery.o: ../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_tim_ex.
 ecub_v0.2\lvbattery.o: ../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_uart.h
 ecub_v0.2\lvbattery.o: ..\Eforce_lib\ltc6804_conf.h
 ecub_v0.2\lvbattery.o: ..\Eforce_lib\ltc6804.h
+ecub_v0.2\lvbattery.o: ../Inc/LvBattery.h
 ecub_v0.2\lvbattery.o: ..\CANdb_ECUB\can_ECUB.h
 ecub_v0.2\lvbattery.o: ..\CANdb_ECUB\tx2/can.h
 ecub_v0.2\lvbattery.o: ..\CANdb_ECUB\tx2/tx.h
 ecub_v0.2\lvbattery.o: C:\Keil_v5\ARM\ARMCC\Bin\..\include\stdlib.h
 ecub_v0.2\lvbattery.o: ../Inc/ADC.h
+ecub_v0.2\lvbattery.o: C:\Keil_v5\ARM\ARMCC\Bin\..\include\math.h

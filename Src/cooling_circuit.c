@@ -2,8 +2,6 @@
 
 ECUB_Cooling_t ECUB_COOL;
 static  int pwm_check_bool; //can message
-static TIM_OC_InitTypeDef fan_values; //can message
-static TIM_OC_InitTypeDef pump_values; //can message
 MCR_ThermalMeasuresA_t MCR_Engine_A; //can structure for engine temperatures rear engine (left??)
 MCR_ThermalMeasuresB_t MCR_Engine_B; //can structure for engine temperatures rear engine (right??)
 MCF_ThermalMeasuresA_t MCF_Engine_A; //can structure for engine temperatures front engine (left??)

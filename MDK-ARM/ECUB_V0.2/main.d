@@ -31,6 +31,9 @@ ecub_v0.2\main.o: ../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_spi.h
 ecub_v0.2\main.o: ../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_tim.h
 ecub_v0.2\main.o: ../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_tim_ex.h
 ecub_v0.2\main.o: ../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_uart.h
+ecub_v0.2\main.o: ..\Eforce_lib\ltc6804.h
+ecub_v0.2\main.o: ..\Eforce_lib\ltc6804_conf.h
+ecub_v0.2\main.o: ..\Eforce_lib\ltc6804.h
 ecub_v0.2\main.o: ../Inc/carstate.h
 ecub_v0.2\main.o: C:\Keil_v5\ARM\ARMCC\Bin\..\include\string.h
 ecub_v0.2\main.o: ../Inc/BrakeLight.h

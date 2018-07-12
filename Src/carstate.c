@@ -40,6 +40,28 @@ static uint32_t time_SDC_blink_R; //time variable for blinking led
 static uint32_t RTDS_countdowm = 0;
 #define RTDS_time 2000 //cas hrani RTDS
 
+/*
+Configurates SPI comunication accordig to whitch chip should be comunicated with 
+*/
+void config_SDC_spi(SPI_HandleTypeDef * hspi) 
+{
+	hspi->Instance = SPI2;
+  hspi->Init.Mode = SPI_MODE_MASTER;
+  hspi->Init.Direction = SPI_DIRECTION_2LINES;
+	hspi->Init.DataSize = SPI_DATASIZE_16BIT;
+	hspi->Init.CLKPhase = SPI_PHASE_1EDGE;
+	hspi->Init.CLKPolarity = SPI_POLARITY_LOW;
+  hspi->Init.NSS = SPI_NSS_SOFT;
+  hspi->Init.BaudRatePrescaler = SPI_BAUDRATEPRESCALER_256;
+  hspi->Init.FirstBit = SPI_FIRSTBIT_MSB;
+  hspi->Init.TIMode = SPI_TIMODE_DISABLE;
+  hspi->Init.CRCCalculation = SPI_CRCCALCULATION_DISABLE;
+  hspi->Init.CRCPolynomial = 10;
+  if (HAL_SPI_Init(hspi) != HAL_OK)
+  {
+    _Error_Handler(__FILE__, __LINE__);
+  }
+}
 
 uint32_t play_RTDS(void) //hraje RTDS ton...snad
 	{
@@ -172,6 +194,7 @@ int paritycheck(uint16_t SDC_measure) //check if message is correctly recived
 }
 
 int measure_SDC(SPI_HandleTypeDef * SPI_handle){ //check SDC circuit
+	config_SDC_spi(SPI_handle);
 	for(SDC_parity_control = 0;SDC_parity_control<8;SDC_parity_control++){
 		HAL_GPIO_WritePin(SDC_CS_GPIO_Port,SDC_CS_Pin,GPIO_PIN_RESET); //starts comunication...enable pin
 		HAL_SPI_TransmitReceive(SPI_handle,(uint8_t*)&SDC_measure,(uint8_t*)&SDC_measure,1,5); //recives 16bit number from SDC chip
