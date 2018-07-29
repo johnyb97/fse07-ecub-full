@@ -22,6 +22,8 @@ CAN_msg_status_t MCF_ThermalMeasuresA_status;
 MCF_ThermalMeasuresA_t MCF_ThermalMeasuresA_data;
 CAN_msg_status_t MCF_ThermalMeasuresB_status;
 MCF_ThermalMeasuresB_t MCF_ThermalMeasuresB_data;
+CAN_msg_status_t MCF_ChannelMeasuresA_status;
+MCF_ChannelMeasuresA_t MCF_ChannelMeasuresA_data;
 CAN_msg_status_t MCR_GeneralReport_status;
 MCR_GeneralReport_t MCR_GeneralReport_data;
 CAN_msg_status_t MCR_ThermalMeasuresA_status;
@@ -46,6 +48,7 @@ void candbInit(void) {
     canInitMsgStatus(&MCF_GeneralReport_status, -1);
     canInitMsgStatus(&MCF_ThermalMeasuresA_status, -1);
     canInitMsgStatus(&MCF_ThermalMeasuresB_status, -1);
+    canInitMsgStatus(&MCF_ChannelMeasuresA_status, -1);
     canInitMsgStatus(&MCR_GeneralReport_status, -1);
     canInitMsgStatus(&MCR_ThermalMeasuresA_status, -1);
     canInitMsgStatus(&MCR_ThermalMeasuresB_status, -1);
@@ -238,23 +241,27 @@ int ECUB_GLV_AMS_need_to_send(void) {
 }
 
 int ECUB_send_Cooling_s(const ECUB_Cooling_t* data) {
-    uint8_t buffer[5];
+    uint8_t buffer[7];
     buffer[0] = (data->WP1 & 0x0F) | ((data->WP2 & 0x0F) << 4);
     buffer[1] = (data->FAN1 & 0x0F) | ((data->FAN2 & 0x0F) << 4);
     buffer[2] = (data->FAN3 & 0x0F);
     buffer[3] = (data->WARN_MOT_FR_TEMP ? 1 : 0) | (data->WARN_MOT_FL_TEMP ? 2 : 0) | (data->WARN_MOT_RR_TEMP ? 4 : 0) | (data->WARN_MOT_RL_TEMP ? 8 : 0) | (data->WARN_MCU_FR_TEMP ? 16 : 0) | (data->WARN_MCU_FL_TEMP ? 32 : 0) | (data->WARN_MCU_RR_TEMP ? 64 : 0) | (data->WARN_MCU_RL_TEMP ? 128 : 0);
-    buffer[4] = (data->FT_MOT_FR_OT ? 1 : 0) | (data->FT_MOT_FL_OT ? 2 : 0) | (data->FT_MOT_RR_OT ? 4 : 0) | (data->FT_MOT_RL_OT ? 8 : 0) | (data->FT_MCU_FR_OT ? 16 : 0) | (data->FT_MCU_FL_OT ? 32 : 0) | (data->FT_MCU_RR_OT ? 64 : 0) | (data->FT_MCU_RL_OT ? 128 : 0);
+    buffer[4] = (data->WARN_Brake_RR_TEMP ? 1 : 0) | (data->WARN_Brake_RL_TEMP ? 2 : 0);
+    buffer[5] = (data->FT_MOT_FR_OT ? 1 : 0) | (data->FT_MOT_FL_OT ? 2 : 0) | (data->FT_MOT_RR_OT ? 4 : 0) | (data->FT_MOT_RL_OT ? 8 : 0) | (data->FT_MCU_FR_OT ? 16 : 0) | (data->FT_MCU_FL_OT ? 32 : 0) | (data->FT_MCU_RR_OT ? 64 : 0) | (data->FT_MCU_RL_OT ? 128 : 0);
+    buffer[6] = (data->FT_Brake_RR_OT ? 1 : 0) | (data->FT_Brake_RL_OT ? 2 : 0);
     ECUB_Cooling_last_sent = txGetTimeMillis();
     return txSendCANMessage(bus_CAN2_aux, ECUB_Cooling_id, buffer, sizeof(buffer));
 }
 
-int ECUB_send_Cooling(uint8_t WP1, uint8_t WP2, uint8_t FAN1, uint8_t FAN2, uint8_t FAN3, uint8_t WARN_MOT_FR_TEMP, uint8_t WARN_MOT_FL_TEMP, uint8_t WARN_MOT_RR_TEMP, uint8_t WARN_MOT_RL_TEMP, uint8_t WARN_MCU_FR_TEMP, uint8_t WARN_MCU_FL_TEMP, uint8_t WARN_MCU_RR_TEMP, uint8_t WARN_MCU_RL_TEMP, uint8_t FT_MOT_FR_OT, uint8_t FT_MOT_FL_OT, uint8_t FT_MOT_RR_OT, uint8_t FT_MOT_RL_OT, uint8_t FT_MCU_FR_OT, uint8_t FT_MCU_FL_OT, uint8_t FT_MCU_RR_OT, uint8_t FT_MCU_RL_OT) {
-    uint8_t buffer[5];
+int ECUB_send_Cooling(uint8_t WP1, uint8_t WP2, uint8_t FAN1, uint8_t FAN2, uint8_t FAN3, uint8_t WARN_MOT_FR_TEMP, uint8_t WARN_MOT_FL_TEMP, uint8_t WARN_MOT_RR_TEMP, uint8_t WARN_MOT_RL_TEMP, uint8_t WARN_MCU_FR_TEMP, uint8_t WARN_MCU_FL_TEMP, uint8_t WARN_MCU_RR_TEMP, uint8_t WARN_MCU_RL_TEMP, uint8_t WARN_Brake_RR_TEMP, uint8_t WARN_Brake_RL_TEMP, uint8_t FT_MOT_FR_OT, uint8_t FT_MOT_FL_OT, uint8_t FT_MOT_RR_OT, uint8_t FT_MOT_RL_OT, uint8_t FT_MCU_FR_OT, uint8_t FT_MCU_FL_OT, uint8_t FT_MCU_RR_OT, uint8_t FT_MCU_RL_OT, uint8_t FT_Brake_RR_OT, uint8_t FT_Brake_RL_OT) {
+    uint8_t buffer[7];
     buffer[0] = (WP1 & 0x0F) | ((WP2 & 0x0F) << 4);
     buffer[1] = (FAN1 & 0x0F) | ((FAN2 & 0x0F) << 4);
     buffer[2] = (FAN3 & 0x0F);
     buffer[3] = (WARN_MOT_FR_TEMP ? 1 : 0) | (WARN_MOT_FL_TEMP ? 2 : 0) | (WARN_MOT_RR_TEMP ? 4 : 0) | (WARN_MOT_RL_TEMP ? 8 : 0) | (WARN_MCU_FR_TEMP ? 16 : 0) | (WARN_MCU_FL_TEMP ? 32 : 0) | (WARN_MCU_RR_TEMP ? 64 : 0) | (WARN_MCU_RL_TEMP ? 128 : 0);
-    buffer[4] = (FT_MOT_FR_OT ? 1 : 0) | (FT_MOT_FL_OT ? 2 : 0) | (FT_MOT_RR_OT ? 4 : 0) | (FT_MOT_RL_OT ? 8 : 0) | (FT_MCU_FR_OT ? 16 : 0) | (FT_MCU_FL_OT ? 32 : 0) | (FT_MCU_RR_OT ? 64 : 0) | (FT_MCU_RL_OT ? 128 : 0);
+    buffer[4] = (WARN_Brake_RR_TEMP ? 1 : 0) | (WARN_Brake_RL_TEMP ? 2 : 0);
+    buffer[5] = (FT_MOT_FR_OT ? 1 : 0) | (FT_MOT_FL_OT ? 2 : 0) | (FT_MOT_RR_OT ? 4 : 0) | (FT_MOT_RL_OT ? 8 : 0) | (FT_MCU_FR_OT ? 16 : 0) | (FT_MCU_FL_OT ? 32 : 0) | (FT_MCU_RR_OT ? 64 : 0) | (FT_MCU_RL_OT ? 128 : 0);
+    buffer[6] = (FT_Brake_RR_OT ? 1 : 0) | (FT_Brake_RL_OT ? 2 : 0);
     ECUB_Cooling_last_sent = txGetTimeMillis();
     return txSendCANMessage(bus_CAN2_aux, ECUB_Cooling_id, buffer, sizeof(buffer));
 }
@@ -348,7 +355,7 @@ int ECUB_TEMPAux_need_to_send(void) {
 }
 
 int ECUF_decode_Status_s(const uint8_t* bytes, size_t length, ECUF_Status_t* data_out) {
-    if (length < 5)
+    if (length < 6)
         return 0;
 
     data_out->SDC_SDBC = (bytes[0] & 0x01);
@@ -360,6 +367,8 @@ int ECUF_decode_Status_s(const uint8_t* bytes, size_t length, ECUF_Status_t* dat
     data_out->PWR_ECUS_EN = ((bytes[1] >> 3) & 0x01);
     data_out->PWR_DASH_EN = ((bytes[1] >> 4) & 0x01);
     data_out->PWR_FAN_BrakeF_EN = ((bytes[1] >> 5) & 0x01);
+    data_out->WARN_Brake_FR_TEMP = ((bytes[1] >> 6) & 0x01);
+    data_out->WARN_Brake_FL_TEMP = ((bytes[1] >> 7) & 0x01);
     data_out->FT_PWR_ECUP = (bytes[2] & 0x01);
     data_out->FT_PWR_ECUG = ((bytes[2] >> 1) & 0x01);
     data_out->FT_PWR_ECUS = ((bytes[2] >> 2) & 0x01);
@@ -376,12 +385,14 @@ int ECUF_decode_Status_s(const uint8_t* bytes, size_t length, ECUF_Status_t* dat
     data_out->FT_DisFL_Cal = ((bytes[3] >> 5) & 0x01);
     data_out->FT_DisRR_Cal = ((bytes[3] >> 6) & 0x01);
     data_out->FT_DisRL_Cal = ((bytes[3] >> 7) & 0x01);
-    data_out->Volt_GLV_In = bytes[4];
+    data_out->FT_Brake_FR_OT = (bytes[4] & 0x01);
+    data_out->FT_Brake_FL_OT = ((bytes[4] >> 1) & 0x01);
+    data_out->Volt_GLV_In = bytes[5];
     return 1;
 }
 
-int ECUF_decode_Status(const uint8_t* bytes, size_t length, uint8_t* SDC_SDBC_out, uint8_t* SDC_Inertia_out, uint8_t* SDC_FWIL_out, uint8_t* PWR_ECUP_EN_out, uint8_t* PWR_ECUG_EN_out, uint8_t* PWR_DTLG_EN_out, uint8_t* PWR_ECUS_EN_out, uint8_t* PWR_DASH_EN_out, uint8_t* PWR_FAN_BrakeF_EN_out, uint8_t* FT_PWR_ECUP_out, uint8_t* FT_PWR_ECUG_out, uint8_t* FT_PWR_ECUS_out, uint8_t* FT_PWR_DTLG_out, uint8_t* FT_PWR_DASH_out, uint8_t* FT_PWR_FAN_BrakeF_out, uint8_t* FT_STW_Sensor_out, uint8_t* FT_STW_Cal_out, uint8_t* FT_DisFR_out, uint8_t* FT_DisFL_out, uint8_t* FT_DisRR_out, uint8_t* FT_DisRL_out, uint8_t* FT_DisFR_Cal_out, uint8_t* FT_DisFL_Cal_out, uint8_t* FT_DisRR_Cal_out, uint8_t* FT_DisRL_Cal_out, uint8_t* Volt_GLV_In_out) {
-    if (length < 5)
+int ECUF_decode_Status(const uint8_t* bytes, size_t length, uint8_t* SDC_SDBC_out, uint8_t* SDC_Inertia_out, uint8_t* SDC_FWIL_out, uint8_t* PWR_ECUP_EN_out, uint8_t* PWR_ECUG_EN_out, uint8_t* PWR_DTLG_EN_out, uint8_t* PWR_ECUS_EN_out, uint8_t* PWR_DASH_EN_out, uint8_t* PWR_FAN_BrakeF_EN_out, uint8_t* WARN_Brake_FR_TEMP_out, uint8_t* WARN_Brake_FL_TEMP_out, uint8_t* FT_PWR_ECUP_out, uint8_t* FT_PWR_ECUG_out, uint8_t* FT_PWR_ECUS_out, uint8_t* FT_PWR_DTLG_out, uint8_t* FT_PWR_DASH_out, uint8_t* FT_PWR_FAN_BrakeF_out, uint8_t* FT_STW_Sensor_out, uint8_t* FT_STW_Cal_out, uint8_t* FT_DisFR_out, uint8_t* FT_DisFL_out, uint8_t* FT_DisRR_out, uint8_t* FT_DisRL_out, uint8_t* FT_DisFR_Cal_out, uint8_t* FT_DisFL_Cal_out, uint8_t* FT_DisRR_Cal_out, uint8_t* FT_DisRL_Cal_out, uint8_t* FT_Brake_FR_OT_out, uint8_t* FT_Brake_FL_OT_out, uint8_t* Volt_GLV_In_out) {
+    if (length < 6)
         return 0;
 
     *SDC_SDBC_out = (bytes[0] & 0x01);
@@ -393,6 +404,8 @@ int ECUF_decode_Status(const uint8_t* bytes, size_t length, uint8_t* SDC_SDBC_ou
     *PWR_ECUS_EN_out = ((bytes[1] >> 3) & 0x01);
     *PWR_DASH_EN_out = ((bytes[1] >> 4) & 0x01);
     *PWR_FAN_BrakeF_EN_out = ((bytes[1] >> 5) & 0x01);
+    *WARN_Brake_FR_TEMP_out = ((bytes[1] >> 6) & 0x01);
+    *WARN_Brake_FL_TEMP_out = ((bytes[1] >> 7) & 0x01);
     *FT_PWR_ECUP_out = (bytes[2] & 0x01);
     *FT_PWR_ECUG_out = ((bytes[2] >> 1) & 0x01);
     *FT_PWR_ECUS_out = ((bytes[2] >> 2) & 0x01);
@@ -409,7 +422,9 @@ int ECUF_decode_Status(const uint8_t* bytes, size_t length, uint8_t* SDC_SDBC_ou
     *FT_DisFL_Cal_out = ((bytes[3] >> 5) & 0x01);
     *FT_DisRR_Cal_out = ((bytes[3] >> 6) & 0x01);
     *FT_DisRL_Cal_out = ((bytes[3] >> 7) & 0x01);
-    *Volt_GLV_In_out = bytes[4];
+    *FT_Brake_FR_OT_out = (bytes[4] & 0x01);
+    *FT_Brake_FL_OT_out = ((bytes[4] >> 1) & 0x01);
+    *Volt_GLV_In_out = bytes[5];
     return 1;
 }
 
@@ -440,23 +455,23 @@ int ECUF_decode_Dashboard_s(const uint8_t* bytes, size_t length, ECUF_Dashboard_
 
     data_out->TSON = (bytes[0] & 0x01);
     data_out->START = ((bytes[0] >> 1) & 0x01);
-    data_out->SW1 = ((bytes[0] >> 2) & 0x01);
-    data_out->SW2 = ((bytes[0] >> 3) & 0x01);
-    data_out->SW3 = ((bytes[0] >> 4) & 0x01);
+    data_out->WP_ON = ((bytes[0] >> 2) & 0x01);
+    data_out->TCS_ON = ((bytes[0] >> 3) & 0x01);
+    data_out->YC_ON = ((bytes[0] >> 4) & 0x01);
     data_out->AmbientLight = bytes[1];
     data_out->AmbientTemp = bytes[2];
     return 1;
 }
 
-int ECUF_decode_Dashboard(const uint8_t* bytes, size_t length, uint8_t* TSON_out, uint8_t* START_out, uint8_t* SW1_out, uint8_t* SW2_out, uint8_t* SW3_out, uint8_t* AmbientLight_out, uint8_t* AmbientTemp_out) {
+int ECUF_decode_Dashboard(const uint8_t* bytes, size_t length, uint8_t* TSON_out, uint8_t* START_out, uint8_t* WP_ON_out, uint8_t* TCS_ON_out, uint8_t* YC_ON_out, uint8_t* AmbientLight_out, uint8_t* AmbientTemp_out) {
     if (length < 3)
         return 0;
 
     *TSON_out = (bytes[0] & 0x01);
     *START_out = ((bytes[0] >> 1) & 0x01);
-    *SW1_out = ((bytes[0] >> 2) & 0x01);
-    *SW2_out = ((bytes[0] >> 3) & 0x01);
-    *SW3_out = ((bytes[0] >> 4) & 0x01);
+    *WP_ON_out = ((bytes[0] >> 2) & 0x01);
+    *TCS_ON_out = ((bytes[0] >> 3) & 0x01);
+    *YC_ON_out = ((bytes[0] >> 4) & 0x01);
     *AmbientLight_out = bytes[1];
     *AmbientTemp_out = bytes[2];
     return 1;
@@ -683,6 +698,44 @@ void MCF_ThermalMeasuresB_on_receive(int (*callback)(MCF_ThermalMeasuresB_t* dat
     MCF_ThermalMeasuresB_status.on_receive = (void (*)(void)) callback;
 }
 
+int MCF_decode_ChannelMeasuresA_s(const uint8_t* bytes, size_t length, MCF_ChannelMeasuresA_t* data_out) {
+    if (length < 8)
+        return 0;
+
+    data_out->SPEED = bytes[0] | bytes[1] << 8;
+    data_out->TORQUE = bytes[2] | bytes[3] << 8;
+    data_out->PWRIN = bytes[4] | bytes[5] << 8;
+    data_out->VDC = bytes[6] | bytes[7] << 8;
+    return 1;
+}
+
+int MCF_decode_ChannelMeasuresA(const uint8_t* bytes, size_t length, int16_t* SPEED_out, int16_t* TORQUE_out, int16_t* PWRIN_out, uint16_t* VDC_out) {
+    if (length < 8)
+        return 0;
+
+    *SPEED_out = bytes[0] | bytes[1] << 8;
+    *TORQUE_out = bytes[2] | bytes[3] << 8;
+    *PWRIN_out = bytes[4] | bytes[5] << 8;
+    *VDC_out = bytes[6] | bytes[7] << 8;
+    return 1;
+}
+
+int MCF_get_ChannelMeasuresA(MCF_ChannelMeasuresA_t* data_out) {
+    if (!(MCF_ChannelMeasuresA_status.flags & CAN_MSG_RECEIVED))
+        return 0;
+
+    if (data_out)
+        memcpy(data_out, &MCF_ChannelMeasuresA_data, sizeof(MCF_ChannelMeasuresA_t));
+
+    int flags = MCF_ChannelMeasuresA_status.flags;
+    MCF_ChannelMeasuresA_status.flags &= ~CAN_MSG_PENDING;
+    return flags;
+}
+
+void MCF_ChannelMeasuresA_on_receive(int (*callback)(MCF_ChannelMeasuresA_t* data)) {
+    MCF_ChannelMeasuresA_status.on_receive = (void (*)(void)) callback;
+}
+
 int MCR_decode_GeneralReport_s(const uint8_t* bytes, size_t length, MCR_GeneralReport_t* data_out) {
     if (length < 8)
         return 0;
@@ -842,40 +895,40 @@ void MCR_ThermalMeasuresB_on_receive(int (*callback)(MCR_ThermalMeasuresB_t* dat
 }
 
 int VDCU_decode_Status_s(const uint8_t* bytes, size_t length, VDCU_Status_t* data_out) {
-    if (length < 4)
+    if (length < 5)
         return 0;
 
-    data_out->State = (bytes[1] & 0x0F);
-    data_out->FT_Dis_Cal = (bytes[2] & 0x01);
-    data_out->FT_Sensor = ((bytes[2] >> 1) & 0x01);
-    data_out->Temp_derating = ((bytes[2] >> 2) & 0x01);
-    data_out->ACP_derate = ((bytes[2] >> 3) & 0x01);
-    data_out->Disch_ACT = ((bytes[2] >> 4) & 0x01);
-    data_out->Reverse_ACT = ((bytes[2] >> 5) & 0x01);
-    data_out->TV_ENABLED = ((bytes[2] >> 6) & 0x01);
-    data_out->TC_ENABLED = ((bytes[2] >> 7) & 0x01);
-    data_out->YC_ENABLED = (bytes[3] & 0x01);
-    data_out->TC_ACT = ((bytes[3] >> 1) & 0x01);
-    data_out->YC_ACT = ((bytes[3] >> 2) & 0x01);
+    data_out->State = (enum VDCU_VDCU_State) ((bytes[1] & 0x0F));
+    data_out->TV_ENABLED = (bytes[2] & 0x01);
+    data_out->TC_ENABLED = ((bytes[2] >> 1) & 0x01);
+    data_out->YC_ENABLED = ((bytes[2] >> 2) & 0x01);
+    data_out->FT_Dis_Cal = (bytes[3] & 0x01);
+    data_out->FT_Sensor = ((bytes[3] >> 1) & 0x01);
+    data_out->TEMP_derating = (bytes[4] & 0x01);
+    data_out->ACP_derating = ((bytes[4] >> 1) & 0x01);
+    data_out->Disch_ACT = ((bytes[4] >> 2) & 0x01);
+    data_out->Reverse_ACT = ((bytes[4] >> 3) & 0x01);
+    data_out->TC_ACT = ((bytes[4] >> 4) & 0x01);
+    data_out->YC_ACT = ((bytes[4] >> 5) & 0x01);
     return 1;
 }
 
-int VDCU_decode_Status(const uint8_t* bytes, size_t length, uint8_t* State_out, uint8_t* FT_Dis_Cal_out, uint8_t* FT_Sensor_out, uint8_t* Temp_derating_out, uint8_t* ACP_derate_out, uint8_t* Disch_ACT_out, uint8_t* Reverse_ACT_out, uint8_t* TV_ENABLED_out, uint8_t* TC_ENABLED_out, uint8_t* YC_ENABLED_out, uint8_t* TC_ACT_out, uint8_t* YC_ACT_out) {
-    if (length < 4)
+int VDCU_decode_Status(const uint8_t* bytes, size_t length, enum VDCU_VDCU_State* State_out, uint8_t* TV_ENABLED_out, uint8_t* TC_ENABLED_out, uint8_t* YC_ENABLED_out, uint8_t* FT_Dis_Cal_out, uint8_t* FT_Sensor_out, uint8_t* TEMP_derating_out, uint8_t* ACP_derating_out, uint8_t* Disch_ACT_out, uint8_t* Reverse_ACT_out, uint8_t* TC_ACT_out, uint8_t* YC_ACT_out) {
+    if (length < 5)
         return 0;
 
-    *State_out = (bytes[1] & 0x0F);
-    *FT_Dis_Cal_out = (bytes[2] & 0x01);
-    *FT_Sensor_out = ((bytes[2] >> 1) & 0x01);
-    *Temp_derating_out = ((bytes[2] >> 2) & 0x01);
-    *ACP_derate_out = ((bytes[2] >> 3) & 0x01);
-    *Disch_ACT_out = ((bytes[2] >> 4) & 0x01);
-    *Reverse_ACT_out = ((bytes[2] >> 5) & 0x01);
-    *TV_ENABLED_out = ((bytes[2] >> 6) & 0x01);
-    *TC_ENABLED_out = ((bytes[2] >> 7) & 0x01);
-    *YC_ENABLED_out = (bytes[3] & 0x01);
-    *TC_ACT_out = ((bytes[3] >> 1) & 0x01);
-    *YC_ACT_out = ((bytes[3] >> 2) & 0x01);
+    *State_out = (enum VDCU_VDCU_State) ((bytes[1] & 0x0F));
+    *TV_ENABLED_out = (bytes[2] & 0x01);
+    *TC_ENABLED_out = ((bytes[2] >> 1) & 0x01);
+    *YC_ENABLED_out = ((bytes[2] >> 2) & 0x01);
+    *FT_Dis_Cal_out = (bytes[3] & 0x01);
+    *FT_Sensor_out = ((bytes[3] >> 1) & 0x01);
+    *TEMP_derating_out = (bytes[4] & 0x01);
+    *ACP_derating_out = ((bytes[4] >> 1) & 0x01);
+    *Disch_ACT_out = ((bytes[4] >> 2) & 0x01);
+    *Reverse_ACT_out = ((bytes[4] >> 3) & 0x01);
+    *TC_ACT_out = ((bytes[4] >> 4) & 0x01);
+    *YC_ACT_out = ((bytes[4] >> 5) & 0x01);
     return 1;
 }
 
@@ -976,6 +1029,17 @@ void candbHandleMessage(uint32_t timestamp, int bus, CAN_ID_t id, const uint8_t*
 
         if (MCF_ThermalMeasuresB_status.on_receive)
             ((int (*)(MCF_ThermalMeasuresB_t*)) MCF_ThermalMeasuresB_status.on_receive)(&MCF_ThermalMeasuresB_data);
+
+        break;
+    }
+    case MCF_ChannelMeasuresA_id: {
+        if (!MCF_decode_ChannelMeasuresA_s(payload, payload_length, &MCF_ChannelMeasuresA_data))
+            break;
+
+        canUpdateMsgStatusOnReceive(&MCF_ChannelMeasuresA_status, timestamp);
+
+        if (MCF_ChannelMeasuresA_status.on_receive)
+            ((int (*)(MCF_ChannelMeasuresA_t*)) MCF_ChannelMeasuresA_status.on_receive)(&MCF_ChannelMeasuresA_data);
 
         break;
     }

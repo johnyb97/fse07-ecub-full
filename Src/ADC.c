@@ -30,9 +30,9 @@ void HAL_ADC_ConvCpltCallback (ADC_HandleTypeDef* hadc)
 	ntc1_value = ((uint32_t)adc_measurement[4] * ref_voltage / 4095); //calculation voltage from raw ADC values...4095 range of value from ADC 
 	ntc2_value = ((uint32_t)adc_measurement[5] * ref_voltage / 4095); //calculation voltage from raw ADC values...4095 range of value from ADC 
 	ntc3_value = ((uint32_t)adc_measurement[6] * ref_voltage / 4095); //calculation voltage from raw ADC values...4095 range of value from ADC 
-	ecua_u_value = ((uint32_t)adc_measurement[7] * 11 * ref_voltage / 4095); //calculation voltage from raw ADC values...4095 range of value from ADC...12 is acording to hardware conection...rezistence devider
-	lv_bat_u_value = ((uint32_t)adc_measurement[2] * 11 * ref_voltage / 4095); //calculation voltage from raw ADC values...4095 range of value from ADC...12 is acording to hardware conection...rezistence devider
-	service_box_u_value = ((uint32_t)adc_measurement[1] * 11 * ref_voltage / 4095); //calculation voltage from raw ADC values...4095 range of value from ADC...12 is acording to hardware conection...rezistence devider
+	ecua_u_value = ((uint32_t)adc_measurement[7] * 124 * ref_voltage / 40950); //calculation voltage from raw ADC values...4095 range of value from ADC...12 is acording to hardware conection...rezistence devider
+	lv_bat_u_value = ((uint32_t)adc_measurement[2] * 124 * ref_voltage / 40950); //calculation voltage from raw ADC values...4095 range of value from ADC...12 is acording to hardware conection...rezistence devider
+	service_box_u_value = ((uint32_t)adc_measurement[1] * 124 * ref_voltage / 40950); //calculation voltage from raw ADC values...4095 range of value from ADC...12 is acording to hardware conection...rezistence devider
 }
 int LV_voltage_recive(void){
 	return (int)lv_bat_u_value;
@@ -41,15 +41,24 @@ int LV_voltage_recive(void){
 uint32_t Chip_temperature(void){
 	return TEMPERATURE_OUTSIDE;
 }
-void cooling_poccess(TIM_HandleTypeDef *fan, TIM_HandleTypeDef *pumps,CAN_HandleTypeDef* hcan){
-	if((*get_state())>=ECUB_CarState_TS_ON){ //cooling only if not on LV battery
-		Cooling_process_intern(fan,pumps,ntc0_value,ntc1_value,ntc2_value,ntc3_value); //intern function for cooling circuit logit
+void cooling_poccess(TIM_HandleTypeDef *fans, TIM_HandleTypeDef *pumps,CAN_HandleTypeDef* hcan){
+	ECUF_Dashboard_t dash =  get_dash();
+	if(dash.WP_ON != 1){
+		if((*get_state())>=ECUB_CarState_TS_ON){ //cooling only if not on LV battery
+			Cooling_process_intern(fans,pumps,ntc0_value,ntc1_value,ntc2_value,ntc3_value); //intern function for cooling circuit logit
+		}else{
+			fan_pwm_process(fans,0); //stops fans
+			pump_pwm_process(pumps,0); //stops pumps
+		}
+	}else{
+		fan_pwm_process(fans,100); //stops fans
+		pump_pwm_process(pumps,100); //stops pumps
 	}
 	if	(ECUB_TEMPAux_need_to_send()){ //if can message needed to be send
-		ECUB_TEMP_AUX.Cooling1_NTC = (2540-ntc0_value)/24; //fills can message
-		ECUB_TEMP_AUX.Cooling2_NTC = (2540-ntc1_value)/24; //fills can message
-		ECUB_TEMP_AUX.Cooling3_NTC = (2540-ntc2_value)/24; //fills can message
-		ECUB_TEMP_AUX.Cooling4_NTC = (2540-ntc3_value)/24; //fills can message
+		ECUB_TEMP_AUX.Cooling1_NTC = (((2540-ntc0_value)/24) * 2) + 25; //fills can message
+		ECUB_TEMP_AUX.Cooling2_NTC = (((2540-ntc1_value)/24) * 2) + 25; //fills can message
+		ECUB_TEMP_AUX.Cooling3_NTC = (((2540-ntc2_value)/24) * 2) + 25; //fills can message
+		ECUB_TEMP_AUX.Cooling4_NTC = (((2540-ntc3_value)/24) * 2) + 25; //fills can message
 		ECUB_send_TEMPAux_s(&ECUB_TEMP_AUX); //sends can message
 		HAL_CAN_Receive_IT(hcan,CAN_FIFO0); //fixes hal can structure
 	}

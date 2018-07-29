@@ -9,7 +9,9 @@
 #include "can_ECUB.h"
 #include "periphery_set.h"
 #include "cooling_circuit.h"
+#include "ADC.h"
 
+ECUF_Dashboard_t get_dash(void);
 enum ECUB_CarState *get_state(void);
 ECUB_Status_t* get_can_state(void);
 int measure_SDC(SPI_HandleTypeDef * SPI_handle);

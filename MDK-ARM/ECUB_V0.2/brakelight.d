@@ -42,3 +42,4 @@ ecub_v0.2\brakelight.o: C:\Keil_v5\ARM\ARMCC\Bin\..\include\stdlib.h
 ecub_v0.2\brakelight.o: ../Inc/periphery_set.h
 ecub_v0.2\brakelight.o: ../Inc/cooling_circuit.h
 ecub_v0.2\brakelight.o: ../Inc/carstate.h
+ecub_v0.2\brakelight.o: ../Inc/ADC.h

@@ -6,7 +6,6 @@
 
 extern SPI_HandleTypeDef hspi2;
 static uint8_t recive_data;
-static enum ECUB_Batt_code battcode;
 static ECUB_GLV_AMS_t ECUB_GLV; //can structure for sending data
 static LTC_ConfigGroupTypeDef LV_Config_struct;
 static LTC_CellVoltageListTypeDef VoltageList;

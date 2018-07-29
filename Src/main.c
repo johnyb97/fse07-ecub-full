@@ -173,6 +173,7 @@ int main(void)
 	//end of some new spi
 
 	LV_init();
+	HAL_GPIO_WritePin(WS_GPIO_Port,WS_Pin,GPIO_PIN_SET); //select chip
 	start_PWM(&htim2, &htim1 , get_can_state()); //starts PWM for fans and pumps
 	start_WS_measure(&htim5,&htim3); //starts Wheel speed measurement...using DMA...
 	brake_sens_init(&hspi1); //init of brake sensors
@@ -603,7 +604,7 @@ static void MX_TIM3_Init(void)
   TIM_IC_InitTypeDef sConfigIC;
 
   htim3.Instance = TIM3;
-  htim3.Init.Prescaler = 72;
+  htim3.Init.Prescaler = 71;
   htim3.Init.CounterMode = TIM_COUNTERMODE_UP;
   htim3.Init.Period = 0xFFFF;
   htim3.Init.ClockDivision = TIM_CLOCKDIVISION_DIV1;
@@ -651,7 +652,7 @@ static void MX_TIM5_Init(void)
   TIM_IC_InitTypeDef sConfigIC;
 
   htim5.Instance = TIM5;
-  htim5.Init.Prescaler = 72;
+  htim5.Init.Prescaler = 71;
   htim5.Init.CounterMode = TIM_COUNTERMODE_UP;
   htim5.Init.Period = 0xFFFF;
   htim5.Init.ClockDivision = TIM_CLOCKDIVISION_DIV1;

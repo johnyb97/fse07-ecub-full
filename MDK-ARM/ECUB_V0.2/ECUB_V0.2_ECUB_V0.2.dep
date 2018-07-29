@@ -4,8 +4,8 @@ F (..\Inc\cooling_circuit.h)(0x5B3F64C3)()
 F (..\Inc\periphery_set.h)(0x5B3F64C3)()
 F (..\Inc\stm32f1xx_hal_conf.h)(0x5B3F64C3)()
 F (..\Inc\stm32f1xx_it.h)(0x5B3F64C3)()
-F (..\Inc\Wheel_speed.h)(0x5B3F916F)()
-F (..\Src\ADC.c)(0x5B40D8FE)(--c99 -c --cpu Cortex-M3 -D__EVAL -D__MICROLIB -g -O1 --apcs=interwork --split_sections -I ../Inc -I ../Drivers/STM32F1xx_HAL_Driver/Inc -I ../Drivers/STM32F1xx_HAL_Driver/Inc/Legacy -I ../Drivers/CMSIS/Device/ST/STM32F1xx/Include -I ../Drivers/CMSIS/Include -I ..\CANdb_ECUB -I ..\Eforce_lib-I.\RTE\_ECUB_V0.2-IC:\Keil_v5\ARM\PACK\ARM\CMSIS\5.0.1\CMSIS\Include-IC:\Keil_v5\ARM\PACK\Keil\STM32F1xx_DFP\2.2.0\Device\Include-D__UVISION_VERSION="524" -D_RTE_ -DSTM32F10X_CL -DUSE_HAL_DRIVER -DSTM32F105xC -DTX_WITH_CANDB="1"-o ecub_v0.2\adc.o --omf_browse ecub_v0.2\adc.crf --depend ecub_v0.2\adc.d)
+F (..\Inc\Wheel_speed.h)(0x5B5D9D90)()
+F (..\Src\ADC.c)(0x5B5CE888)(--c99 -c --cpu Cortex-M3 -D__EVAL -D__MICROLIB -g -O2 --apcs=interwork --split_sections -I ../Inc -I ../Drivers/STM32F1xx_HAL_Driver/Inc -I ../Drivers/STM32F1xx_HAL_Driver/Inc/Legacy -I ../Drivers/CMSIS/Device/ST/STM32F1xx/Include -I ../Drivers/CMSIS/Include -I ..\CANdb_ECUB -I ..\Eforce_lib-I.\RTE\_ECUB_V0.2-IC:\Keil_v5\ARM\PACK\ARM\CMSIS\5.0.1\CMSIS\Include-IC:\Keil_v5\ARM\PACK\Keil\STM32F1xx_DFP\2.2.0\Device\Include-D__UVISION_VERSION="524" -D_RTE_ -DSTM32F10X_CL -DUSE_HAL_DRIVER -DSTM32F105xC -DTX_WITH_CANDB="1"-o ecub_v0.2\adc.o --omf_browse ecub_v0.2\adc.crf --depend ecub_v0.2\adc.d)
 I (../Inc/ADC.h)(0x5B3FAB98)
 I (../Drivers/CMSIS/Device/ST/STM32F1xx/Include/stm32f105xc.h)(0x5B3F64C2)
 I (../Drivers/CMSIS/Include/core_cm3.h)(0x5B3F64C2)
@@ -39,15 +39,15 @@ I (../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_tim.h)(0x5B3F64C3)
 I (../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_tim_ex.h)(0x5B3F64C3)
 I (../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_uart.h)(0x5B3F64C3)
 I (../Inc/cooling_circuit.h)(0x5B3F64C3)
-I (../Inc/carstate.h)(0x5B3F64C3)
+I (../Inc/carstate.h)(0x5B4D3724)
 I (C:\Keil_v5\ARM\ARMCC\include\string.h)(0x588BE5B4)
 I (../Inc/BrakeLight.h)(0x5B3F64C3)
-I (..\CANdb_ECUB\can_ECUB.h)(0x5B3F64C2)
+I (..\CANdb_ECUB\can_ECUB.h)(0x5B4DF998)
 I (..\CANdb_ECUB\tx2/can.h)(0x5B3F64C2)
 I (..\CANdb_ECUB\tx2/tx.h)(0x5B3F64C2)
 I (C:\Keil_v5\ARM\ARMCC\include\stdlib.h)(0x588BE5B4)
 I (../Inc/periphery_set.h)(0x5B3F64C3)
-F (..\Src\BrakeLight.c)(0x5B3F64C3)(--c99 -c --cpu Cortex-M3 -D__EVAL -D__MICROLIB -g -O1 --apcs=interwork --split_sections -I ../Inc -I ../Drivers/STM32F1xx_HAL_Driver/Inc -I ../Drivers/STM32F1xx_HAL_Driver/Inc/Legacy -I ../Drivers/CMSIS/Device/ST/STM32F1xx/Include -I ../Drivers/CMSIS/Include -I ..\CANdb_ECUB -I ..\Eforce_lib-I.\RTE\_ECUB_V0.2-IC:\Keil_v5\ARM\PACK\ARM\CMSIS\5.0.1\CMSIS\Include-IC:\Keil_v5\ARM\PACK\Keil\STM32F1xx_DFP\2.2.0\Device\Include-D__UVISION_VERSION="524" -D_RTE_ -DSTM32F10X_CL -DUSE_HAL_DRIVER -DSTM32F105xC -DTX_WITH_CANDB="1"-o ecub_v0.2\brakelight.o --omf_browse ecub_v0.2\brakelight.crf --depend ecub_v0.2\brakelight.d)
+F (..\Src\BrakeLight.c)(0x5B3F64C3)(--c99 -c --cpu Cortex-M3 -D__EVAL -D__MICROLIB -g -O2 --apcs=interwork --split_sections -I ../Inc -I ../Drivers/STM32F1xx_HAL_Driver/Inc -I ../Drivers/STM32F1xx_HAL_Driver/Inc/Legacy -I ../Drivers/CMSIS/Device/ST/STM32F1xx/Include -I ../Drivers/CMSIS/Include -I ..\CANdb_ECUB -I ..\Eforce_lib-I.\RTE\_ECUB_V0.2-IC:\Keil_v5\ARM\PACK\ARM\CMSIS\5.0.1\CMSIS\Include-IC:\Keil_v5\ARM\PACK\Keil\STM32F1xx_DFP\2.2.0\Device\Include-D__UVISION_VERSION="524" -D_RTE_ -DSTM32F10X_CL -DUSE_HAL_DRIVER -DSTM32F105xC -DTX_WITH_CANDB="1"-o ecub_v0.2\brakelight.o --omf_browse ecub_v0.2\brakelight.crf --depend ecub_v0.2\brakelight.d)
 I (../Inc/BrakeLight.h)(0x5B3F64C3)
 I (../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal.h)(0x5B3F64C3)
 I (../Inc/stm32f1xx_hal_conf.h)(0x5B3F64C3)
@@ -80,15 +80,16 @@ I (../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_spi.h)(0x5B3F64C3)
 I (../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_tim.h)(0x5B3F64C3)
 I (../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_tim_ex.h)(0x5B3F64C3)
 I (../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_uart.h)(0x5B3F64C3)
-I (../Inc/carstate.h)(0x5B3F64C3)
+I (../Inc/carstate.h)(0x5B4D3724)
 I (C:\Keil_v5\ARM\ARMCC\include\string.h)(0x588BE5B4)
-I (..\CANdb_ECUB\can_ECUB.h)(0x5B3F64C2)
+I (..\CANdb_ECUB\can_ECUB.h)(0x5B4DF998)
 I (..\CANdb_ECUB\tx2/can.h)(0x5B3F64C2)
 I (..\CANdb_ECUB\tx2/tx.h)(0x5B3F64C2)
 I (C:\Keil_v5\ARM\ARMCC\include\stdlib.h)(0x588BE5B4)
 I (../Inc/periphery_set.h)(0x5B3F64C3)
 I (../Inc/cooling_circuit.h)(0x5B3F64C3)
-F (..\Src\can_callback.c)(0x5B3F64C3)(--c99 -c --cpu Cortex-M3 -D__EVAL -D__MICROLIB -g -O1 --apcs=interwork --split_sections -I ../Inc -I ../Drivers/STM32F1xx_HAL_Driver/Inc -I ../Drivers/STM32F1xx_HAL_Driver/Inc/Legacy -I ../Drivers/CMSIS/Device/ST/STM32F1xx/Include -I ../Drivers/CMSIS/Include -I ..\CANdb_ECUB -I ..\Eforce_lib-I.\RTE\_ECUB_V0.2-IC:\Keil_v5\ARM\PACK\ARM\CMSIS\5.0.1\CMSIS\Include-IC:\Keil_v5\ARM\PACK\Keil\STM32F1xx_DFP\2.2.0\Device\Include-D__UVISION_VERSION="524" -D_RTE_ -DSTM32F10X_CL -DUSE_HAL_DRIVER -DSTM32F105xC -DTX_WITH_CANDB="1"-o ecub_v0.2\can_callback.o --omf_browse ecub_v0.2\can_callback.crf --depend ecub_v0.2\can_callback.d)
+I (../Inc/ADC.h)(0x5B3FAB98)
+F (..\Src\can_callback.c)(0x5B3F64C3)(--c99 -c --cpu Cortex-M3 -D__EVAL -D__MICROLIB -g -O2 --apcs=interwork --split_sections -I ../Inc -I ../Drivers/STM32F1xx_HAL_Driver/Inc -I ../Drivers/STM32F1xx_HAL_Driver/Inc/Legacy -I ../Drivers/CMSIS/Device/ST/STM32F1xx/Include -I ../Drivers/CMSIS/Include -I ..\CANdb_ECUB -I ..\Eforce_lib-I.\RTE\_ECUB_V0.2-IC:\Keil_v5\ARM\PACK\ARM\CMSIS\5.0.1\CMSIS\Include-IC:\Keil_v5\ARM\PACK\Keil\STM32F1xx_DFP\2.2.0\Device\Include-D__UVISION_VERSION="524" -D_RTE_ -DSTM32F10X_CL -DUSE_HAL_DRIVER -DSTM32F105xC -DTX_WITH_CANDB="1"-o ecub_v0.2\can_callback.o --omf_browse ecub_v0.2\can_callback.crf --depend ecub_v0.2\can_callback.d)
 I (..\CANdb_ECUB\tx2/ringbuf.h)(0x5B3F64C2)
 I (C:\Keil_v5\ARM\ARMCC\include\stdint.h)(0x588BE5B4)
 I (C:\Keil_v5\ARM\ARMCC\include\stdlib.h)(0x588BE5B4)
@@ -124,9 +125,9 @@ I (../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_tim_ex.h)(0x5B3F64C3)
 I (../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_uart.h)(0x5B3F64C3)
 I (..\CANdb_ECUB\tx2/can.h)(0x5B3F64C2)
 I (..\CANdb_ECUB\tx2/tx.h)(0x5B3F64C2)
-I (..\CANdb_ECUB\can_ECUB.h)(0x5B3F64C2)
+I (..\CANdb_ECUB\can_ECUB.h)(0x5B4DF998)
 I (C:\Keil_v5\ARM\ARMCC\include\string.h)(0x588BE5B4)
-F (..\Src\can_eforce_init.c)(0x5B3F64C3)(--c99 -c --cpu Cortex-M3 -D__EVAL -D__MICROLIB -g -O1 --apcs=interwork --split_sections -I ../Inc -I ../Drivers/STM32F1xx_HAL_Driver/Inc -I ../Drivers/STM32F1xx_HAL_Driver/Inc/Legacy -I ../Drivers/CMSIS/Device/ST/STM32F1xx/Include -I ../Drivers/CMSIS/Include -I ..\CANdb_ECUB -I ..\Eforce_lib-I.\RTE\_ECUB_V0.2-IC:\Keil_v5\ARM\PACK\ARM\CMSIS\5.0.1\CMSIS\Include-IC:\Keil_v5\ARM\PACK\Keil\STM32F1xx_DFP\2.2.0\Device\Include-D__UVISION_VERSION="524" -D_RTE_ -DSTM32F10X_CL -DUSE_HAL_DRIVER -DSTM32F105xC -DTX_WITH_CANDB="1"-o ecub_v0.2\can_eforce_init.o --omf_browse ecub_v0.2\can_eforce_init.crf --depend ecub_v0.2\can_eforce_init.d)
+F (..\Src\can_eforce_init.c)(0x5B3F64C3)(--c99 -c --cpu Cortex-M3 -D__EVAL -D__MICROLIB -g -O2 --apcs=interwork --split_sections -I ../Inc -I ../Drivers/STM32F1xx_HAL_Driver/Inc -I ../Drivers/STM32F1xx_HAL_Driver/Inc/Legacy -I ../Drivers/CMSIS/Device/ST/STM32F1xx/Include -I ../Drivers/CMSIS/Include -I ..\CANdb_ECUB -I ..\Eforce_lib-I.\RTE\_ECUB_V0.2-IC:\Keil_v5\ARM\PACK\ARM\CMSIS\5.0.1\CMSIS\Include-IC:\Keil_v5\ARM\PACK\Keil\STM32F1xx_DFP\2.2.0\Device\Include-D__UVISION_VERSION="524" -D_RTE_ -DSTM32F10X_CL -DUSE_HAL_DRIVER -DSTM32F105xC -DTX_WITH_CANDB="1"-o ecub_v0.2\can_eforce_init.o --omf_browse ecub_v0.2\can_eforce_init.crf --depend ecub_v0.2\can_eforce_init.d)
 I (../Inc/can_eforce_init.h)(0x5B3F64C3)
 I (../Inc/main.h)(0x5B3F64C3)
 I (C:\Keil_v5\ARM\ARMCC\include\string.h)(0x588BE5B4)
@@ -160,8 +161,8 @@ I (../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_spi.h)(0x5B3F64C3)
 I (../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_tim.h)(0x5B3F64C3)
 I (../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_tim_ex.h)(0x5B3F64C3)
 I (../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_uart.h)(0x5B3F64C3)
-F (..\Src\carstate.c)(0x5B44FE69)(--c99 -c --cpu Cortex-M3 -D__EVAL -D__MICROLIB -g -O1 --apcs=interwork --split_sections -I ../Inc -I ../Drivers/STM32F1xx_HAL_Driver/Inc -I ../Drivers/STM32F1xx_HAL_Driver/Inc/Legacy -I ../Drivers/CMSIS/Device/ST/STM32F1xx/Include -I ../Drivers/CMSIS/Include -I ..\CANdb_ECUB -I ..\Eforce_lib-I.\RTE\_ECUB_V0.2-IC:\Keil_v5\ARM\PACK\ARM\CMSIS\5.0.1\CMSIS\Include-IC:\Keil_v5\ARM\PACK\Keil\STM32F1xx_DFP\2.2.0\Device\Include-D__UVISION_VERSION="524" -D_RTE_ -DSTM32F10X_CL -DUSE_HAL_DRIVER -DSTM32F105xC -DTX_WITH_CANDB="1"-o ecub_v0.2\carstate.o --omf_browse ecub_v0.2\carstate.crf --depend ecub_v0.2\carstate.d)
-I (../Inc/carstate.h)(0x5B3F64C3)
+F (..\Src\carstate.c)(0x5B5C2D8F)(--c99 -c --cpu Cortex-M3 -D__EVAL -D__MICROLIB -g -O2 --apcs=interwork --split_sections -I ../Inc -I ../Drivers/STM32F1xx_HAL_Driver/Inc -I ../Drivers/STM32F1xx_HAL_Driver/Inc/Legacy -I ../Drivers/CMSIS/Device/ST/STM32F1xx/Include -I ../Drivers/CMSIS/Include -I ..\CANdb_ECUB -I ..\Eforce_lib-I.\RTE\_ECUB_V0.2-IC:\Keil_v5\ARM\PACK\ARM\CMSIS\5.0.1\CMSIS\Include-IC:\Keil_v5\ARM\PACK\Keil\STM32F1xx_DFP\2.2.0\Device\Include-D__UVISION_VERSION="524" -D_RTE_ -DSTM32F10X_CL -DUSE_HAL_DRIVER -DSTM32F105xC -DTX_WITH_CANDB="1"-o ecub_v0.2\carstate.o --omf_browse ecub_v0.2\carstate.crf --depend ecub_v0.2\carstate.d)
+I (../Inc/carstate.h)(0x5B4D3724)
 I (C:\Keil_v5\ARM\ARMCC\include\string.h)(0x588BE5B4)
 I (../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal.h)(0x5B3F64C3)
 I (../Inc/stm32f1xx_hal_conf.h)(0x5B3F64C3)
@@ -195,13 +196,14 @@ I (../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_tim.h)(0x5B3F64C3)
 I (../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_tim_ex.h)(0x5B3F64C3)
 I (../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_uart.h)(0x5B3F64C3)
 I (../Inc/BrakeLight.h)(0x5B3F64C3)
-I (..\CANdb_ECUB\can_ECUB.h)(0x5B3F64C2)
+I (..\CANdb_ECUB\can_ECUB.h)(0x5B4DF998)
 I (..\CANdb_ECUB\tx2/can.h)(0x5B3F64C2)
 I (..\CANdb_ECUB\tx2/tx.h)(0x5B3F64C2)
 I (C:\Keil_v5\ARM\ARMCC\include\stdlib.h)(0x588BE5B4)
 I (../Inc/periphery_set.h)(0x5B3F64C3)
 I (../Inc/cooling_circuit.h)(0x5B3F64C3)
-F (..\Src\cooling_circuit.c)(0x5B44A5DA)(--c99 -c --cpu Cortex-M3 -D__EVAL -D__MICROLIB -g -O1 --apcs=interwork --split_sections -I ../Inc -I ../Drivers/STM32F1xx_HAL_Driver/Inc -I ../Drivers/STM32F1xx_HAL_Driver/Inc/Legacy -I ../Drivers/CMSIS/Device/ST/STM32F1xx/Include -I ../Drivers/CMSIS/Include -I ..\CANdb_ECUB -I ..\Eforce_lib-I.\RTE\_ECUB_V0.2-IC:\Keil_v5\ARM\PACK\ARM\CMSIS\5.0.1\CMSIS\Include-IC:\Keil_v5\ARM\PACK\Keil\STM32F1xx_DFP\2.2.0\Device\Include-D__UVISION_VERSION="524" -D_RTE_ -DSTM32F10X_CL -DUSE_HAL_DRIVER -DSTM32F105xC -DTX_WITH_CANDB="1"-o ecub_v0.2\cooling_circuit.o --omf_browse ecub_v0.2\cooling_circuit.crf --depend ecub_v0.2\cooling_circuit.d)
+I (../Inc/ADC.h)(0x5B3FAB98)
+F (..\Src\cooling_circuit.c)(0x5B5C2DB6)(--c99 -c --cpu Cortex-M3 -D__EVAL -D__MICROLIB -g -O2 --apcs=interwork --split_sections -I ../Inc -I ../Drivers/STM32F1xx_HAL_Driver/Inc -I ../Drivers/STM32F1xx_HAL_Driver/Inc/Legacy -I ../Drivers/CMSIS/Device/ST/STM32F1xx/Include -I ../Drivers/CMSIS/Include -I ..\CANdb_ECUB -I ..\Eforce_lib-I.\RTE\_ECUB_V0.2-IC:\Keil_v5\ARM\PACK\ARM\CMSIS\5.0.1\CMSIS\Include-IC:\Keil_v5\ARM\PACK\Keil\STM32F1xx_DFP\2.2.0\Device\Include-D__UVISION_VERSION="524" -D_RTE_ -DSTM32F10X_CL -DUSE_HAL_DRIVER -DSTM32F105xC -DTX_WITH_CANDB="1"-o ecub_v0.2\cooling_circuit.o --omf_browse ecub_v0.2\cooling_circuit.crf --depend ecub_v0.2\cooling_circuit.d)
 I (../Inc/cooling_circuit.h)(0x5B3F64C3)
 I (../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal.h)(0x5B3F64C3)
 I (../Inc/stm32f1xx_hal_conf.h)(0x5B3F64C3)
@@ -234,15 +236,16 @@ I (../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_spi.h)(0x5B3F64C3)
 I (../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_tim.h)(0x5B3F64C3)
 I (../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_tim_ex.h)(0x5B3F64C3)
 I (../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_uart.h)(0x5B3F64C3)
-I (../Inc/carstate.h)(0x5B3F64C3)
+I (../Inc/carstate.h)(0x5B4D3724)
 I (C:\Keil_v5\ARM\ARMCC\include\string.h)(0x588BE5B4)
 I (../Inc/BrakeLight.h)(0x5B3F64C3)
-I (..\CANdb_ECUB\can_ECUB.h)(0x5B3F64C2)
+I (..\CANdb_ECUB\can_ECUB.h)(0x5B4DF998)
 I (..\CANdb_ECUB\tx2/can.h)(0x5B3F64C2)
 I (..\CANdb_ECUB\tx2/tx.h)(0x5B3F64C2)
 I (C:\Keil_v5\ARM\ARMCC\include\stdlib.h)(0x588BE5B4)
 I (../Inc/periphery_set.h)(0x5B3F64C3)
-F (..\Src\periphery_set.c)(0x5B3F64C3)(--c99 -c --cpu Cortex-M3 -D__EVAL -D__MICROLIB -g -O1 --apcs=interwork --split_sections -I ../Inc -I ../Drivers/STM32F1xx_HAL_Driver/Inc -I ../Drivers/STM32F1xx_HAL_Driver/Inc/Legacy -I ../Drivers/CMSIS/Device/ST/STM32F1xx/Include -I ../Drivers/CMSIS/Include -I ..\CANdb_ECUB -I ..\Eforce_lib-I.\RTE\_ECUB_V0.2-IC:\Keil_v5\ARM\PACK\ARM\CMSIS\5.0.1\CMSIS\Include-IC:\Keil_v5\ARM\PACK\Keil\STM32F1xx_DFP\2.2.0\Device\Include-D__UVISION_VERSION="524" -D_RTE_ -DSTM32F10X_CL -DUSE_HAL_DRIVER -DSTM32F105xC -DTX_WITH_CANDB="1"-o ecub_v0.2\periphery_set.o --omf_browse ecub_v0.2\periphery_set.crf --depend ecub_v0.2\periphery_set.d)
+I (../Inc/ADC.h)(0x5B3FAB98)
+F (..\Src\periphery_set.c)(0x5B3F64C3)(--c99 -c --cpu Cortex-M3 -D__EVAL -D__MICROLIB -g -O2 --apcs=interwork --split_sections -I ../Inc -I ../Drivers/STM32F1xx_HAL_Driver/Inc -I ../Drivers/STM32F1xx_HAL_Driver/Inc/Legacy -I ../Drivers/CMSIS/Device/ST/STM32F1xx/Include -I ../Drivers/CMSIS/Include -I ..\CANdb_ECUB -I ..\Eforce_lib-I.\RTE\_ECUB_V0.2-IC:\Keil_v5\ARM\PACK\ARM\CMSIS\5.0.1\CMSIS\Include-IC:\Keil_v5\ARM\PACK\Keil\STM32F1xx_DFP\2.2.0\Device\Include-D__UVISION_VERSION="524" -D_RTE_ -DSTM32F10X_CL -DUSE_HAL_DRIVER -DSTM32F105xC -DTX_WITH_CANDB="1"-o ecub_v0.2\periphery_set.o --omf_browse ecub_v0.2\periphery_set.crf --depend ecub_v0.2\periphery_set.d)
 I (../Inc/periphery_set.h)(0x5B3F64C3)
 I (../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal.h)(0x5B3F64C3)
 I (../Inc/stm32f1xx_hal_conf.h)(0x5B3F64C3)
@@ -275,13 +278,13 @@ I (../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_spi.h)(0x5B3F64C3)
 I (../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_tim.h)(0x5B3F64C3)
 I (../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_tim_ex.h)(0x5B3F64C3)
 I (../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_uart.h)(0x5B3F64C3)
-I (..\CANdb_ECUB\can_ECUB.h)(0x5B3F64C2)
+I (..\CANdb_ECUB\can_ECUB.h)(0x5B4DF998)
 I (..\CANdb_ECUB\tx2/can.h)(0x5B3F64C2)
 I (..\CANdb_ECUB\tx2/tx.h)(0x5B3F64C2)
 I (C:\Keil_v5\ARM\ARMCC\include\stdlib.h)(0x588BE5B4)
 I (C:\Keil_v5\ARM\ARMCC\include\string.h)(0x588BE5B4)
-F (..\Src\Wheel_speed.c)(0x5B3F9D51)(--c99 -c --cpu Cortex-M3 -D__EVAL -D__MICROLIB -g -O1 --apcs=interwork --split_sections -I ../Inc -I ../Drivers/STM32F1xx_HAL_Driver/Inc -I ../Drivers/STM32F1xx_HAL_Driver/Inc/Legacy -I ../Drivers/CMSIS/Device/ST/STM32F1xx/Include -I ../Drivers/CMSIS/Include -I ..\CANdb_ECUB -I ..\Eforce_lib-I.\RTE\_ECUB_V0.2-IC:\Keil_v5\ARM\PACK\ARM\CMSIS\5.0.1\CMSIS\Include-IC:\Keil_v5\ARM\PACK\Keil\STM32F1xx_DFP\2.2.0\Device\Include-D__UVISION_VERSION="524" -D_RTE_ -DSTM32F10X_CL -DUSE_HAL_DRIVER -DSTM32F105xC -DTX_WITH_CANDB="1"-o ecub_v0.2\wheel_speed.o --omf_browse ecub_v0.2\wheel_speed.crf --depend ecub_v0.2\wheel_speed.d)
-I (../Inc/Wheel_speed.h)(0x5B3F916F)
+F (..\Src\Wheel_speed.c)(0x5B5DC5C0)(--c99 -c --cpu Cortex-M3 -D__EVAL -D__MICROLIB -g -O2 --apcs=interwork --split_sections -I ../Inc -I ../Drivers/STM32F1xx_HAL_Driver/Inc -I ../Drivers/STM32F1xx_HAL_Driver/Inc/Legacy -I ../Drivers/CMSIS/Device/ST/STM32F1xx/Include -I ../Drivers/CMSIS/Include -I ..\CANdb_ECUB -I ..\Eforce_lib-I.\RTE\_ECUB_V0.2-IC:\Keil_v5\ARM\PACK\ARM\CMSIS\5.0.1\CMSIS\Include-IC:\Keil_v5\ARM\PACK\Keil\STM32F1xx_DFP\2.2.0\Device\Include-D__UVISION_VERSION="524" -D_RTE_ -DSTM32F10X_CL -DUSE_HAL_DRIVER -DSTM32F105xC -DTX_WITH_CANDB="1"-o ecub_v0.2\wheel_speed.o --omf_browse ecub_v0.2\wheel_speed.crf --depend ecub_v0.2\wheel_speed.d)
+I (../Inc/Wheel_speed.h)(0x5B5D9D90)
 I (../Drivers/CMSIS/Device/ST/STM32F1xx/Include/stm32f105xc.h)(0x5B3F64C2)
 I (../Drivers/CMSIS/Include/core_cm3.h)(0x5B3F64C2)
 I (C:\Keil_v5\ARM\ARMCC\include\stdint.h)(0x588BE5B4)
@@ -313,19 +316,19 @@ I (../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_spi.h)(0x5B3F64C3)
 I (../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_tim.h)(0x5B3F64C3)
 I (../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_tim_ex.h)(0x5B3F64C3)
 I (../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_uart.h)(0x5B3F64C3)
-I (..\CANdb_ECUB\can_ECUB.h)(0x5B3F64C2)
+I (..\CANdb_ECUB\can_ECUB.h)(0x5B4DF998)
 I (..\CANdb_ECUB\tx2/can.h)(0x5B3F64C2)
 I (..\CANdb_ECUB\tx2/tx.h)(0x5B3F64C2)
 I (C:\Keil_v5\ARM\ARMCC\include\stdlib.h)(0x588BE5B4)
-F (..\CANdb_ECUB\can_ECUB.c)(0x5B3F64C2)(--c99 -c --cpu Cortex-M3 -D__EVAL -D__MICROLIB -g -O1 --apcs=interwork --split_sections -I ../Inc -I ../Drivers/STM32F1xx_HAL_Driver/Inc -I ../Drivers/STM32F1xx_HAL_Driver/Inc/Legacy -I ../Drivers/CMSIS/Device/ST/STM32F1xx/Include -I ../Drivers/CMSIS/Include -I ..\CANdb_ECUB -I ..\Eforce_lib-I.\RTE\_ECUB_V0.2-IC:\Keil_v5\ARM\PACK\ARM\CMSIS\5.0.1\CMSIS\Include-IC:\Keil_v5\ARM\PACK\Keil\STM32F1xx_DFP\2.2.0\Device\Include-D__UVISION_VERSION="524" -D_RTE_ -DSTM32F10X_CL -DUSE_HAL_DRIVER -DSTM32F105xC -DTX_WITH_CANDB="1"-o ecub_v0.2\can_ecub.o --omf_browse ecub_v0.2\can_ecub.crf --depend ecub_v0.2\can_ecub.d)
-I (..\CANdb_ECUB\can_ECUB.h)(0x5B3F64C2)
+F (..\CANdb_ECUB\can_ECUB.c)(0x5B4DF998)(--c99 -c --cpu Cortex-M3 -D__EVAL -D__MICROLIB -g -O2 --apcs=interwork --split_sections -I ../Inc -I ../Drivers/STM32F1xx_HAL_Driver/Inc -I ../Drivers/STM32F1xx_HAL_Driver/Inc/Legacy -I ../Drivers/CMSIS/Device/ST/STM32F1xx/Include -I ../Drivers/CMSIS/Include -I ..\CANdb_ECUB -I ..\Eforce_lib-I.\RTE\_ECUB_V0.2-IC:\Keil_v5\ARM\PACK\ARM\CMSIS\5.0.1\CMSIS\Include-IC:\Keil_v5\ARM\PACK\Keil\STM32F1xx_DFP\2.2.0\Device\Include-D__UVISION_VERSION="524" -D_RTE_ -DSTM32F10X_CL -DUSE_HAL_DRIVER -DSTM32F105xC -DTX_WITH_CANDB="1"-o ecub_v0.2\can_ecub.o --omf_browse ecub_v0.2\can_ecub.crf --depend ecub_v0.2\can_ecub.d)
+I (..\CANdb_ECUB\can_ECUB.h)(0x5B4DF998)
 I (..\CANdb_ECUB\tx2/can.h)(0x5B3F64C2)
 I (..\CANdb_ECUB\tx2/tx.h)(0x5B3F64C2)
 I (C:\Keil_v5\ARM\ARMCC\include\stdint.h)(0x588BE5B4)
 I (C:\Keil_v5\ARM\ARMCC\include\stdlib.h)(0x588BE5B4)
 I (C:\Keil_v5\ARM\ARMCC\include\string.h)(0x588BE5B4)
-F (..\CANdb_ECUB\can_ECUB.h)(0x5B3F64C2)()
-F (..\CANdb_ECUB\tx2_can.c)(0x5B3F64C2)(--c99 -c --cpu Cortex-M3 -D__EVAL -D__MICROLIB -g -O1 --apcs=interwork --split_sections -I ../Inc -I ../Drivers/STM32F1xx_HAL_Driver/Inc -I ../Drivers/STM32F1xx_HAL_Driver/Inc/Legacy -I ../Drivers/CMSIS/Device/ST/STM32F1xx/Include -I ../Drivers/CMSIS/Include -I ..\CANdb_ECUB -I ..\Eforce_lib-I.\RTE\_ECUB_V0.2-IC:\Keil_v5\ARM\PACK\ARM\CMSIS\5.0.1\CMSIS\Include-IC:\Keil_v5\ARM\PACK\Keil\STM32F1xx_DFP\2.2.0\Device\Include-D__UVISION_VERSION="524" -D_RTE_ -DSTM32F10X_CL -DUSE_HAL_DRIVER -DSTM32F105xC -DTX_WITH_CANDB="1"-o ecub_v0.2\tx2_can.o --omf_browse ecub_v0.2\tx2_can.crf --depend ecub_v0.2\tx2_can.d)
+F (..\CANdb_ECUB\can_ECUB.h)(0x5B4DF998)()
+F (..\CANdb_ECUB\tx2_can.c)(0x5B3F64C2)(--c99 -c --cpu Cortex-M3 -D__EVAL -D__MICROLIB -g -O2 --apcs=interwork --split_sections -I ../Inc -I ../Drivers/STM32F1xx_HAL_Driver/Inc -I ../Drivers/STM32F1xx_HAL_Driver/Inc/Legacy -I ../Drivers/CMSIS/Device/ST/STM32F1xx/Include -I ../Drivers/CMSIS/Include -I ..\CANdb_ECUB -I ..\Eforce_lib-I.\RTE\_ECUB_V0.2-IC:\Keil_v5\ARM\PACK\ARM\CMSIS\5.0.1\CMSIS\Include-IC:\Keil_v5\ARM\PACK\Keil\STM32F1xx_DFP\2.2.0\Device\Include-D__UVISION_VERSION="524" -D_RTE_ -DSTM32F10X_CL -DUSE_HAL_DRIVER -DSTM32F105xC -DTX_WITH_CANDB="1"-o ecub_v0.2\tx2_can.o --omf_browse ecub_v0.2\tx2_can.crf --depend ecub_v0.2\tx2_can.d)
 I (..\CANdb_ECUB\tx2/can.h)(0x5B3F64C2)
 I (..\CANdb_ECUB\tx2/tx.h)(0x5B3F64C2)
 I (C:\Keil_v5\ARM\ARMCC\include\stdint.h)(0x588BE5B4)
@@ -361,14 +364,14 @@ I (../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_spi.h)(0x5B3F64C3)
 I (../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_tim.h)(0x5B3F64C3)
 I (../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_tim_ex.h)(0x5B3F64C3)
 I (../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_uart.h)(0x5B3F64C3)
-F (..\CANdb_ECUB\tx2_ringbuf.c)(0x5B3F64C2)(--c99 -c --cpu Cortex-M3 -D__EVAL -D__MICROLIB -g -O1 --apcs=interwork --split_sections -I ../Inc -I ../Drivers/STM32F1xx_HAL_Driver/Inc -I ../Drivers/STM32F1xx_HAL_Driver/Inc/Legacy -I ../Drivers/CMSIS/Device/ST/STM32F1xx/Include -I ../Drivers/CMSIS/Include -I ..\CANdb_ECUB -I ..\Eforce_lib-I.\RTE\_ECUB_V0.2-IC:\Keil_v5\ARM\PACK\ARM\CMSIS\5.0.1\CMSIS\Include-IC:\Keil_v5\ARM\PACK\Keil\STM32F1xx_DFP\2.2.0\Device\Include-D__UVISION_VERSION="524" -D_RTE_ -DSTM32F10X_CL -DUSE_HAL_DRIVER -DSTM32F105xC -DTX_WITH_CANDB="1"-o ecub_v0.2\tx2_ringbuf.o --omf_browse ecub_v0.2\tx2_ringbuf.crf --depend ecub_v0.2\tx2_ringbuf.d)
+F (..\CANdb_ECUB\tx2_ringbuf.c)(0x5B3F64C2)(--c99 -c --cpu Cortex-M3 -D__EVAL -D__MICROLIB -g -O2 --apcs=interwork --split_sections -I ../Inc -I ../Drivers/STM32F1xx_HAL_Driver/Inc -I ../Drivers/STM32F1xx_HAL_Driver/Inc/Legacy -I ../Drivers/CMSIS/Device/ST/STM32F1xx/Include -I ../Drivers/CMSIS/Include -I ..\CANdb_ECUB -I ..\Eforce_lib-I.\RTE\_ECUB_V0.2-IC:\Keil_v5\ARM\PACK\ARM\CMSIS\5.0.1\CMSIS\Include-IC:\Keil_v5\ARM\PACK\Keil\STM32F1xx_DFP\2.2.0\Device\Include-D__UVISION_VERSION="524" -D_RTE_ -DSTM32F10X_CL -DUSE_HAL_DRIVER -DSTM32F105xC -DTX_WITH_CANDB="1"-o ecub_v0.2\tx2_ringbuf.o --omf_browse ecub_v0.2\tx2_ringbuf.crf --depend ecub_v0.2\tx2_ringbuf.d)
 I (..\CANdb_ECUB\tx2/ringbuf.h)(0x5B3F64C2)
 I (C:\Keil_v5\ARM\ARMCC\include\stdint.h)(0x588BE5B4)
 I (C:\Keil_v5\ARM\ARMCC\include\stdlib.h)(0x588BE5B4)
 F (..\CANdb_ECUB\tx2\can.h)(0x5B3F64C2)()
 F (..\CANdb_ECUB\tx2\ringbuf.h)(0x5B3F64C2)()
 F (..\CANdb_ECUB\tx2\tx.h)(0x5B3F64C2)()
-F (..\Eforce_lib\ltc6804.c)(0x5B3F64C3)(--c99 -c --cpu Cortex-M3 -D__EVAL -D__MICROLIB -g -O1 --apcs=interwork --split_sections -I ../Inc -I ../Drivers/STM32F1xx_HAL_Driver/Inc -I ../Drivers/STM32F1xx_HAL_Driver/Inc/Legacy -I ../Drivers/CMSIS/Device/ST/STM32F1xx/Include -I ../Drivers/CMSIS/Include -I ..\CANdb_ECUB -I ..\Eforce_lib-I.\RTE\_ECUB_V0.2-IC:\Keil_v5\ARM\PACK\ARM\CMSIS\5.0.1\CMSIS\Include-IC:\Keil_v5\ARM\PACK\Keil\STM32F1xx_DFP\2.2.0\Device\Include-D__UVISION_VERSION="524" -D_RTE_ -DSTM32F10X_CL -DUSE_HAL_DRIVER -DSTM32F105xC -DTX_WITH_CANDB="1"-o ecub_v0.2\ltc6804.o --omf_browse ecub_v0.2\ltc6804.crf --depend ecub_v0.2\ltc6804.d)
+F (..\Eforce_lib\ltc6804.c)(0x5B3F64C3)(--c99 -c --cpu Cortex-M3 -D__EVAL -D__MICROLIB -g -O2 --apcs=interwork --split_sections -I ../Inc -I ../Drivers/STM32F1xx_HAL_Driver/Inc -I ../Drivers/STM32F1xx_HAL_Driver/Inc/Legacy -I ../Drivers/CMSIS/Device/ST/STM32F1xx/Include -I ../Drivers/CMSIS/Include -I ..\CANdb_ECUB -I ..\Eforce_lib-I.\RTE\_ECUB_V0.2-IC:\Keil_v5\ARM\PACK\ARM\CMSIS\5.0.1\CMSIS\Include-IC:\Keil_v5\ARM\PACK\Keil\STM32F1xx_DFP\2.2.0\Device\Include-D__UVISION_VERSION="524" -D_RTE_ -DSTM32F10X_CL -DUSE_HAL_DRIVER -DSTM32F105xC -DTX_WITH_CANDB="1"-o ecub_v0.2\ltc6804.o --omf_browse ecub_v0.2\ltc6804.crf --depend ecub_v0.2\ltc6804.d)
 I (..\Eforce_lib\ltc6804.h)(0x5B3F64C3)
 I (../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal.h)(0x5B3F64C3)
 I (../Inc/stm32f1xx_hal_conf.h)(0x5B3F64C3)
@@ -405,7 +408,7 @@ I (..\Eforce_lib\ltc6804_conf.h)(0x5B44A582)
 F (..\Eforce_lib\ltc6804.h)(0x5B3F64C3)()
 F (..\Eforce_lib\ltc6804_conf.h)(0x5B44A582)()
 F (..\Inc\LvBattery.h)(0x5B446985)()
-F (..\Src\LvBattery.c)(0x5B44FF0F)(--c99 -c --cpu Cortex-M3 -D__EVAL -D__MICROLIB -g -O1 --apcs=interwork --split_sections -I ../Inc -I ../Drivers/STM32F1xx_HAL_Driver/Inc -I ../Drivers/STM32F1xx_HAL_Driver/Inc/Legacy -I ../Drivers/CMSIS/Device/ST/STM32F1xx/Include -I ../Drivers/CMSIS/Include -I ..\CANdb_ECUB -I ..\Eforce_lib-I.\RTE\_ECUB_V0.2-IC:\Keil_v5\ARM\PACK\ARM\CMSIS\5.0.1\CMSIS\Include-IC:\Keil_v5\ARM\PACK\Keil\STM32F1xx_DFP\2.2.0\Device\Include-D__UVISION_VERSION="524" -D_RTE_ -DSTM32F10X_CL -DUSE_HAL_DRIVER -DSTM32F105xC -DTX_WITH_CANDB="1"-o ecub_v0.2\lvbattery.o --omf_browse ecub_v0.2\lvbattery.crf --depend ecub_v0.2\lvbattery.d)
+F (..\Src\LvBattery.c)(0x5B4D1DDE)(--c99 -c --cpu Cortex-M3 -D__EVAL -D__MICROLIB -g -O2 --apcs=interwork --split_sections -I ../Inc -I ../Drivers/STM32F1xx_HAL_Driver/Inc -I ../Drivers/STM32F1xx_HAL_Driver/Inc/Legacy -I ../Drivers/CMSIS/Device/ST/STM32F1xx/Include -I ../Drivers/CMSIS/Include -I ..\CANdb_ECUB -I ..\Eforce_lib-I.\RTE\_ECUB_V0.2-IC:\Keil_v5\ARM\PACK\ARM\CMSIS\5.0.1\CMSIS\Include-IC:\Keil_v5\ARM\PACK\Keil\STM32F1xx_DFP\2.2.0\Device\Include-D__UVISION_VERSION="524" -D_RTE_ -DSTM32F10X_CL -DUSE_HAL_DRIVER -DSTM32F105xC -DTX_WITH_CANDB="1"-o ecub_v0.2\lvbattery.o --omf_browse ecub_v0.2\lvbattery.crf --depend ecub_v0.2\lvbattery.d)
 I (..\Eforce_lib\ltc6804.h)(0x5B3F64C3)
 I (../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal.h)(0x5B3F64C3)
 I (../Inc/stm32f1xx_hal_conf.h)(0x5B3F64C3)
@@ -440,14 +443,14 @@ I (../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_tim_ex.h)(0x5B3F64C3)
 I (../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_uart.h)(0x5B3F64C3)
 I (..\Eforce_lib\ltc6804_conf.h)(0x5B44A582)
 I (../Inc/LvBattery.h)(0x5B446985)
-I (..\CANdb_ECUB\can_ECUB.h)(0x5B3F64C2)
+I (..\CANdb_ECUB\can_ECUB.h)(0x5B4DF998)
 I (..\CANdb_ECUB\tx2/can.h)(0x5B3F64C2)
 I (..\CANdb_ECUB\tx2/tx.h)(0x5B3F64C2)
 I (C:\Keil_v5\ARM\ARMCC\include\stdlib.h)(0x588BE5B4)
 I (../Inc/ADC.h)(0x5B3FAB98)
 I (C:\Keil_v5\ARM\ARMCC\include\math.h)(0x588BE5B4)
 F (..\Inc\Brake_Sensors.h)(0x5B3F64C3)()
-F (..\Src\Brake_Sensors.c)(0x5B44FEC1)(--c99 -c --cpu Cortex-M3 -D__EVAL -D__MICROLIB -g -O1 --apcs=interwork --split_sections -I ../Inc -I ../Drivers/STM32F1xx_HAL_Driver/Inc -I ../Drivers/STM32F1xx_HAL_Driver/Inc/Legacy -I ../Drivers/CMSIS/Device/ST/STM32F1xx/Include -I ../Drivers/CMSIS/Include -I ..\CANdb_ECUB -I ..\Eforce_lib-I.\RTE\_ECUB_V0.2-IC:\Keil_v5\ARM\PACK\ARM\CMSIS\5.0.1\CMSIS\Include-IC:\Keil_v5\ARM\PACK\Keil\STM32F1xx_DFP\2.2.0\Device\Include-D__UVISION_VERSION="524" -D_RTE_ -DSTM32F10X_CL -DUSE_HAL_DRIVER -DSTM32F105xC -DTX_WITH_CANDB="1"-o ecub_v0.2\brake_sensors.o --omf_browse ecub_v0.2\brake_sensors.crf --depend ecub_v0.2\brake_sensors.d)
+F (..\Src\Brake_Sensors.c)(0x5B44FEC1)(--c99 -c --cpu Cortex-M3 -D__EVAL -D__MICROLIB -g -O2 --apcs=interwork --split_sections -I ../Inc -I ../Drivers/STM32F1xx_HAL_Driver/Inc -I ../Drivers/STM32F1xx_HAL_Driver/Inc/Legacy -I ../Drivers/CMSIS/Device/ST/STM32F1xx/Include -I ../Drivers/CMSIS/Include -I ..\CANdb_ECUB -I ..\Eforce_lib-I.\RTE\_ECUB_V0.2-IC:\Keil_v5\ARM\PACK\ARM\CMSIS\5.0.1\CMSIS\Include-IC:\Keil_v5\ARM\PACK\Keil\STM32F1xx_DFP\2.2.0\Device\Include-D__UVISION_VERSION="524" -D_RTE_ -DSTM32F10X_CL -DUSE_HAL_DRIVER -DSTM32F105xC -DTX_WITH_CANDB="1"-o ecub_v0.2\brake_sensors.o --omf_browse ecub_v0.2\brake_sensors.crf --depend ecub_v0.2\brake_sensors.d)
 I (../Inc/Brake_Sensors.h)(0x5B3F64C3)
 I (../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal.h)(0x5B3F64C3)
 I (../Inc/stm32f1xx_hal_conf.h)(0x5B3F64C3)
@@ -480,12 +483,12 @@ I (../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_spi.h)(0x5B3F64C3)
 I (../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_tim.h)(0x5B3F64C3)
 I (../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_tim_ex.h)(0x5B3F64C3)
 I (../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_uart.h)(0x5B3F64C3)
-I (..\CANdb_ECUB\can_ECUB.h)(0x5B3F64C2)
+I (..\CANdb_ECUB\can_ECUB.h)(0x5B4DF998)
 I (..\CANdb_ECUB\tx2/can.h)(0x5B3F64C2)
 I (..\CANdb_ECUB\tx2/tx.h)(0x5B3F64C2)
 I (C:\Keil_v5\ARM\ARMCC\include\stdlib.h)(0x588BE5B4)
 F (..\Inc\main.h)(0x5B3F64C3)()
-F (../Src/main.c)(0x5B44A697)(--c99 -c --cpu Cortex-M3 -D__EVAL -D__MICROLIB -g -O1 --apcs=interwork --split_sections -I ../Inc -I ../Drivers/STM32F1xx_HAL_Driver/Inc -I ../Drivers/STM32F1xx_HAL_Driver/Inc/Legacy -I ../Drivers/CMSIS/Device/ST/STM32F1xx/Include -I ../Drivers/CMSIS/Include -I ..\CANdb_ECUB -I ..\Eforce_lib-I.\RTE\_ECUB_V0.2-IC:\Keil_v5\ARM\PACK\ARM\CMSIS\5.0.1\CMSIS\Include-IC:\Keil_v5\ARM\PACK\Keil\STM32F1xx_DFP\2.2.0\Device\Include-D__UVISION_VERSION="524" -D_RTE_ -DSTM32F10X_CL -DUSE_HAL_DRIVER -DSTM32F105xC -DTX_WITH_CANDB="1"-o ecub_v0.2\main.o --omf_browse ecub_v0.2\main.crf --depend ecub_v0.2\main.d)
+F (../Src/main.c)(0x5B5DB004)(--c99 -c --cpu Cortex-M3 -D__EVAL -D__MICROLIB -g -O2 --apcs=interwork --split_sections -I ../Inc -I ../Drivers/STM32F1xx_HAL_Driver/Inc -I ../Drivers/STM32F1xx_HAL_Driver/Inc/Legacy -I ../Drivers/CMSIS/Device/ST/STM32F1xx/Include -I ../Drivers/CMSIS/Include -I ..\CANdb_ECUB -I ..\Eforce_lib-I.\RTE\_ECUB_V0.2-IC:\Keil_v5\ARM\PACK\ARM\CMSIS\5.0.1\CMSIS\Include-IC:\Keil_v5\ARM\PACK\Keil\STM32F1xx_DFP\2.2.0\Device\Include-D__UVISION_VERSION="524" -D_RTE_ -DSTM32F10X_CL -DUSE_HAL_DRIVER -DSTM32F105xC -DTX_WITH_CANDB="1"-o ecub_v0.2\main.o --omf_browse ecub_v0.2\main.crf --depend ecub_v0.2\main.d)
 I (../Inc/main.h)(0x5B3F64C3)
 I (../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal.h)(0x5B3F64C3)
 I (../Inc/stm32f1xx_hal_conf.h)(0x5B3F64C3)
@@ -519,10 +522,10 @@ I (../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_tim_ex.h)(0x5B3F64C3)
 I (../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_uart.h)(0x5B3F64C3)
 I (..\Eforce_lib\ltc6804.h)(0x5B3F64C3)
 I (..\Eforce_lib\ltc6804_conf.h)(0x5B44A582)
-I (../Inc/carstate.h)(0x5B3F64C3)
+I (../Inc/carstate.h)(0x5B4D3724)
 I (C:\Keil_v5\ARM\ARMCC\include\string.h)(0x588BE5B4)
 I (../Inc/BrakeLight.h)(0x5B3F64C3)
-I (..\CANdb_ECUB\can_ECUB.h)(0x5B3F64C2)
+I (..\CANdb_ECUB\can_ECUB.h)(0x5B4DF998)
 I (..\CANdb_ECUB\tx2/can.h)(0x5B3F64C2)
 I (..\CANdb_ECUB\tx2/tx.h)(0x5B3F64C2)
 I (C:\Keil_v5\ARM\ARMCC\include\stdlib.h)(0x588BE5B4)
@@ -530,10 +533,10 @@ I (../Inc/periphery_set.h)(0x5B3F64C3)
 I (../Inc/cooling_circuit.h)(0x5B3F64C3)
 I (../Inc/ADC.h)(0x5B3FAB98)
 I (../Inc/can_eforce_init.h)(0x5B3F64C3)
-I (../Inc/Wheel_speed.h)(0x5B3F916F)
+I (../Inc/Wheel_speed.h)(0x5B5D9D90)
 I (../Inc/Brake_Sensors.h)(0x5B3F64C3)
 I (../Inc/LvBattery.h)(0x5B446985)
-F (../Src/stm32f1xx_it.c)(0x5B3F64C3)(--c99 -c --cpu Cortex-M3 -D__EVAL -D__MICROLIB -g -O1 --apcs=interwork --split_sections -I ../Inc -I ../Drivers/STM32F1xx_HAL_Driver/Inc -I ../Drivers/STM32F1xx_HAL_Driver/Inc/Legacy -I ../Drivers/CMSIS/Device/ST/STM32F1xx/Include -I ../Drivers/CMSIS/Include -I ..\CANdb_ECUB -I ..\Eforce_lib-I.\RTE\_ECUB_V0.2-IC:\Keil_v5\ARM\PACK\ARM\CMSIS\5.0.1\CMSIS\Include-IC:\Keil_v5\ARM\PACK\Keil\STM32F1xx_DFP\2.2.0\Device\Include-D__UVISION_VERSION="524" -D_RTE_ -DSTM32F10X_CL -DUSE_HAL_DRIVER -DSTM32F105xC -DTX_WITH_CANDB="1"-o ecub_v0.2\stm32f1xx_it.o --omf_browse ecub_v0.2\stm32f1xx_it.crf --depend ecub_v0.2\stm32f1xx_it.d)
+F (../Src/stm32f1xx_it.c)(0x5B3F64C3)(--c99 -c --cpu Cortex-M3 -D__EVAL -D__MICROLIB -g -O2 --apcs=interwork --split_sections -I ../Inc -I ../Drivers/STM32F1xx_HAL_Driver/Inc -I ../Drivers/STM32F1xx_HAL_Driver/Inc/Legacy -I ../Drivers/CMSIS/Device/ST/STM32F1xx/Include -I ../Drivers/CMSIS/Include -I ..\CANdb_ECUB -I ..\Eforce_lib-I.\RTE\_ECUB_V0.2-IC:\Keil_v5\ARM\PACK\ARM\CMSIS\5.0.1\CMSIS\Include-IC:\Keil_v5\ARM\PACK\Keil\STM32F1xx_DFP\2.2.0\Device\Include-D__UVISION_VERSION="524" -D_RTE_ -DSTM32F10X_CL -DUSE_HAL_DRIVER -DSTM32F105xC -DTX_WITH_CANDB="1"-o ecub_v0.2\stm32f1xx_it.o --omf_browse ecub_v0.2\stm32f1xx_it.crf --depend ecub_v0.2\stm32f1xx_it.d)
 I (../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal.h)(0x5B3F64C3)
 I (../Inc/stm32f1xx_hal_conf.h)(0x5B3F64C3)
 I (../Inc/main.h)(0x5B3F64C3)
@@ -566,11 +569,11 @@ I (../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_tim.h)(0x5B3F64C3)
 I (../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_tim_ex.h)(0x5B3F64C3)
 I (../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_uart.h)(0x5B3F64C3)
 I (../Inc/stm32f1xx_it.h)(0x5B3F64C3)
-I (..\CANdb_ECUB\can_ECUB.h)(0x5B3F64C2)
+I (..\CANdb_ECUB\can_ECUB.h)(0x5B4DF998)
 I (..\CANdb_ECUB\tx2/can.h)(0x5B3F64C2)
 I (..\CANdb_ECUB\tx2/tx.h)(0x5B3F64C2)
 I (C:\Keil_v5\ARM\ARMCC\include\stdlib.h)(0x588BE5B4)
-F (../Src/stm32f1xx_hal_msp.c)(0x5B3F6772)(--c99 -c --cpu Cortex-M3 -D__EVAL -D__MICROLIB -g -O1 --apcs=interwork --split_sections -I ../Inc -I ../Drivers/STM32F1xx_HAL_Driver/Inc -I ../Drivers/STM32F1xx_HAL_Driver/Inc/Legacy -I ../Drivers/CMSIS/Device/ST/STM32F1xx/Include -I ../Drivers/CMSIS/Include -I ..\CANdb_ECUB -I ..\Eforce_lib-I.\RTE\_ECUB_V0.2-IC:\Keil_v5\ARM\PACK\ARM\CMSIS\5.0.1\CMSIS\Include-IC:\Keil_v5\ARM\PACK\Keil\STM32F1xx_DFP\2.2.0\Device\Include-D__UVISION_VERSION="524" -D_RTE_ -DSTM32F10X_CL -DUSE_HAL_DRIVER -DSTM32F105xC -DTX_WITH_CANDB="1"-o ecub_v0.2\stm32f1xx_hal_msp.o --omf_browse ecub_v0.2\stm32f1xx_hal_msp.crf --depend ecub_v0.2\stm32f1xx_hal_msp.d)
+F (../Src/stm32f1xx_hal_msp.c)(0x5B3F6772)(--c99 -c --cpu Cortex-M3 -D__EVAL -D__MICROLIB -g -O2 --apcs=interwork --split_sections -I ../Inc -I ../Drivers/STM32F1xx_HAL_Driver/Inc -I ../Drivers/STM32F1xx_HAL_Driver/Inc/Legacy -I ../Drivers/CMSIS/Device/ST/STM32F1xx/Include -I ../Drivers/CMSIS/Include -I ..\CANdb_ECUB -I ..\Eforce_lib-I.\RTE\_ECUB_V0.2-IC:\Keil_v5\ARM\PACK\ARM\CMSIS\5.0.1\CMSIS\Include-IC:\Keil_v5\ARM\PACK\Keil\STM32F1xx_DFP\2.2.0\Device\Include-D__UVISION_VERSION="524" -D_RTE_ -DSTM32F10X_CL -DUSE_HAL_DRIVER -DSTM32F105xC -DTX_WITH_CANDB="1"-o ecub_v0.2\stm32f1xx_hal_msp.o --omf_browse ecub_v0.2\stm32f1xx_hal_msp.crf --depend ecub_v0.2\stm32f1xx_hal_msp.d)
 I (../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal.h)(0x5B3F64C3)
 I (../Inc/stm32f1xx_hal_conf.h)(0x5B3F64C3)
 I (../Inc/main.h)(0x5B3F64C3)
@@ -602,7 +605,7 @@ I (../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_spi.h)(0x5B3F64C3)
 I (../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_tim.h)(0x5B3F64C3)
 I (../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_tim_ex.h)(0x5B3F64C3)
 I (../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_uart.h)(0x5B3F64C3)
-F (..\Src\WatchDog.c)(0x5B3F6A7B)(--c99 -c --cpu Cortex-M3 -D__EVAL -D__MICROLIB -g -O1 --apcs=interwork --split_sections -I ../Inc -I ../Drivers/STM32F1xx_HAL_Driver/Inc -I ../Drivers/STM32F1xx_HAL_Driver/Inc/Legacy -I ../Drivers/CMSIS/Device/ST/STM32F1xx/Include -I ../Drivers/CMSIS/Include -I ..\CANdb_ECUB -I ..\Eforce_lib-I.\RTE\_ECUB_V0.2-IC:\Keil_v5\ARM\PACK\ARM\CMSIS\5.0.1\CMSIS\Include-IC:\Keil_v5\ARM\PACK\Keil\STM32F1xx_DFP\2.2.0\Device\Include-D__UVISION_VERSION="524" -D_RTE_ -DSTM32F10X_CL -DUSE_HAL_DRIVER -DSTM32F105xC -DTX_WITH_CANDB="1"-o ecub_v0.2\watchdog.o --omf_browse ecub_v0.2\watchdog.crf --depend ecub_v0.2\watchdog.d)
+F (..\Src\WatchDog.c)(0x5B3F6A7B)(--c99 -c --cpu Cortex-M3 -D__EVAL -D__MICROLIB -g -O2 --apcs=interwork --split_sections -I ../Inc -I ../Drivers/STM32F1xx_HAL_Driver/Inc -I ../Drivers/STM32F1xx_HAL_Driver/Inc/Legacy -I ../Drivers/CMSIS/Device/ST/STM32F1xx/Include -I ../Drivers/CMSIS/Include -I ..\CANdb_ECUB -I ..\Eforce_lib-I.\RTE\_ECUB_V0.2-IC:\Keil_v5\ARM\PACK\ARM\CMSIS\5.0.1\CMSIS\Include-IC:\Keil_v5\ARM\PACK\Keil\STM32F1xx_DFP\2.2.0\Device\Include-D__UVISION_VERSION="524" -D_RTE_ -DSTM32F10X_CL -DUSE_HAL_DRIVER -DSTM32F105xC -DTX_WITH_CANDB="1"-o ecub_v0.2\watchdog.o --omf_browse ecub_v0.2\watchdog.crf --depend ecub_v0.2\watchdog.d)
 I (../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal.h)(0x5B3F64C3)
 I (../Inc/stm32f1xx_hal_conf.h)(0x5B3F64C3)
 I (../Inc/main.h)(0x5B3F64C3)
@@ -635,7 +638,7 @@ I (../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_tim.h)(0x5B3F64C3)
 I (../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_tim_ex.h)(0x5B3F64C3)
 I (../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_uart.h)(0x5B3F64C3)
 I (../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_wwdg.h)(0x5B3F64C3)
-F (../Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_gpio_ex.c)(0x5B3F64C3)(--c99 -c --cpu Cortex-M3 -D__EVAL -D__MICROLIB -g -O1 --apcs=interwork --split_sections -I ../Inc -I ../Drivers/STM32F1xx_HAL_Driver/Inc -I ../Drivers/STM32F1xx_HAL_Driver/Inc/Legacy -I ../Drivers/CMSIS/Device/ST/STM32F1xx/Include -I ../Drivers/CMSIS/Include -I ..\CANdb_ECUB -I ..\Eforce_lib-I.\RTE\_ECUB_V0.2-IC:\Keil_v5\ARM\PACK\ARM\CMSIS\5.0.1\CMSIS\Include-IC:\Keil_v5\ARM\PACK\Keil\STM32F1xx_DFP\2.2.0\Device\Include-D__UVISION_VERSION="524" -D_RTE_ -DSTM32F10X_CL -DUSE_HAL_DRIVER -DSTM32F105xC -DTX_WITH_CANDB="1"-o ecub_v0.2\stm32f1xx_hal_gpio_ex.o --omf_browse ecub_v0.2\stm32f1xx_hal_gpio_ex.crf --depend ecub_v0.2\stm32f1xx_hal_gpio_ex.d)
+F (../Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_gpio_ex.c)(0x5B3F64C3)(--c99 -c --cpu Cortex-M3 -D__EVAL -D__MICROLIB -g -O2 --apcs=interwork --split_sections -I ../Inc -I ../Drivers/STM32F1xx_HAL_Driver/Inc -I ../Drivers/STM32F1xx_HAL_Driver/Inc/Legacy -I ../Drivers/CMSIS/Device/ST/STM32F1xx/Include -I ../Drivers/CMSIS/Include -I ..\CANdb_ECUB -I ..\Eforce_lib-I.\RTE\_ECUB_V0.2-IC:\Keil_v5\ARM\PACK\ARM\CMSIS\5.0.1\CMSIS\Include-IC:\Keil_v5\ARM\PACK\Keil\STM32F1xx_DFP\2.2.0\Device\Include-D__UVISION_VERSION="524" -D_RTE_ -DSTM32F10X_CL -DUSE_HAL_DRIVER -DSTM32F105xC -DTX_WITH_CANDB="1"-o ecub_v0.2\stm32f1xx_hal_gpio_ex.o --omf_browse ecub_v0.2\stm32f1xx_hal_gpio_ex.crf --depend ecub_v0.2\stm32f1xx_hal_gpio_ex.d)
 I (../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal.h)(0x5B3F64C3)
 I (../Inc/stm32f1xx_hal_conf.h)(0x5B3F64C3)
 I (../Inc/main.h)(0x5B3F64C3)
@@ -667,7 +670,7 @@ I (../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_spi.h)(0x5B3F64C3)
 I (../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_tim.h)(0x5B3F64C3)
 I (../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_tim_ex.h)(0x5B3F64C3)
 I (../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_uart.h)(0x5B3F64C3)
-F (../Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_adc.c)(0x5B3F64C3)(--c99 -c --cpu Cortex-M3 -D__EVAL -D__MICROLIB -g -O1 --apcs=interwork --split_sections -I ../Inc -I ../Drivers/STM32F1xx_HAL_Driver/Inc -I ../Drivers/STM32F1xx_HAL_Driver/Inc/Legacy -I ../Drivers/CMSIS/Device/ST/STM32F1xx/Include -I ../Drivers/CMSIS/Include -I ..\CANdb_ECUB -I ..\Eforce_lib-I.\RTE\_ECUB_V0.2-IC:\Keil_v5\ARM\PACK\ARM\CMSIS\5.0.1\CMSIS\Include-IC:\Keil_v5\ARM\PACK\Keil\STM32F1xx_DFP\2.2.0\Device\Include-D__UVISION_VERSION="524" -D_RTE_ -DSTM32F10X_CL -DUSE_HAL_DRIVER -DSTM32F105xC -DTX_WITH_CANDB="1"-o ecub_v0.2\stm32f1xx_hal_adc.o --omf_browse ecub_v0.2\stm32f1xx_hal_adc.crf --depend ecub_v0.2\stm32f1xx_hal_adc.d)
+F (../Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_adc.c)(0x5B3F64C3)(--c99 -c --cpu Cortex-M3 -D__EVAL -D__MICROLIB -g -O2 --apcs=interwork --split_sections -I ../Inc -I ../Drivers/STM32F1xx_HAL_Driver/Inc -I ../Drivers/STM32F1xx_HAL_Driver/Inc/Legacy -I ../Drivers/CMSIS/Device/ST/STM32F1xx/Include -I ../Drivers/CMSIS/Include -I ..\CANdb_ECUB -I ..\Eforce_lib-I.\RTE\_ECUB_V0.2-IC:\Keil_v5\ARM\PACK\ARM\CMSIS\5.0.1\CMSIS\Include-IC:\Keil_v5\ARM\PACK\Keil\STM32F1xx_DFP\2.2.0\Device\Include-D__UVISION_VERSION="524" -D_RTE_ -DSTM32F10X_CL -DUSE_HAL_DRIVER -DSTM32F105xC -DTX_WITH_CANDB="1"-o ecub_v0.2\stm32f1xx_hal_adc.o --omf_browse ecub_v0.2\stm32f1xx_hal_adc.crf --depend ecub_v0.2\stm32f1xx_hal_adc.d)
 I (../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal.h)(0x5B3F64C3)
 I (../Inc/stm32f1xx_hal_conf.h)(0x5B3F64C3)
 I (../Inc/main.h)(0x5B3F64C3)
@@ -699,7 +702,7 @@ I (../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_spi.h)(0x5B3F64C3)
 I (../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_tim.h)(0x5B3F64C3)
 I (../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_tim_ex.h)(0x5B3F64C3)
 I (../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_uart.h)(0x5B3F64C3)
-F (../Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_adc_ex.c)(0x5B3F64C3)(--c99 -c --cpu Cortex-M3 -D__EVAL -D__MICROLIB -g -O1 --apcs=interwork --split_sections -I ../Inc -I ../Drivers/STM32F1xx_HAL_Driver/Inc -I ../Drivers/STM32F1xx_HAL_Driver/Inc/Legacy -I ../Drivers/CMSIS/Device/ST/STM32F1xx/Include -I ../Drivers/CMSIS/Include -I ..\CANdb_ECUB -I ..\Eforce_lib-I.\RTE\_ECUB_V0.2-IC:\Keil_v5\ARM\PACK\ARM\CMSIS\5.0.1\CMSIS\Include-IC:\Keil_v5\ARM\PACK\Keil\STM32F1xx_DFP\2.2.0\Device\Include-D__UVISION_VERSION="524" -D_RTE_ -DSTM32F10X_CL -DUSE_HAL_DRIVER -DSTM32F105xC -DTX_WITH_CANDB="1"-o ecub_v0.2\stm32f1xx_hal_adc_ex.o --omf_browse ecub_v0.2\stm32f1xx_hal_adc_ex.crf --depend ecub_v0.2\stm32f1xx_hal_adc_ex.d)
+F (../Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_adc_ex.c)(0x5B3F64C3)(--c99 -c --cpu Cortex-M3 -D__EVAL -D__MICROLIB -g -O2 --apcs=interwork --split_sections -I ../Inc -I ../Drivers/STM32F1xx_HAL_Driver/Inc -I ../Drivers/STM32F1xx_HAL_Driver/Inc/Legacy -I ../Drivers/CMSIS/Device/ST/STM32F1xx/Include -I ../Drivers/CMSIS/Include -I ..\CANdb_ECUB -I ..\Eforce_lib-I.\RTE\_ECUB_V0.2-IC:\Keil_v5\ARM\PACK\ARM\CMSIS\5.0.1\CMSIS\Include-IC:\Keil_v5\ARM\PACK\Keil\STM32F1xx_DFP\2.2.0\Device\Include-D__UVISION_VERSION="524" -D_RTE_ -DSTM32F10X_CL -DUSE_HAL_DRIVER -DSTM32F105xC -DTX_WITH_CANDB="1"-o ecub_v0.2\stm32f1xx_hal_adc_ex.o --omf_browse ecub_v0.2\stm32f1xx_hal_adc_ex.crf --depend ecub_v0.2\stm32f1xx_hal_adc_ex.d)
 I (../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal.h)(0x5B3F64C3)
 I (../Inc/stm32f1xx_hal_conf.h)(0x5B3F64C3)
 I (../Inc/main.h)(0x5B3F64C3)
@@ -731,7 +734,7 @@ I (../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_spi.h)(0x5B3F64C3)
 I (../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_tim.h)(0x5B3F64C3)
 I (../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_tim_ex.h)(0x5B3F64C3)
 I (../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_uart.h)(0x5B3F64C3)
-F (../Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_can.c)(0x5B3F64C3)(--c99 -c --cpu Cortex-M3 -D__EVAL -D__MICROLIB -g -O1 --apcs=interwork --split_sections -I ../Inc -I ../Drivers/STM32F1xx_HAL_Driver/Inc -I ../Drivers/STM32F1xx_HAL_Driver/Inc/Legacy -I ../Drivers/CMSIS/Device/ST/STM32F1xx/Include -I ../Drivers/CMSIS/Include -I ..\CANdb_ECUB -I ..\Eforce_lib-I.\RTE\_ECUB_V0.2-IC:\Keil_v5\ARM\PACK\ARM\CMSIS\5.0.1\CMSIS\Include-IC:\Keil_v5\ARM\PACK\Keil\STM32F1xx_DFP\2.2.0\Device\Include-D__UVISION_VERSION="524" -D_RTE_ -DSTM32F10X_CL -DUSE_HAL_DRIVER -DSTM32F105xC -DTX_WITH_CANDB="1"-o ecub_v0.2\stm32f1xx_hal_can.o --omf_browse ecub_v0.2\stm32f1xx_hal_can.crf --depend ecub_v0.2\stm32f1xx_hal_can.d)
+F (../Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_can.c)(0x5B3F64C3)(--c99 -c --cpu Cortex-M3 -D__EVAL -D__MICROLIB -g -O2 --apcs=interwork --split_sections -I ../Inc -I ../Drivers/STM32F1xx_HAL_Driver/Inc -I ../Drivers/STM32F1xx_HAL_Driver/Inc/Legacy -I ../Drivers/CMSIS/Device/ST/STM32F1xx/Include -I ../Drivers/CMSIS/Include -I ..\CANdb_ECUB -I ..\Eforce_lib-I.\RTE\_ECUB_V0.2-IC:\Keil_v5\ARM\PACK\ARM\CMSIS\5.0.1\CMSIS\Include-IC:\Keil_v5\ARM\PACK\Keil\STM32F1xx_DFP\2.2.0\Device\Include-D__UVISION_VERSION="524" -D_RTE_ -DSTM32F10X_CL -DUSE_HAL_DRIVER -DSTM32F105xC -DTX_WITH_CANDB="1"-o ecub_v0.2\stm32f1xx_hal_can.o --omf_browse ecub_v0.2\stm32f1xx_hal_can.crf --depend ecub_v0.2\stm32f1xx_hal_can.d)
 I (../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal.h)(0x5B3F64C3)
 I (../Inc/stm32f1xx_hal_conf.h)(0x5B3F64C3)
 I (../Inc/main.h)(0x5B3F64C3)
@@ -763,7 +766,7 @@ I (../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_spi.h)(0x5B3F64C3)
 I (../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_tim.h)(0x5B3F64C3)
 I (../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_tim_ex.h)(0x5B3F64C3)
 I (../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_uart.h)(0x5B3F64C3)
-F (../Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_spi.c)(0x5B3F64C3)(--c99 -c --cpu Cortex-M3 -D__EVAL -D__MICROLIB -g -O1 --apcs=interwork --split_sections -I ../Inc -I ../Drivers/STM32F1xx_HAL_Driver/Inc -I ../Drivers/STM32F1xx_HAL_Driver/Inc/Legacy -I ../Drivers/CMSIS/Device/ST/STM32F1xx/Include -I ../Drivers/CMSIS/Include -I ..\CANdb_ECUB -I ..\Eforce_lib-I.\RTE\_ECUB_V0.2-IC:\Keil_v5\ARM\PACK\ARM\CMSIS\5.0.1\CMSIS\Include-IC:\Keil_v5\ARM\PACK\Keil\STM32F1xx_DFP\2.2.0\Device\Include-D__UVISION_VERSION="524" -D_RTE_ -DSTM32F10X_CL -DUSE_HAL_DRIVER -DSTM32F105xC -DTX_WITH_CANDB="1"-o ecub_v0.2\stm32f1xx_hal_spi.o --omf_browse ecub_v0.2\stm32f1xx_hal_spi.crf --depend ecub_v0.2\stm32f1xx_hal_spi.d)
+F (../Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_spi.c)(0x5B3F64C3)(--c99 -c --cpu Cortex-M3 -D__EVAL -D__MICROLIB -g -O2 --apcs=interwork --split_sections -I ../Inc -I ../Drivers/STM32F1xx_HAL_Driver/Inc -I ../Drivers/STM32F1xx_HAL_Driver/Inc/Legacy -I ../Drivers/CMSIS/Device/ST/STM32F1xx/Include -I ../Drivers/CMSIS/Include -I ..\CANdb_ECUB -I ..\Eforce_lib-I.\RTE\_ECUB_V0.2-IC:\Keil_v5\ARM\PACK\ARM\CMSIS\5.0.1\CMSIS\Include-IC:\Keil_v5\ARM\PACK\Keil\STM32F1xx_DFP\2.2.0\Device\Include-D__UVISION_VERSION="524" -D_RTE_ -DSTM32F10X_CL -DUSE_HAL_DRIVER -DSTM32F105xC -DTX_WITH_CANDB="1"-o ecub_v0.2\stm32f1xx_hal_spi.o --omf_browse ecub_v0.2\stm32f1xx_hal_spi.crf --depend ecub_v0.2\stm32f1xx_hal_spi.d)
 I (../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal.h)(0x5B3F64C3)
 I (../Inc/stm32f1xx_hal_conf.h)(0x5B3F64C3)
 I (../Inc/main.h)(0x5B3F64C3)
@@ -795,7 +798,7 @@ I (../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_spi.h)(0x5B3F64C3)
 I (../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_tim.h)(0x5B3F64C3)
 I (../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_tim_ex.h)(0x5B3F64C3)
 I (../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_uart.h)(0x5B3F64C3)
-F (../Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_spi_ex.c)(0x5B3F64C3)(--c99 -c --cpu Cortex-M3 -D__EVAL -D__MICROLIB -g -O1 --apcs=interwork --split_sections -I ../Inc -I ../Drivers/STM32F1xx_HAL_Driver/Inc -I ../Drivers/STM32F1xx_HAL_Driver/Inc/Legacy -I ../Drivers/CMSIS/Device/ST/STM32F1xx/Include -I ../Drivers/CMSIS/Include -I ..\CANdb_ECUB -I ..\Eforce_lib-I.\RTE\_ECUB_V0.2-IC:\Keil_v5\ARM\PACK\ARM\CMSIS\5.0.1\CMSIS\Include-IC:\Keil_v5\ARM\PACK\Keil\STM32F1xx_DFP\2.2.0\Device\Include-D__UVISION_VERSION="524" -D_RTE_ -DSTM32F10X_CL -DUSE_HAL_DRIVER -DSTM32F105xC -DTX_WITH_CANDB="1"-o ecub_v0.2\stm32f1xx_hal_spi_ex.o --omf_browse ecub_v0.2\stm32f1xx_hal_spi_ex.crf --depend ecub_v0.2\stm32f1xx_hal_spi_ex.d)
+F (../Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_spi_ex.c)(0x5B3F64C3)(--c99 -c --cpu Cortex-M3 -D__EVAL -D__MICROLIB -g -O2 --apcs=interwork --split_sections -I ../Inc -I ../Drivers/STM32F1xx_HAL_Driver/Inc -I ../Drivers/STM32F1xx_HAL_Driver/Inc/Legacy -I ../Drivers/CMSIS/Device/ST/STM32F1xx/Include -I ../Drivers/CMSIS/Include -I ..\CANdb_ECUB -I ..\Eforce_lib-I.\RTE\_ECUB_V0.2-IC:\Keil_v5\ARM\PACK\ARM\CMSIS\5.0.1\CMSIS\Include-IC:\Keil_v5\ARM\PACK\Keil\STM32F1xx_DFP\2.2.0\Device\Include-D__UVISION_VERSION="524" -D_RTE_ -DSTM32F10X_CL -DUSE_HAL_DRIVER -DSTM32F105xC -DTX_WITH_CANDB="1"-o ecub_v0.2\stm32f1xx_hal_spi_ex.o --omf_browse ecub_v0.2\stm32f1xx_hal_spi_ex.crf --depend ecub_v0.2\stm32f1xx_hal_spi_ex.d)
 I (../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal.h)(0x5B3F64C3)
 I (../Inc/stm32f1xx_hal_conf.h)(0x5B3F64C3)
 I (../Inc/main.h)(0x5B3F64C3)
@@ -827,7 +830,7 @@ I (../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_spi.h)(0x5B3F64C3)
 I (../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_tim.h)(0x5B3F64C3)
 I (../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_tim_ex.h)(0x5B3F64C3)
 I (../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_uart.h)(0x5B3F64C3)
-F (../Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_tim.c)(0x5B3F958B)(--c99 -c --cpu Cortex-M3 -D__EVAL -D__MICROLIB -g -O1 --apcs=interwork --split_sections -I ../Inc -I ../Drivers/STM32F1xx_HAL_Driver/Inc -I ../Drivers/STM32F1xx_HAL_Driver/Inc/Legacy -I ../Drivers/CMSIS/Device/ST/STM32F1xx/Include -I ../Drivers/CMSIS/Include -I ..\CANdb_ECUB -I ..\Eforce_lib-I.\RTE\_ECUB_V0.2-IC:\Keil_v5\ARM\PACK\ARM\CMSIS\5.0.1\CMSIS\Include-IC:\Keil_v5\ARM\PACK\Keil\STM32F1xx_DFP\2.2.0\Device\Include-D__UVISION_VERSION="524" -D_RTE_ -DSTM32F10X_CL -DUSE_HAL_DRIVER -DSTM32F105xC -DTX_WITH_CANDB="1"-o ecub_v0.2\stm32f1xx_hal_tim.o --omf_browse ecub_v0.2\stm32f1xx_hal_tim.crf --depend ecub_v0.2\stm32f1xx_hal_tim.d)
+F (../Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_tim.c)(0x5B3F958B)(--c99 -c --cpu Cortex-M3 -D__EVAL -D__MICROLIB -g -O2 --apcs=interwork --split_sections -I ../Inc -I ../Drivers/STM32F1xx_HAL_Driver/Inc -I ../Drivers/STM32F1xx_HAL_Driver/Inc/Legacy -I ../Drivers/CMSIS/Device/ST/STM32F1xx/Include -I ../Drivers/CMSIS/Include -I ..\CANdb_ECUB -I ..\Eforce_lib-I.\RTE\_ECUB_V0.2-IC:\Keil_v5\ARM\PACK\ARM\CMSIS\5.0.1\CMSIS\Include-IC:\Keil_v5\ARM\PACK\Keil\STM32F1xx_DFP\2.2.0\Device\Include-D__UVISION_VERSION="524" -D_RTE_ -DSTM32F10X_CL -DUSE_HAL_DRIVER -DSTM32F105xC -DTX_WITH_CANDB="1"-o ecub_v0.2\stm32f1xx_hal_tim.o --omf_browse ecub_v0.2\stm32f1xx_hal_tim.crf --depend ecub_v0.2\stm32f1xx_hal_tim.d)
 I (../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal.h)(0x5B3F64C3)
 I (../Inc/stm32f1xx_hal_conf.h)(0x5B3F64C3)
 I (../Inc/main.h)(0x5B3F64C3)
@@ -859,7 +862,7 @@ I (../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_spi.h)(0x5B3F64C3)
 I (../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_tim.h)(0x5B3F64C3)
 I (../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_tim_ex.h)(0x5B3F64C3)
 I (../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_uart.h)(0x5B3F64C3)
-F (../Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_tim_ex.c)(0x5B3F64C3)(--c99 -c --cpu Cortex-M3 -D__EVAL -D__MICROLIB -g -O1 --apcs=interwork --split_sections -I ../Inc -I ../Drivers/STM32F1xx_HAL_Driver/Inc -I ../Drivers/STM32F1xx_HAL_Driver/Inc/Legacy -I ../Drivers/CMSIS/Device/ST/STM32F1xx/Include -I ../Drivers/CMSIS/Include -I ..\CANdb_ECUB -I ..\Eforce_lib-I.\RTE\_ECUB_V0.2-IC:\Keil_v5\ARM\PACK\ARM\CMSIS\5.0.1\CMSIS\Include-IC:\Keil_v5\ARM\PACK\Keil\STM32F1xx_DFP\2.2.0\Device\Include-D__UVISION_VERSION="524" -D_RTE_ -DSTM32F10X_CL -DUSE_HAL_DRIVER -DSTM32F105xC -DTX_WITH_CANDB="1"-o ecub_v0.2\stm32f1xx_hal_tim_ex.o --omf_browse ecub_v0.2\stm32f1xx_hal_tim_ex.crf --depend ecub_v0.2\stm32f1xx_hal_tim_ex.d)
+F (../Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_tim_ex.c)(0x5B3F64C3)(--c99 -c --cpu Cortex-M3 -D__EVAL -D__MICROLIB -g -O2 --apcs=interwork --split_sections -I ../Inc -I ../Drivers/STM32F1xx_HAL_Driver/Inc -I ../Drivers/STM32F1xx_HAL_Driver/Inc/Legacy -I ../Drivers/CMSIS/Device/ST/STM32F1xx/Include -I ../Drivers/CMSIS/Include -I ..\CANdb_ECUB -I ..\Eforce_lib-I.\RTE\_ECUB_V0.2-IC:\Keil_v5\ARM\PACK\ARM\CMSIS\5.0.1\CMSIS\Include-IC:\Keil_v5\ARM\PACK\Keil\STM32F1xx_DFP\2.2.0\Device\Include-D__UVISION_VERSION="524" -D_RTE_ -DSTM32F10X_CL -DUSE_HAL_DRIVER -DSTM32F105xC -DTX_WITH_CANDB="1"-o ecub_v0.2\stm32f1xx_hal_tim_ex.o --omf_browse ecub_v0.2\stm32f1xx_hal_tim_ex.crf --depend ecub_v0.2\stm32f1xx_hal_tim_ex.d)
 I (../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal.h)(0x5B3F64C3)
 I (../Inc/stm32f1xx_hal_conf.h)(0x5B3F64C3)
 I (../Inc/main.h)(0x5B3F64C3)
@@ -891,7 +894,7 @@ I (../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_spi.h)(0x5B3F64C3)
 I (../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_tim.h)(0x5B3F64C3)
 I (../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_tim_ex.h)(0x5B3F64C3)
 I (../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_uart.h)(0x5B3F64C3)
-F (../Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_uart.c)(0x5B3F64C3)(--c99 -c --cpu Cortex-M3 -D__EVAL -D__MICROLIB -g -O1 --apcs=interwork --split_sections -I ../Inc -I ../Drivers/STM32F1xx_HAL_Driver/Inc -I ../Drivers/STM32F1xx_HAL_Driver/Inc/Legacy -I ../Drivers/CMSIS/Device/ST/STM32F1xx/Include -I ../Drivers/CMSIS/Include -I ..\CANdb_ECUB -I ..\Eforce_lib-I.\RTE\_ECUB_V0.2-IC:\Keil_v5\ARM\PACK\ARM\CMSIS\5.0.1\CMSIS\Include-IC:\Keil_v5\ARM\PACK\Keil\STM32F1xx_DFP\2.2.0\Device\Include-D__UVISION_VERSION="524" -D_RTE_ -DSTM32F10X_CL -DUSE_HAL_DRIVER -DSTM32F105xC -DTX_WITH_CANDB="1"-o ecub_v0.2\stm32f1xx_hal_uart.o --omf_browse ecub_v0.2\stm32f1xx_hal_uart.crf --depend ecub_v0.2\stm32f1xx_hal_uart.d)
+F (../Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_uart.c)(0x5B3F64C3)(--c99 -c --cpu Cortex-M3 -D__EVAL -D__MICROLIB -g -O2 --apcs=interwork --split_sections -I ../Inc -I ../Drivers/STM32F1xx_HAL_Driver/Inc -I ../Drivers/STM32F1xx_HAL_Driver/Inc/Legacy -I ../Drivers/CMSIS/Device/ST/STM32F1xx/Include -I ../Drivers/CMSIS/Include -I ..\CANdb_ECUB -I ..\Eforce_lib-I.\RTE\_ECUB_V0.2-IC:\Keil_v5\ARM\PACK\ARM\CMSIS\5.0.1\CMSIS\Include-IC:\Keil_v5\ARM\PACK\Keil\STM32F1xx_DFP\2.2.0\Device\Include-D__UVISION_VERSION="524" -D_RTE_ -DSTM32F10X_CL -DUSE_HAL_DRIVER -DSTM32F105xC -DTX_WITH_CANDB="1"-o ecub_v0.2\stm32f1xx_hal_uart.o --omf_browse ecub_v0.2\stm32f1xx_hal_uart.crf --depend ecub_v0.2\stm32f1xx_hal_uart.d)
 I (../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal.h)(0x5B3F64C3)
 I (../Inc/stm32f1xx_hal_conf.h)(0x5B3F64C3)
 I (../Inc/main.h)(0x5B3F64C3)
@@ -923,7 +926,7 @@ I (../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_spi.h)(0x5B3F64C3)
 I (../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_tim.h)(0x5B3F64C3)
 I (../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_tim_ex.h)(0x5B3F64C3)
 I (../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_uart.h)(0x5B3F64C3)
-F (../Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal.c)(0x5B3F64C3)(--c99 -c --cpu Cortex-M3 -D__EVAL -D__MICROLIB -g -O1 --apcs=interwork --split_sections -I ../Inc -I ../Drivers/STM32F1xx_HAL_Driver/Inc -I ../Drivers/STM32F1xx_HAL_Driver/Inc/Legacy -I ../Drivers/CMSIS/Device/ST/STM32F1xx/Include -I ../Drivers/CMSIS/Include -I ..\CANdb_ECUB -I ..\Eforce_lib-I.\RTE\_ECUB_V0.2-IC:\Keil_v5\ARM\PACK\ARM\CMSIS\5.0.1\CMSIS\Include-IC:\Keil_v5\ARM\PACK\Keil\STM32F1xx_DFP\2.2.0\Device\Include-D__UVISION_VERSION="524" -D_RTE_ -DSTM32F10X_CL -DUSE_HAL_DRIVER -DSTM32F105xC -DTX_WITH_CANDB="1"-o ecub_v0.2\stm32f1xx_hal.o --omf_browse ecub_v0.2\stm32f1xx_hal.crf --depend ecub_v0.2\stm32f1xx_hal.d)
+F (../Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal.c)(0x5B3F64C3)(--c99 -c --cpu Cortex-M3 -D__EVAL -D__MICROLIB -g -O2 --apcs=interwork --split_sections -I ../Inc -I ../Drivers/STM32F1xx_HAL_Driver/Inc -I ../Drivers/STM32F1xx_HAL_Driver/Inc/Legacy -I ../Drivers/CMSIS/Device/ST/STM32F1xx/Include -I ../Drivers/CMSIS/Include -I ..\CANdb_ECUB -I ..\Eforce_lib-I.\RTE\_ECUB_V0.2-IC:\Keil_v5\ARM\PACK\ARM\CMSIS\5.0.1\CMSIS\Include-IC:\Keil_v5\ARM\PACK\Keil\STM32F1xx_DFP\2.2.0\Device\Include-D__UVISION_VERSION="524" -D_RTE_ -DSTM32F10X_CL -DUSE_HAL_DRIVER -DSTM32F105xC -DTX_WITH_CANDB="1"-o ecub_v0.2\stm32f1xx_hal.o --omf_browse ecub_v0.2\stm32f1xx_hal.crf --depend ecub_v0.2\stm32f1xx_hal.d)
 I (../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal.h)(0x5B3F64C3)
 I (../Inc/stm32f1xx_hal_conf.h)(0x5B3F64C3)
 I (../Inc/main.h)(0x5B3F64C3)
@@ -955,7 +958,7 @@ I (../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_spi.h)(0x5B3F64C3)
 I (../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_tim.h)(0x5B3F64C3)
 I (../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_tim_ex.h)(0x5B3F64C3)
 I (../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_uart.h)(0x5B3F64C3)
-F (../Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_rcc.c)(0x5B3F64C3)(--c99 -c --cpu Cortex-M3 -D__EVAL -D__MICROLIB -g -O1 --apcs=interwork --split_sections -I ../Inc -I ../Drivers/STM32F1xx_HAL_Driver/Inc -I ../Drivers/STM32F1xx_HAL_Driver/Inc/Legacy -I ../Drivers/CMSIS/Device/ST/STM32F1xx/Include -I ../Drivers/CMSIS/Include -I ..\CANdb_ECUB -I ..\Eforce_lib-I.\RTE\_ECUB_V0.2-IC:\Keil_v5\ARM\PACK\ARM\CMSIS\5.0.1\CMSIS\Include-IC:\Keil_v5\ARM\PACK\Keil\STM32F1xx_DFP\2.2.0\Device\Include-D__UVISION_VERSION="524" -D_RTE_ -DSTM32F10X_CL -DUSE_HAL_DRIVER -DSTM32F105xC -DTX_WITH_CANDB="1"-o ecub_v0.2\stm32f1xx_hal_rcc.o --omf_browse ecub_v0.2\stm32f1xx_hal_rcc.crf --depend ecub_v0.2\stm32f1xx_hal_rcc.d)
+F (../Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_rcc.c)(0x5B3F64C3)(--c99 -c --cpu Cortex-M3 -D__EVAL -D__MICROLIB -g -O2 --apcs=interwork --split_sections -I ../Inc -I ../Drivers/STM32F1xx_HAL_Driver/Inc -I ../Drivers/STM32F1xx_HAL_Driver/Inc/Legacy -I ../Drivers/CMSIS/Device/ST/STM32F1xx/Include -I ../Drivers/CMSIS/Include -I ..\CANdb_ECUB -I ..\Eforce_lib-I.\RTE\_ECUB_V0.2-IC:\Keil_v5\ARM\PACK\ARM\CMSIS\5.0.1\CMSIS\Include-IC:\Keil_v5\ARM\PACK\Keil\STM32F1xx_DFP\2.2.0\Device\Include-D__UVISION_VERSION="524" -D_RTE_ -DSTM32F10X_CL -DUSE_HAL_DRIVER -DSTM32F105xC -DTX_WITH_CANDB="1"-o ecub_v0.2\stm32f1xx_hal_rcc.o --omf_browse ecub_v0.2\stm32f1xx_hal_rcc.crf --depend ecub_v0.2\stm32f1xx_hal_rcc.d)
 I (../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal.h)(0x5B3F64C3)
 I (../Inc/stm32f1xx_hal_conf.h)(0x5B3F64C3)
 I (../Inc/main.h)(0x5B3F64C3)
@@ -987,7 +990,7 @@ I (../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_spi.h)(0x5B3F64C3)
 I (../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_tim.h)(0x5B3F64C3)
 I (../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_tim_ex.h)(0x5B3F64C3)
 I (../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_uart.h)(0x5B3F64C3)
-F (../Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_rcc_ex.c)(0x5B3F64C3)(--c99 -c --cpu Cortex-M3 -D__EVAL -D__MICROLIB -g -O1 --apcs=interwork --split_sections -I ../Inc -I ../Drivers/STM32F1xx_HAL_Driver/Inc -I ../Drivers/STM32F1xx_HAL_Driver/Inc/Legacy -I ../Drivers/CMSIS/Device/ST/STM32F1xx/Include -I ../Drivers/CMSIS/Include -I ..\CANdb_ECUB -I ..\Eforce_lib-I.\RTE\_ECUB_V0.2-IC:\Keil_v5\ARM\PACK\ARM\CMSIS\5.0.1\CMSIS\Include-IC:\Keil_v5\ARM\PACK\Keil\STM32F1xx_DFP\2.2.0\Device\Include-D__UVISION_VERSION="524" -D_RTE_ -DSTM32F10X_CL -DUSE_HAL_DRIVER -DSTM32F105xC -DTX_WITH_CANDB="1"-o ecub_v0.2\stm32f1xx_hal_rcc_ex.o --omf_browse ecub_v0.2\stm32f1xx_hal_rcc_ex.crf --depend ecub_v0.2\stm32f1xx_hal_rcc_ex.d)
+F (../Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_rcc_ex.c)(0x5B3F64C3)(--c99 -c --cpu Cortex-M3 -D__EVAL -D__MICROLIB -g -O2 --apcs=interwork --split_sections -I ../Inc -I ../Drivers/STM32F1xx_HAL_Driver/Inc -I ../Drivers/STM32F1xx_HAL_Driver/Inc/Legacy -I ../Drivers/CMSIS/Device/ST/STM32F1xx/Include -I ../Drivers/CMSIS/Include -I ..\CANdb_ECUB -I ..\Eforce_lib-I.\RTE\_ECUB_V0.2-IC:\Keil_v5\ARM\PACK\ARM\CMSIS\5.0.1\CMSIS\Include-IC:\Keil_v5\ARM\PACK\Keil\STM32F1xx_DFP\2.2.0\Device\Include-D__UVISION_VERSION="524" -D_RTE_ -DSTM32F10X_CL -DUSE_HAL_DRIVER -DSTM32F105xC -DTX_WITH_CANDB="1"-o ecub_v0.2\stm32f1xx_hal_rcc_ex.o --omf_browse ecub_v0.2\stm32f1xx_hal_rcc_ex.crf --depend ecub_v0.2\stm32f1xx_hal_rcc_ex.d)
 I (../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal.h)(0x5B3F64C3)
 I (../Inc/stm32f1xx_hal_conf.h)(0x5B3F64C3)
 I (../Inc/main.h)(0x5B3F64C3)
@@ -1019,7 +1022,7 @@ I (../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_spi.h)(0x5B3F64C3)
 I (../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_tim.h)(0x5B3F64C3)
 I (../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_tim_ex.h)(0x5B3F64C3)
 I (../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_uart.h)(0x5B3F64C3)
-F (../Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_gpio.c)(0x5B3F64C3)(--c99 -c --cpu Cortex-M3 -D__EVAL -D__MICROLIB -g -O1 --apcs=interwork --split_sections -I ../Inc -I ../Drivers/STM32F1xx_HAL_Driver/Inc -I ../Drivers/STM32F1xx_HAL_Driver/Inc/Legacy -I ../Drivers/CMSIS/Device/ST/STM32F1xx/Include -I ../Drivers/CMSIS/Include -I ..\CANdb_ECUB -I ..\Eforce_lib-I.\RTE\_ECUB_V0.2-IC:\Keil_v5\ARM\PACK\ARM\CMSIS\5.0.1\CMSIS\Include-IC:\Keil_v5\ARM\PACK\Keil\STM32F1xx_DFP\2.2.0\Device\Include-D__UVISION_VERSION="524" -D_RTE_ -DSTM32F10X_CL -DUSE_HAL_DRIVER -DSTM32F105xC -DTX_WITH_CANDB="1"-o ecub_v0.2\stm32f1xx_hal_gpio.o --omf_browse ecub_v0.2\stm32f1xx_hal_gpio.crf --depend ecub_v0.2\stm32f1xx_hal_gpio.d)
+F (../Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_gpio.c)(0x5B3F64C3)(--c99 -c --cpu Cortex-M3 -D__EVAL -D__MICROLIB -g -O2 --apcs=interwork --split_sections -I ../Inc -I ../Drivers/STM32F1xx_HAL_Driver/Inc -I ../Drivers/STM32F1xx_HAL_Driver/Inc/Legacy -I ../Drivers/CMSIS/Device/ST/STM32F1xx/Include -I ../Drivers/CMSIS/Include -I ..\CANdb_ECUB -I ..\Eforce_lib-I.\RTE\_ECUB_V0.2-IC:\Keil_v5\ARM\PACK\ARM\CMSIS\5.0.1\CMSIS\Include-IC:\Keil_v5\ARM\PACK\Keil\STM32F1xx_DFP\2.2.0\Device\Include-D__UVISION_VERSION="524" -D_RTE_ -DSTM32F10X_CL -DUSE_HAL_DRIVER -DSTM32F105xC -DTX_WITH_CANDB="1"-o ecub_v0.2\stm32f1xx_hal_gpio.o --omf_browse ecub_v0.2\stm32f1xx_hal_gpio.crf --depend ecub_v0.2\stm32f1xx_hal_gpio.d)
 I (../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal.h)(0x5B3F64C3)
 I (../Inc/stm32f1xx_hal_conf.h)(0x5B3F64C3)
 I (../Inc/main.h)(0x5B3F64C3)
@@ -1051,7 +1054,7 @@ I (../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_spi.h)(0x5B3F64C3)
 I (../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_tim.h)(0x5B3F64C3)
 I (../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_tim_ex.h)(0x5B3F64C3)
 I (../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_uart.h)(0x5B3F64C3)
-F (../Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_dma.c)(0x5B3F64C3)(--c99 -c --cpu Cortex-M3 -D__EVAL -D__MICROLIB -g -O1 --apcs=interwork --split_sections -I ../Inc -I ../Drivers/STM32F1xx_HAL_Driver/Inc -I ../Drivers/STM32F1xx_HAL_Driver/Inc/Legacy -I ../Drivers/CMSIS/Device/ST/STM32F1xx/Include -I ../Drivers/CMSIS/Include -I ..\CANdb_ECUB -I ..\Eforce_lib-I.\RTE\_ECUB_V0.2-IC:\Keil_v5\ARM\PACK\ARM\CMSIS\5.0.1\CMSIS\Include-IC:\Keil_v5\ARM\PACK\Keil\STM32F1xx_DFP\2.2.0\Device\Include-D__UVISION_VERSION="524" -D_RTE_ -DSTM32F10X_CL -DUSE_HAL_DRIVER -DSTM32F105xC -DTX_WITH_CANDB="1"-o ecub_v0.2\stm32f1xx_hal_dma.o --omf_browse ecub_v0.2\stm32f1xx_hal_dma.crf --depend ecub_v0.2\stm32f1xx_hal_dma.d)
+F (../Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_dma.c)(0x5B3F64C3)(--c99 -c --cpu Cortex-M3 -D__EVAL -D__MICROLIB -g -O2 --apcs=interwork --split_sections -I ../Inc -I ../Drivers/STM32F1xx_HAL_Driver/Inc -I ../Drivers/STM32F1xx_HAL_Driver/Inc/Legacy -I ../Drivers/CMSIS/Device/ST/STM32F1xx/Include -I ../Drivers/CMSIS/Include -I ..\CANdb_ECUB -I ..\Eforce_lib-I.\RTE\_ECUB_V0.2-IC:\Keil_v5\ARM\PACK\ARM\CMSIS\5.0.1\CMSIS\Include-IC:\Keil_v5\ARM\PACK\Keil\STM32F1xx_DFP\2.2.0\Device\Include-D__UVISION_VERSION="524" -D_RTE_ -DSTM32F10X_CL -DUSE_HAL_DRIVER -DSTM32F105xC -DTX_WITH_CANDB="1"-o ecub_v0.2\stm32f1xx_hal_dma.o --omf_browse ecub_v0.2\stm32f1xx_hal_dma.crf --depend ecub_v0.2\stm32f1xx_hal_dma.d)
 I (../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal.h)(0x5B3F64C3)
 I (../Inc/stm32f1xx_hal_conf.h)(0x5B3F64C3)
 I (../Inc/main.h)(0x5B3F64C3)
@@ -1083,7 +1086,7 @@ I (../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_spi.h)(0x5B3F64C3)
 I (../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_tim.h)(0x5B3F64C3)
 I (../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_tim_ex.h)(0x5B3F64C3)
 I (../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_uart.h)(0x5B3F64C3)
-F (../Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_cortex.c)(0x5B3F64C3)(--c99 -c --cpu Cortex-M3 -D__EVAL -D__MICROLIB -g -O1 --apcs=interwork --split_sections -I ../Inc -I ../Drivers/STM32F1xx_HAL_Driver/Inc -I ../Drivers/STM32F1xx_HAL_Driver/Inc/Legacy -I ../Drivers/CMSIS/Device/ST/STM32F1xx/Include -I ../Drivers/CMSIS/Include -I ..\CANdb_ECUB -I ..\Eforce_lib-I.\RTE\_ECUB_V0.2-IC:\Keil_v5\ARM\PACK\ARM\CMSIS\5.0.1\CMSIS\Include-IC:\Keil_v5\ARM\PACK\Keil\STM32F1xx_DFP\2.2.0\Device\Include-D__UVISION_VERSION="524" -D_RTE_ -DSTM32F10X_CL -DUSE_HAL_DRIVER -DSTM32F105xC -DTX_WITH_CANDB="1"-o ecub_v0.2\stm32f1xx_hal_cortex.o --omf_browse ecub_v0.2\stm32f1xx_hal_cortex.crf --depend ecub_v0.2\stm32f1xx_hal_cortex.d)
+F (../Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_cortex.c)(0x5B3F64C3)(--c99 -c --cpu Cortex-M3 -D__EVAL -D__MICROLIB -g -O2 --apcs=interwork --split_sections -I ../Inc -I ../Drivers/STM32F1xx_HAL_Driver/Inc -I ../Drivers/STM32F1xx_HAL_Driver/Inc/Legacy -I ../Drivers/CMSIS/Device/ST/STM32F1xx/Include -I ../Drivers/CMSIS/Include -I ..\CANdb_ECUB -I ..\Eforce_lib-I.\RTE\_ECUB_V0.2-IC:\Keil_v5\ARM\PACK\ARM\CMSIS\5.0.1\CMSIS\Include-IC:\Keil_v5\ARM\PACK\Keil\STM32F1xx_DFP\2.2.0\Device\Include-D__UVISION_VERSION="524" -D_RTE_ -DSTM32F10X_CL -DUSE_HAL_DRIVER -DSTM32F105xC -DTX_WITH_CANDB="1"-o ecub_v0.2\stm32f1xx_hal_cortex.o --omf_browse ecub_v0.2\stm32f1xx_hal_cortex.crf --depend ecub_v0.2\stm32f1xx_hal_cortex.d)
 I (../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal.h)(0x5B3F64C3)
 I (../Inc/stm32f1xx_hal_conf.h)(0x5B3F64C3)
 I (../Inc/main.h)(0x5B3F64C3)
@@ -1115,7 +1118,7 @@ I (../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_spi.h)(0x5B3F64C3)
 I (../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_tim.h)(0x5B3F64C3)
 I (../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_tim_ex.h)(0x5B3F64C3)
 I (../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_uart.h)(0x5B3F64C3)
-F (../Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_pwr.c)(0x5B3F64C3)(--c99 -c --cpu Cortex-M3 -D__EVAL -D__MICROLIB -g -O1 --apcs=interwork --split_sections -I ../Inc -I ../Drivers/STM32F1xx_HAL_Driver/Inc -I ../Drivers/STM32F1xx_HAL_Driver/Inc/Legacy -I ../Drivers/CMSIS/Device/ST/STM32F1xx/Include -I ../Drivers/CMSIS/Include -I ..\CANdb_ECUB -I ..\Eforce_lib-I.\RTE\_ECUB_V0.2-IC:\Keil_v5\ARM\PACK\ARM\CMSIS\5.0.1\CMSIS\Include-IC:\Keil_v5\ARM\PACK\Keil\STM32F1xx_DFP\2.2.0\Device\Include-D__UVISION_VERSION="524" -D_RTE_ -DSTM32F10X_CL -DUSE_HAL_DRIVER -DSTM32F105xC -DTX_WITH_CANDB="1"-o ecub_v0.2\stm32f1xx_hal_pwr.o --omf_browse ecub_v0.2\stm32f1xx_hal_pwr.crf --depend ecub_v0.2\stm32f1xx_hal_pwr.d)
+F (../Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_pwr.c)(0x5B3F64C3)(--c99 -c --cpu Cortex-M3 -D__EVAL -D__MICROLIB -g -O2 --apcs=interwork --split_sections -I ../Inc -I ../Drivers/STM32F1xx_HAL_Driver/Inc -I ../Drivers/STM32F1xx_HAL_Driver/Inc/Legacy -I ../Drivers/CMSIS/Device/ST/STM32F1xx/Include -I ../Drivers/CMSIS/Include -I ..\CANdb_ECUB -I ..\Eforce_lib-I.\RTE\_ECUB_V0.2-IC:\Keil_v5\ARM\PACK\ARM\CMSIS\5.0.1\CMSIS\Include-IC:\Keil_v5\ARM\PACK\Keil\STM32F1xx_DFP\2.2.0\Device\Include-D__UVISION_VERSION="524" -D_RTE_ -DSTM32F10X_CL -DUSE_HAL_DRIVER -DSTM32F105xC -DTX_WITH_CANDB="1"-o ecub_v0.2\stm32f1xx_hal_pwr.o --omf_browse ecub_v0.2\stm32f1xx_hal_pwr.crf --depend ecub_v0.2\stm32f1xx_hal_pwr.d)
 I (../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal.h)(0x5B3F64C3)
 I (../Inc/stm32f1xx_hal_conf.h)(0x5B3F64C3)
 I (../Inc/main.h)(0x5B3F64C3)
@@ -1147,7 +1150,7 @@ I (../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_spi.h)(0x5B3F64C3)
 I (../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_tim.h)(0x5B3F64C3)
 I (../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_tim_ex.h)(0x5B3F64C3)
 I (../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_uart.h)(0x5B3F64C3)
-F (../Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_flash.c)(0x5B3F64C3)(--c99 -c --cpu Cortex-M3 -D__EVAL -D__MICROLIB -g -O1 --apcs=interwork --split_sections -I ../Inc -I ../Drivers/STM32F1xx_HAL_Driver/Inc -I ../Drivers/STM32F1xx_HAL_Driver/Inc/Legacy -I ../Drivers/CMSIS/Device/ST/STM32F1xx/Include -I ../Drivers/CMSIS/Include -I ..\CANdb_ECUB -I ..\Eforce_lib-I.\RTE\_ECUB_V0.2-IC:\Keil_v5\ARM\PACK\ARM\CMSIS\5.0.1\CMSIS\Include-IC:\Keil_v5\ARM\PACK\Keil\STM32F1xx_DFP\2.2.0\Device\Include-D__UVISION_VERSION="524" -D_RTE_ -DSTM32F10X_CL -DUSE_HAL_DRIVER -DSTM32F105xC -DTX_WITH_CANDB="1"-o ecub_v0.2\stm32f1xx_hal_flash.o --omf_browse ecub_v0.2\stm32f1xx_hal_flash.crf --depend ecub_v0.2\stm32f1xx_hal_flash.d)
+F (../Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_flash.c)(0x5B3F64C3)(--c99 -c --cpu Cortex-M3 -D__EVAL -D__MICROLIB -g -O2 --apcs=interwork --split_sections -I ../Inc -I ../Drivers/STM32F1xx_HAL_Driver/Inc -I ../Drivers/STM32F1xx_HAL_Driver/Inc/Legacy -I ../Drivers/CMSIS/Device/ST/STM32F1xx/Include -I ../Drivers/CMSIS/Include -I ..\CANdb_ECUB -I ..\Eforce_lib-I.\RTE\_ECUB_V0.2-IC:\Keil_v5\ARM\PACK\ARM\CMSIS\5.0.1\CMSIS\Include-IC:\Keil_v5\ARM\PACK\Keil\STM32F1xx_DFP\2.2.0\Device\Include-D__UVISION_VERSION="524" -D_RTE_ -DSTM32F10X_CL -DUSE_HAL_DRIVER -DSTM32F105xC -DTX_WITH_CANDB="1"-o ecub_v0.2\stm32f1xx_hal_flash.o --omf_browse ecub_v0.2\stm32f1xx_hal_flash.crf --depend ecub_v0.2\stm32f1xx_hal_flash.d)
 I (../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal.h)(0x5B3F64C3)
 I (../Inc/stm32f1xx_hal_conf.h)(0x5B3F64C3)
 I (../Inc/main.h)(0x5B3F64C3)
@@ -1179,7 +1182,7 @@ I (../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_spi.h)(0x5B3F64C3)
 I (../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_tim.h)(0x5B3F64C3)
 I (../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_tim_ex.h)(0x5B3F64C3)
 I (../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_uart.h)(0x5B3F64C3)
-F (../Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_flash_ex.c)(0x5B3F64C3)(--c99 -c --cpu Cortex-M3 -D__EVAL -D__MICROLIB -g -O1 --apcs=interwork --split_sections -I ../Inc -I ../Drivers/STM32F1xx_HAL_Driver/Inc -I ../Drivers/STM32F1xx_HAL_Driver/Inc/Legacy -I ../Drivers/CMSIS/Device/ST/STM32F1xx/Include -I ../Drivers/CMSIS/Include -I ..\CANdb_ECUB -I ..\Eforce_lib-I.\RTE\_ECUB_V0.2-IC:\Keil_v5\ARM\PACK\ARM\CMSIS\5.0.1\CMSIS\Include-IC:\Keil_v5\ARM\PACK\Keil\STM32F1xx_DFP\2.2.0\Device\Include-D__UVISION_VERSION="524" -D_RTE_ -DSTM32F10X_CL -DUSE_HAL_DRIVER -DSTM32F105xC -DTX_WITH_CANDB="1"-o ecub_v0.2\stm32f1xx_hal_flash_ex.o --omf_browse ecub_v0.2\stm32f1xx_hal_flash_ex.crf --depend ecub_v0.2\stm32f1xx_hal_flash_ex.d)
+F (../Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_flash_ex.c)(0x5B3F64C3)(--c99 -c --cpu Cortex-M3 -D__EVAL -D__MICROLIB -g -O2 --apcs=interwork --split_sections -I ../Inc -I ../Drivers/STM32F1xx_HAL_Driver/Inc -I ../Drivers/STM32F1xx_HAL_Driver/Inc/Legacy -I ../Drivers/CMSIS/Device/ST/STM32F1xx/Include -I ../Drivers/CMSIS/Include -I ..\CANdb_ECUB -I ..\Eforce_lib-I.\RTE\_ECUB_V0.2-IC:\Keil_v5\ARM\PACK\ARM\CMSIS\5.0.1\CMSIS\Include-IC:\Keil_v5\ARM\PACK\Keil\STM32F1xx_DFP\2.2.0\Device\Include-D__UVISION_VERSION="524" -D_RTE_ -DSTM32F10X_CL -DUSE_HAL_DRIVER -DSTM32F105xC -DTX_WITH_CANDB="1"-o ecub_v0.2\stm32f1xx_hal_flash_ex.o --omf_browse ecub_v0.2\stm32f1xx_hal_flash_ex.crf --depend ecub_v0.2\stm32f1xx_hal_flash_ex.d)
 I (../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal.h)(0x5B3F64C3)
 I (../Inc/stm32f1xx_hal_conf.h)(0x5B3F64C3)
 I (../Inc/main.h)(0x5B3F64C3)
@@ -1211,7 +1214,7 @@ I (../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_spi.h)(0x5B3F64C3)
 I (../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_tim.h)(0x5B3F64C3)
 I (../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_tim_ex.h)(0x5B3F64C3)
 I (../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_uart.h)(0x5B3F64C3)
-F (..//Src/system_stm32f1xx.c)(0x5B3F64C3)(--c99 -c --cpu Cortex-M3 -D__EVAL -D__MICROLIB -g -O1 --apcs=interwork --split_sections -I ../Inc -I ../Drivers/STM32F1xx_HAL_Driver/Inc -I ../Drivers/STM32F1xx_HAL_Driver/Inc/Legacy -I ../Drivers/CMSIS/Device/ST/STM32F1xx/Include -I ../Drivers/CMSIS/Include -I ..\CANdb_ECUB -I ..\Eforce_lib-I.\RTE\_ECUB_V0.2-IC:\Keil_v5\ARM\PACK\ARM\CMSIS\5.0.1\CMSIS\Include-IC:\Keil_v5\ARM\PACK\Keil\STM32F1xx_DFP\2.2.0\Device\Include-D__UVISION_VERSION="524" -D_RTE_ -DSTM32F10X_CL -DUSE_HAL_DRIVER -DSTM32F105xC -DTX_WITH_CANDB="1"-o ecub_v0.2\system_stm32f1xx.o --omf_browse ecub_v0.2\system_stm32f1xx.crf --depend ecub_v0.2\system_stm32f1xx.d)
+F (..//Src/system_stm32f1xx.c)(0x5B3F64C3)(--c99 -c --cpu Cortex-M3 -D__EVAL -D__MICROLIB -g -O2 --apcs=interwork --split_sections -I ../Inc -I ../Drivers/STM32F1xx_HAL_Driver/Inc -I ../Drivers/STM32F1xx_HAL_Driver/Inc/Legacy -I ../Drivers/CMSIS/Device/ST/STM32F1xx/Include -I ../Drivers/CMSIS/Include -I ..\CANdb_ECUB -I ..\Eforce_lib-I.\RTE\_ECUB_V0.2-IC:\Keil_v5\ARM\PACK\ARM\CMSIS\5.0.1\CMSIS\Include-IC:\Keil_v5\ARM\PACK\Keil\STM32F1xx_DFP\2.2.0\Device\Include-D__UVISION_VERSION="524" -D_RTE_ -DSTM32F10X_CL -DUSE_HAL_DRIVER -DSTM32F105xC -DTX_WITH_CANDB="1"-o ecub_v0.2\system_stm32f1xx.o --omf_browse ecub_v0.2\system_stm32f1xx.crf --depend ecub_v0.2\system_stm32f1xx.d)
 I (../Drivers/CMSIS/Device/ST/STM32F1xx/Include/stm32f1xx.h)(0x5B3F64C2)
 I (../Drivers/CMSIS/Device/ST/STM32F1xx/Include/stm32f105xc.h)(0x5B3F64C2)
 I (../Drivers/CMSIS/Include/core_cm3.h)(0x5B3F64C2)

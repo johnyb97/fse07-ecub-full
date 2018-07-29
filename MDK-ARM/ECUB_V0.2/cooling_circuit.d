@@ -42,3 +42,4 @@ ecub_v0.2\cooling_circuit.o: ..\CANdb_ECUB\tx2/tx.h
 ecub_v0.2\cooling_circuit.o: C:\Keil_v5\ARM\ARMCC\Bin\..\include\stdlib.h
 ecub_v0.2\cooling_circuit.o: ../Inc/periphery_set.h
 ecub_v0.2\cooling_circuit.o: ../Inc/cooling_circuit.h
+ecub_v0.2\cooling_circuit.o: ../Inc/ADC.h

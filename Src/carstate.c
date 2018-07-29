@@ -1,5 +1,6 @@
 #include "carstate.h"
 
+
 #define CS_NOT_READY_LOCK_TIME			3000 // ms time to do nothing after error(notready)
 #define CS_BSPD_LATCH_WRITING_DELAY		200 // ms countdown after crititcal error
 #define LED_blink 100 //ms for bling led
@@ -14,7 +15,6 @@
 #define SDC_TSMS_OFFSET 14 //bit ofset for SDC data TSMS (Tractive System Master Switch)
 
 static ECUB_Status_t				ECUB_Status; //can message
-static ECUB_Power_dist_t		ECUB_Power; // can message
 static enum ECUB_CarState 					state; //car state 
 static enum ECUB_Notready_reason		state_notready;  //reason for notready car state
 //enum ECUB_Power_code				pow_code; //error pow now
@@ -28,12 +28,23 @@ static uint32_t			number_of_bliks; //number of blinks
 uint8_t							parity_check_summ; //parity check if SDC measure correctly recived  
 uint8_t							parity_for; //number used in for cycle inside parity check
 uint8_t							SDC_parity_control; //number used in for cycle inside parity check
+uint8_t							TS_ON_presed;
+uint32_t						TSMS_set_countdown;
+#define							TSMS_set_timeout 1000;
+
+uint32_t							LV_low_countdown; //countdown of LV to low error
+static const uint32_t LV_low_timeout = 1000; //time for witch LV has to low voltage before error
+static const uint32_t LV_low_threshold = 15000; //mV minimal voltage to run the car
+static const uint32_t LV_low_dead = 2000; //LV disconected
 
 
 static ECUP_Status_t ECUP_data; //data form can status ECUP
 static ECUF_Dashboard_t ECUF_Dash_data; //data from can ECUF dashboard
 static ECUF_Status_t ECUF_Status_data; //data from can ECUF dashboard
 static ECUA_Status_t ECUA_data; //data from can ECUA
+static VDCU_Status_t VDCU_data; //data from can VDCU
+static MCF_ChannelMeasuresA_t MCF_measurements; //data from MCF
+
 static uint32_t time_SDC_blink_L; //time variable for blinking led
 static uint32_t time_SDC_blink_R; //time variable for blinking led
 
@@ -79,9 +90,38 @@ uint32_t play_RTDS(void) //hraje RTDS ton...snad
 		}
 	}
 }
+void check_voltage(void)
+{
+	if (LV_voltage_recive()>LV_low_dead){ //only if LV conected
+		if (LV_low_countdown>0){
+			if (LV_low_countdown > HAL_GetTick()){
+				while(!units_set(GPIO_PIN_RESET,get_can_state())||(!aux_set(GPIO_PIN_RESET,get_can_state()))){} //gives power to all units and aux
+				while (1){}
+			}
+		}
+		if (LV_voltage_recive()< LV_low_threshold){
+			if ((LV_low_countdown <= 0)){
+				LV_low_countdown = HAL_GetTick()+LV_low_timeout;
+			}
+		}else{
+			LV_low_countdown = 0;
+		}
+	}
+	/*
+	if (MCF_measurements.VDC >= 5500){
+		HAL_GPIO_WritePin(TSALL_test_GPIO_Port,TSALL_test_Pin,GPIO_PIN_SET);
+	}else{
+		HAL_GPIO_WritePin(TSALL_test_GPIO_Port,TSALL_test_Pin,GPIO_PIN_RESET);
+	}
+	*/
+}
 
 enum ECUB_CarState* get_state(){ // gives current car state outside carstate.c
 	return &state;
+}
+
+ECUF_Dashboard_t get_dash(){
+	return ECUF_Dash_data;
 }
 
 ECUB_Status_t* get_can_state(){
@@ -101,7 +141,7 @@ void blink_SDB(ECUB_Status_t *ECUB_status,uint8_t which){
 					}
 				}
 			}else{
-			time_SDC_blink_R = HAL_GetTick();
+				time_SDC_blink_R = HAL_GetTick();
 			}
 			break;
 		case 2:
@@ -115,7 +155,7 @@ void blink_SDB(ECUB_Status_t *ECUB_status,uint8_t which){
 					}
 				}
 			}else{
-			time_SDC_blink_L = HAL_GetTick();
+				time_SDC_blink_L = HAL_GetTick();
 			}
 			break;
 		default:
@@ -269,7 +309,9 @@ int measure_SDC(SPI_HandleTypeDef * SPI_handle){ //check SDC circuit
 	
 	if (!(SDC_measure & (1 << SDC_TSMS_OFFSET))){ // if TSMS bit is 0
 		ECUB_Status.SDC_TSMS = 0; //can message...reason for SDC disconect
-		//SDC_error = 1; //error find
+		if (state >= ECUB_CarState_TS_ON){
+			SDC_error = 1; //error find
+		}
 	}else{
 		ECUB_Status.SDC_TSMS = 1; //can message...reason for SDC disconect
 	}
@@ -292,6 +334,10 @@ void change_to_NOT_READY(enum ECUB_Notready_reason reason){ //change car state t
 		HAL_GPIO_WritePin(Fan1_GPIO_Port,Fan1_Pin,GPIO_PIN_RESET); //stops fans for air conditioning :(
 		HAL_GPIO_WritePin(Fan2_GPIO_Port,Fan2_Pin,GPIO_PIN_RESET); //stops fans for air conditioning :(	
 	}
+	if (HAL_GPIO_ReadPin(SDC_complete_GPIO_Port,SDC_complete_Pin) == GPIO_PIN_SET){
+		HAL_GPIO_WritePin(SDC_complete_GPIO_Port,SDC_complete_Pin,GPIO_PIN_RESET); //disconnects HV SDC
+	}
+	TS_ON_presed = 0;
 	//set_SDB_led(GPIO_PIN_RESET,&ECUB_Status); //lights SDB leds on
 }
 
@@ -310,6 +356,7 @@ int	carstate_init(void){ //car state at the begining
 	state_notready = ECUB_Notready_reason_NONE; //no error right after start of unit	
 	cs_not_ready_lock = 0;
 	cs_latch_write_delay = 0;
+	LV_low_countdown = 0;
 	return 1;
 }
 
@@ -321,21 +368,22 @@ void check_mess(void){ //check if all messages form other units are being recive
 	if(!ECUF_get_Status(&ECUF_Status_data)){ //check if recived messsage and if did, copyed into given structure
 		change_to_NOT_READY(ECUB_Notready_reason_TIMEOUT_ECUF); //reason not ready state
 	}
-	if(!ECUF_get_Dashboard(NULL)){ //check if recived messsage and if did, copyed into given structure
+	if(!ECUF_get_Dashboard(&ECUF_Dash_data)){ //check if recived messsage and if did, copyed into given structure
 		change_to_NOT_READY(ECUB_Notready_reason_TIMEOUT_ECUF); //reason not ready state
 	}
 	if(!ECUP_get_Status(&ECUP_data)){ //check if recived messsage and if did, copyed into given structure
 		change_to_NOT_READY(ECUB_Notready_reason_TIMEOUT_ECUP); //reason not ready state
 	}
 	if(!MCR_get_GeneralReport(NULL)){ //check if recived messsage and if did, copyed into given structure
-		//change_to_NOT_READY(ECUB_Notready_reason_TIMEOUT_MC); //reason not ready state
+		change_to_NOT_READY(ECUB_Notready_reason_TIMEOUT_MC); //reason not ready state
 	}
-	if(!VDCU_get_Status(NULL)){ //check if recived messsage and if did, copyed into given structure
-		//change_to_NOT_READY(ECUB_Notready_reason_TIMEOUT_VDCU); //reason not ready state
+	if(!VDCU_get_Status(&VDCU_data)){ //check if recived messsage and if did, copyed into given structure
+		change_to_NOT_READY(ECUB_Notready_reason_TIMEOUT_VDCU); //reason not ready state
 	}
 	if(!MCF_get_GeneralReport(NULL)){ //check if recived messsage and if did, copyed into given structure
-		//change_to_NOT_READY(ECUB_Notready_reason_TIMEOUT_MC); //reason not ready state
+		change_to_NOT_READY(ECUB_Notready_reason_TIMEOUT_MC); //reason not ready state
 	}
+	MCF_get_ChannelMeasuresA(&MCF_measurements);
 }
 
 
@@ -378,17 +426,17 @@ void carstate_process(SPI_HandleTypeDef * SPI_handle,CAN_HandleTypeDef* hcan){ /
 			cs_latch_write_delay = 0; //stop countdown
 		}
 		if(cs_latch_write_delay<HAL_GetTick()){
-			state = ECUB_CarState_LATCHED; //krizovy stav auta
+			state = ECUB_CarState_LATCHED; //critical state of car
 			goto there_is_no_escape;
 		}
 	}
-	if (state>=ECUB_CarState_TS_ON){
-		HAL_GPIO_WritePin(TSALL_test_GPIO_Port,TSALL_test_Pin,GPIO_PIN_SET);
-	}else{
-		HAL_GPIO_WritePin(TSALL_test_GPIO_Port,TSALL_test_Pin,GPIO_PIN_RESET);
+	if (state >= ECUB_CarState_PRECHARGE){
+		if (VDCU_data.State==VDCU_VDCU_State_ERROR){
+			state = ECUB_CarState_TS_READY;
+		}
 	}
-	
-	
+	check_voltage(); //check if LV battery have high enougth voltage
+	brakelightprocess(ECUP_data,&ECUB_Status); //check brake light
 	switch (state){ //main state automat
 		
 		case ECUB_CarState_NOT_READY: //starting and error state
@@ -431,13 +479,14 @@ void carstate_process(SPI_HandleTypeDef * SPI_handle,CAN_HandleTypeDef* hcan){ /
 		case ECUB_CarState_TS_READY: //tractive system on ready...state needed for startitng procedure
 			blink_led(5); //sets to 3bliks period of debug led
 			if(ECUF_get_Dashboard(&ECUF_Dash_data)){ //check if recived messsage and if did, copyed into given structure
-				if (ECUF_Dash_data.TSON ==1){ //if preded button tractive system on
+				if ((VDCU_data.State!=VDCU_VDCU_State_ERROR)&&(ECUF_Dash_data.TSON==1)){ //if preded button tractive system on
+					HAL_GPIO_WritePin(SDC_complete_GPIO_Port,SDC_complete_Pin,GPIO_PIN_SET); //connects HV SDC
 					HAL_GPIO_WritePin(WP1_GPIO_Port,WP1_Pin,GPIO_PIN_SET); //starts water pumps for air conditioning
 					HAL_GPIO_WritePin(WP2_GPIO_Port,WP2_Pin,GPIO_PIN_SET); //starts water pumps for air conditioning
 					HAL_GPIO_WritePin(Fan1_GPIO_Port,Fan1_Pin,GPIO_PIN_SET); //starts fans for air conditioning
 					HAL_GPIO_WritePin(Fan2_GPIO_Port,Fan2_Pin,GPIO_PIN_SET); //starts fans for air conditioning
-					HAL_GPIO_WritePin(SDC_complete_GPIO_Port,SDC_complete_Pin,GPIO_PIN_SET);
 					state = ECUB_CarState_PRECHARGE; //set car state
+					TSMS_set_countdown = HAL_GetTick() + TSMS_set_timeout;
 				}
 			}else{
 				change_to_NOT_READY(ECUB_Notready_reason_TIMEOUT_ECUF); //change car state to notready
@@ -446,8 +495,12 @@ void carstate_process(SPI_HandleTypeDef * SPI_handle,CAN_HandleTypeDef* hcan){ /
 			
 			
 		case ECUB_CarState_PRECHARGE: //precharge condenser if i got it right
+			if((ECUB_Status.SDC_TSMS!=1)&&(HAL_GetTick()>TSMS_set_countdown)){
+				state = ECUB_CarState_TS_READY;
+				HAL_GPIO_WritePin(SDC_complete_GPIO_Port,SDC_complete_Pin,GPIO_PIN_RESET); //connects HV SDC
+			}
 			blink_led(7); //sets to 4bliks period of debug led			
-			if ((!ECUA_data.FT_ANY)&&(ECUA_data.AIRsState == 9)){//(!ECUA_data.AMSState)&&(ECUA_data.AIRsState)){ //mising precharge finished
+			if ((!ECUA_data.FT_ANY)&&(ECUA_data.AIRsState == 9)&&(ECUB_Status.SDC_TSMS==1)){//(!ECUA_data.AMSState)&&(ECUA_data.AIRsState)){ //mising precharge finished
 				state = ECUB_CarState_TS_ON; //set car state
 			}				
 			break;
@@ -472,7 +525,6 @@ void carstate_process(SPI_HandleTypeDef * SPI_handle,CAN_HandleTypeDef* hcan){ /
 			
 		case ECUB_CarState_STARTED: //car driven...end possible only using SDC or error
 			blink_led(13); //sets to 7bliks period of debug led
-			brakelightprocess(ECUP_data,&ECUB_Status); //check brake light
 			break;
 		
 		

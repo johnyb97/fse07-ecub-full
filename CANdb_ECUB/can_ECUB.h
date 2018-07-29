@@ -31,17 +31,107 @@ enum { ECUP_Status_timeout = 500 };
 enum { MCF_GeneralReport_id = 0x100 };
 enum { MCF_ThermalMeasuresA_id = 0x303 };
 enum { MCF_ThermalMeasuresB_id = 0x304 };
+enum { MCF_ChannelMeasuresA_id = 0x301 };
 enum { MCR_GeneralReport_id = 0x110 };
 enum { MCR_ThermalMeasuresA_id = 0x313 };
 enum { MCR_ThermalMeasuresB_id = 0x314 };
 enum { VDCU_Status_id = 0x050 };
 enum { VDCU_Status_timeout = 500 };
 
-enum ECUA_StateAMS {
-    /* without_fault */
-    ECUA_StateAMS_All_OK = 0,
-    /* All_fucked */
-    ECUA_StateAMS_SHIT = 1,
+enum VDCU_CAL_DisIndex {
+    /* None */
+    VDCU_CAL_DisIndex_None = 0,
+    /* Front right displacement sensor calibration */
+    VDCU_CAL_DisIndex_DisFR = 1,
+    /* Front left displacement sensor calibration */
+    VDCU_CAL_DisIndex_DisFL = 2,
+    /* Rear right displacement sensor calibration */
+    VDCU_CAL_DisIndex_DisRR = 3,
+    /* Rear left displacement sensor calibration */
+    VDCU_CAL_DisIndex_DisRL = 4,
+};
+
+enum VDCU_VDCU_Param {
+    /* Torque gain (0-100) */
+    VDCU_VDCU_Param_Trq_Gain = 0,
+    /* Maximum torque for front axle (0-100) */
+    VDCU_VDCU_Param_Trq_MaxFront = 1,
+    /* Maximum torque for rear axle (0-100) */
+    VDCU_VDCU_Param_Trq_MaxRear = 2,
+    /* Maximum power in kW (0-140) */
+    VDCU_VDCU_Param_PwrLim = 3,
+    /* Maximum regenerative power in kW (0-40) */
+    VDCU_VDCU_Param_Gen_PwrLim = 4,
+    /* Pedal map selector (0-4) */
+    VDCU_VDCU_Param_Ped_MAP = 5,
+    /* Torque distribution to rear (0-100) */
+    VDCU_VDCU_Param_TV_Distrib = 10,
+    /* Torque vectoring gain on front axle (0-200) */
+    VDCU_VDCU_Param_TV_Front_Gain = 11,
+    /* Torque vectoring gain on rear axle (0-200) */
+    VDCU_VDCU_Param_TV_Rear_Gain = 12,
+    /* Torque  vectoring speed decline (0-100) */
+    VDCU_VDCU_Param_TV_Speed_Decline = 13,
+    /* Slip ratio controller slip setpoint (4-20) */
+    VDCU_VDCU_Param_TC_Slip_SP = 16,
+    /* Yaw rate controller reference gain (0-200) */
+    VDCU_VDCU_Param_YC_Ref_Gain = 19,
+    /* Yaw controller output gain (0-200) */
+    VDCU_VDCU_Param_YC_Gain = 20,
+    /* Field weakening (0-100) */
+    VDCU_VDCU_Param_FieldWeak = 23,
+    /* Request for reverse [0,1] (not a parameter) */
+    VDCU_VDCU_Param_Reverse_REQ = 25,
+    /* Racing mode (0-11) (OFF,accel, skid, autox, endu, fun, amateur, transport ...) */
+    VDCU_VDCU_Param_RaceMode_REQ = 26,
+    /* TorqueVectoring (distribution) enable */
+    VDCU_VDCU_Param_TV_EN = 24,
+    /* ENABLE regenerative braking [0,1] */
+    VDCU_VDCU_Param_Gen_EN = 28,
+    /* ENABLE unlimited performance [0,1] */
+    VDCU_VDCU_Param_Boost_EN = 29,
+    /* Torque speed limitation ramp (0-100) */
+    VDCU_VDCU_Param_Trq_Speed_Decline = 32,
+    /* Slip ratio controller threshold (0-10) */
+    VDCU_VDCU_Param_TC_Threshold = 35,
+    /* Slip ratio controller Kp gain (0-200) */
+    VDCU_VDCU_Param_TC_Kp = 36,
+    /* Slip ratio controller Ki gain (0-200) */
+    VDCU_VDCU_Param_TC_Ki = 37,
+    /* Slip ratio controller Kb gain(0-100) */
+    VDCU_VDCU_Param_TC_Kb = 38,
+    /* Yaw controller Speed limitation ramp (0-100) */
+    VDCU_VDCU_Param_YC_Speed_Decline = 40,
+    /* Yaw controller Kp gain (0-200) */
+    VDCU_VDCU_Param_YC_Kp = 41,
+    /* Yaw controller Ki gain (0-200) */
+    VDCU_VDCU_Param_YC_Ki = 42,
+    /* Yaw controller Kb gain (0-100) */
+    VDCU_VDCU_Param_YC_Kb = 43,
+    /* Feedforward gain (0-200) */
+    VDCU_VDCU_Param_FeedForward_Gain = 44,
+    /* Power limiting speed ramp (0-100) */
+    VDCU_VDCU_Param_PwrLim_Ramp_Decline = 50,
+};
+
+enum VDCU_VDCU_State {
+    /* Waiting for RTD */
+    VDCU_VDCU_State_STANDBY = 0,
+    /* Torque enabled */
+    VDCU_VDCU_State_TORQUE_EN = 1,
+    /* Error state */
+    VDCU_VDCU_State_ERROR = 2,
+};
+
+enum ECUF_CAL_STWIndex {
+    /* None */
+    ECUF_CAL_STWIndex_None = 0,
+    /* Left position (output is positive) */
+    ECUF_CAL_STWIndex_STWLeft = 1,
+    /* Center position */
+    ECUF_CAL_STWIndex_STWCenter = 2,
+    /* Right position (output is negative) */
+    ECUF_CAL_STWIndex_STWRight = 3,
 };
 
 enum ECUP_CAL_PedalIndex {
@@ -55,11 +145,20 @@ enum ECUP_CAL_PedalIndex {
     ECUP_CAL_PedalIndex_BrakeMin = 3,
     /* Maximum brake position */
     ECUP_CAL_PedalIndex_BrakeMax = 4,
+    /* Maximum regenerative position */
+    ECUP_CAL_PedalIndex_RegenMax = 5,
 };
 
 enum ECUP_CalibrationIndex {
     /* FIX THIS SHIT */
     ECUP_CalibrationIndex_dummy = 1,
+};
+
+enum ECUA_StateAMS {
+    /* without_fault */
+    ECUA_StateAMS_All_OK = 0,
+    /* All_fucked */
+    ECUA_StateAMS_SHIT = 1,
 };
 
 enum ECUB_Batt_code {
@@ -128,77 +227,6 @@ enum ECUB_Notready_reason {
     ECUB_Notready_reason_TIMEOUT_VDCU = 9,
     /* Fault on PWM_fault pins */
     ECUB_Notready_reason_PWM_FAULT = 10,
-};
-
-enum VDCU_CAL_DisIndex {
-    /* None */
-    VDCU_CAL_DisIndex_None = 0,
-    /* Front right displacement sensor calibration */
-    VDCU_CAL_DisIndex_DisFR = 1,
-    /* Front left displacement sensor calibration */
-    VDCU_CAL_DisIndex_DisFL = 2,
-    /* Rear right displacement sensor calibration */
-    VDCU_CAL_DisIndex_DisRR = 3,
-    /* Rear left displacement sensor calibration */
-    VDCU_CAL_DisIndex_DisRL = 4,
-};
-
-enum VDCU_Parameters {
-    /* Torque gain (0-128) */
-    VDCU_Parameters_TorqueGain = 0,
-    /* Maximum power in kW (0-120) */
-    VDCU_Parameters_PowerMax = 1,
-    /* Maximum regenerative power in kW (0-40) */
-    VDCU_Parameters_PowerMax_Gen = 2,
-    /* Request for reverse [0,1] */
-    VDCU_Parameters_Reverse_REQ = 3,
-    /* Racing mode (accel, skid, autox, endu ...) (0-9) */
-    VDCU_Parameters_Mode = 4,
-    /* Request for not limited performance [0,1] */
-    VDCU_Parameters_Turbo_REQ = 5,
-    /* Torque distribution between front/rear (0-100) */
-    VDCU_Parameters_Torque_Dist = 6,
-    /* Torque vectoring gain on front axle (0-200) */
-    VDCU_Parameters_TV_GainF = 7,
-    /* Torque vectoring gain on rear axle (0-200) */
-    VDCU_Parameters_TV_GainR = 8,
-    /* Maximum torque for rear axle (0-32) */
-    VDCU_Parameters_TorqueMaxF = 9,
-    /* Maximum torque for front axle (0-96) */
-    VDCU_Parameters_TorqueMaxR = 10,
-    /* Slip ratio controller slip setpoint (4-20) */
-    VDCU_Parameters_TC_SpSlip = 11,
-    /* Slip ratio controller Kp gain (0-) */
-    VDCU_Parameters_TC_Kp = 12,
-    /* Slip ratio controller Ki gain (0-) */
-    VDCU_Parameters_TC_Ki = 13,
-    /* Yaw controller Kp gain (0-) */
-    VDCU_Parameters_YC_Kp = 14,
-    /* Yaw controller Ki gain (0-) */
-    VDCU_Parameters_YC_Ki = 15,
-    /* ENABLE torque vectoring [0,1] */
-    VDCU_Parameters_TV_EN = 16,
-    /* ENABLE Slip ratio controller [0,1] */
-    VDCU_Parameters_TC_EN = 17,
-    /* ENABLE Yaw controller [0,1] */
-    VDCU_Parameters_YC_EN = 18,
-    /* ENABLE regenerative braking [0,1] */
-    VDCU_Parameters_GEN_EN = 19,
-    /* Pedal map selector (0-4) */
-    VDCU_Parameters_Ped_MAP = 20,
-    /* Field weakening (0-100) */
-    VDCU_Parameters_FW = 21,
-};
-
-enum ECUF_CAL_STWIndex {
-    /* None */
-    ECUF_CAL_STWIndex_None = 0,
-    /* Left position (output is positive) */
-    ECUF_CAL_STWIndex_STWLeft = 1,
-    /* Center position */
-    ECUF_CAL_STWIndex_STWCenter = 2,
-    /* Right position (output is negative) */
-    ECUF_CAL_STWIndex_STWRight = 3,
 };
 
 /*
@@ -540,6 +568,12 @@ typedef struct ECUB_Cooling_t {
 	/* Warning - Motor controller temperature over nominal threshold */
 	uint8_t	WARN_MCU_RL_TEMP;
 
+	/* Warning - Brake temperature over nominal threshold */
+	uint8_t	WARN_Brake_RR_TEMP;
+
+	/* Warning - Brake temperature over nominal threshold */
+	uint8_t	WARN_Brake_RL_TEMP;
+
 	/* Fault - motor overtemperature */
 	uint8_t	FT_MOT_FR_OT;
 
@@ -563,6 +597,12 @@ typedef struct ECUB_Cooling_t {
 
 	/* Fault - motor controller overtemperature */
 	uint8_t	FT_MCU_RL_OT;
+
+	/* Fault - brake overtemperature */
+	uint8_t	FT_Brake_RR_OT;
+
+	/* Fault - brake overtemperature */
+	uint8_t	FT_Brake_RL_OT;
 } ECUB_Cooling_t;
 
 /*
@@ -669,6 +709,12 @@ typedef struct ECUF_Status_t {
 	/* Power to front brake fans is enabled */
 	uint8_t	PWR_FAN_BrakeF_EN;
 
+	/* Warning - Brake temperature over nominal threshold */
+	uint8_t	WARN_Brake_FR_TEMP;
+
+	/* Warning - Brake temperature over nominal threshold */
+	uint8_t	WARN_Brake_FL_TEMP;
+
 	/* ECUP enabled but no current is drawn */
 	uint8_t	FT_PWR_ECUP;
 
@@ -717,6 +763,12 @@ typedef struct ECUF_Status_t {
 	/* Fault of suspension displacement sensor RL calibration */
 	uint8_t	FT_DisRL_Cal;
 
+	/* Fault - brake overtemperature */
+	uint8_t	FT_Brake_FR_OT;
+
+	/* Fault - brake overtemperature */
+	uint8_t	FT_Brake_FL_OT;
+
 	/* GLV Voltage at ECUF input */
 	uint8_t	Volt_GLV_In;
 } ECUF_Status_t;
@@ -731,14 +783,14 @@ typedef struct ECUF_Dashboard_t {
 	/* 1-pressed / 0-not pressed */
 	uint8_t	START;
 
-	/* 1-pressed / 0-not pressed */
-	uint8_t	SW1;
+	/* Waterpump override switch (SW1) */
+	uint8_t	WP_ON;
 
-	/* 1-pressed / 0-not pressed */
-	uint8_t	SW2;
+	/* Traction control switch (SW2) */
+	uint8_t	TCS_ON;
 
-	/* 1-pressed / 0-not pressed */
-	uint8_t	SW3;
+	/* Yaw control stabilization switch (SW3) */
+	uint8_t	YC_ON;
 
 	/* Ambient light level */
 	uint8_t	AmbientLight;
@@ -888,6 +940,23 @@ typedef struct MCF_ThermalMeasuresB_t {
 } MCF_ThermalMeasuresB_t;
 
 /*
+ * Motor/channel A essential measures.
+ */
+typedef struct MCF_ChannelMeasuresA_t {
+	/* Speed of motor. */
+	int16_t	SPEED;
+
+	/* Torque of motor. */
+	int16_t	TORQUE;
+
+	/* Channel's input power consumption. */
+	int16_t	PWRIN;
+
+	/* Input voltage DC. */
+	uint16_t	VDC;
+} MCF_ChannelMeasuresA_t;
+
+/*
  * Actual settings and states, system faults.
  */
 typedef struct MCR_GeneralReport_t {
@@ -1008,26 +1077,8 @@ typedef struct MCR_ThermalMeasuresB_t {
  * VDCU systems status
  */
 typedef struct VDCU_Status_t {
-	/*  */
-	uint8_t	State;
-
-	/* Fault of displacement sensor calibration */
-	uint8_t	FT_Dis_Cal;
-
-	/*  */
-	uint8_t	FT_Sensor;
-
-	/* Derating due to components temperature */
-	uint8_t	Temp_derating;
-
-	/* Derating due to ACP limits */
-	uint8_t	ACP_derate;
-
-	/* Discharge is active */
-	uint8_t	Disch_ACT;
-
-	/* Reverse is activated */
-	uint8_t	Reverse_ACT;
+	/* VDCU State machine */
+	enum VDCU_VDCU_State	State;
 
 	/* Torque vectoring enabled */
 	uint8_t	TV_ENABLED;
@@ -1037,6 +1088,24 @@ typedef struct VDCU_Status_t {
 
 	/* Yaw controller enabled */
 	uint8_t	YC_ENABLED;
+
+	/* Fault of displacement sensor calibration */
+	uint8_t	FT_Dis_Cal;
+
+	/*  */
+	uint8_t	FT_Sensor;
+
+	/* Derating due to components temperature */
+	uint8_t	TEMP_derating;
+
+	/* Derating due to ACP limits */
+	uint8_t	ACP_derating;
+
+	/* Discharge is active */
+	uint8_t	Disch_ACT;
+
+	/* Reverse is activated */
+	uint8_t	Reverse_ACT;
 
 	/* Slip ratio control is limiting torque */
 	uint8_t	TC_ACT;
@@ -1065,7 +1134,7 @@ int ECUB_send_GLV_AMS(enum ECUB_Batt_code BattState, uint8_t FT_Batt, uint8_t FT
 int ECUB_GLV_AMS_need_to_send(void);
 
 int ECUB_send_Cooling_s(const ECUB_Cooling_t* data);
-int ECUB_send_Cooling(uint8_t WP1, uint8_t WP2, uint8_t FAN1, uint8_t FAN2, uint8_t FAN3, uint8_t WARN_MOT_FR_TEMP, uint8_t WARN_MOT_FL_TEMP, uint8_t WARN_MOT_RR_TEMP, uint8_t WARN_MOT_RL_TEMP, uint8_t WARN_MCU_FR_TEMP, uint8_t WARN_MCU_FL_TEMP, uint8_t WARN_MCU_RR_TEMP, uint8_t WARN_MCU_RL_TEMP, uint8_t FT_MOT_FR_OT, uint8_t FT_MOT_FL_OT, uint8_t FT_MOT_RR_OT, uint8_t FT_MOT_RL_OT, uint8_t FT_MCU_FR_OT, uint8_t FT_MCU_FL_OT, uint8_t FT_MCU_RR_OT, uint8_t FT_MCU_RL_OT);
+int ECUB_send_Cooling(uint8_t WP1, uint8_t WP2, uint8_t FAN1, uint8_t FAN2, uint8_t FAN3, uint8_t WARN_MOT_FR_TEMP, uint8_t WARN_MOT_FL_TEMP, uint8_t WARN_MOT_RR_TEMP, uint8_t WARN_MOT_RL_TEMP, uint8_t WARN_MCU_FR_TEMP, uint8_t WARN_MCU_FL_TEMP, uint8_t WARN_MCU_RR_TEMP, uint8_t WARN_MCU_RL_TEMP, uint8_t WARN_Brake_RR_TEMP, uint8_t WARN_Brake_RL_TEMP, uint8_t FT_MOT_FR_OT, uint8_t FT_MOT_FL_OT, uint8_t FT_MOT_RR_OT, uint8_t FT_MOT_RL_OT, uint8_t FT_MCU_FR_OT, uint8_t FT_MCU_FL_OT, uint8_t FT_MCU_RR_OT, uint8_t FT_MCU_RL_OT, uint8_t FT_Brake_RR_OT, uint8_t FT_Brake_RL_OT);
 int ECUB_Cooling_need_to_send(void);
 
 int ECUB_send_Power_dist_s(const ECUB_Power_dist_t* data);
@@ -1081,12 +1150,12 @@ int ECUB_send_TEMPAux(uint8_t Cooling1_NTC, uint8_t Cooling2_NTC, uint8_t Coolin
 int ECUB_TEMPAux_need_to_send(void);
 
 int ECUF_decode_Status_s(const uint8_t* bytes, size_t length, ECUF_Status_t* data_out);
-int ECUF_decode_Status(const uint8_t* bytes, size_t length, uint8_t* SDC_SDBC_out, uint8_t* SDC_Inertia_out, uint8_t* SDC_FWIL_out, uint8_t* PWR_ECUP_EN_out, uint8_t* PWR_ECUG_EN_out, uint8_t* PWR_DTLG_EN_out, uint8_t* PWR_ECUS_EN_out, uint8_t* PWR_DASH_EN_out, uint8_t* PWR_FAN_BrakeF_EN_out, uint8_t* FT_PWR_ECUP_out, uint8_t* FT_PWR_ECUG_out, uint8_t* FT_PWR_ECUS_out, uint8_t* FT_PWR_DTLG_out, uint8_t* FT_PWR_DASH_out, uint8_t* FT_PWR_FAN_BrakeF_out, uint8_t* FT_STW_Sensor_out, uint8_t* FT_STW_Cal_out, uint8_t* FT_DisFR_out, uint8_t* FT_DisFL_out, uint8_t* FT_DisRR_out, uint8_t* FT_DisRL_out, uint8_t* FT_DisFR_Cal_out, uint8_t* FT_DisFL_Cal_out, uint8_t* FT_DisRR_Cal_out, uint8_t* FT_DisRL_Cal_out, uint8_t* Volt_GLV_In_out);
+int ECUF_decode_Status(const uint8_t* bytes, size_t length, uint8_t* SDC_SDBC_out, uint8_t* SDC_Inertia_out, uint8_t* SDC_FWIL_out, uint8_t* PWR_ECUP_EN_out, uint8_t* PWR_ECUG_EN_out, uint8_t* PWR_DTLG_EN_out, uint8_t* PWR_ECUS_EN_out, uint8_t* PWR_DASH_EN_out, uint8_t* PWR_FAN_BrakeF_EN_out, uint8_t* WARN_Brake_FR_TEMP_out, uint8_t* WARN_Brake_FL_TEMP_out, uint8_t* FT_PWR_ECUP_out, uint8_t* FT_PWR_ECUG_out, uint8_t* FT_PWR_ECUS_out, uint8_t* FT_PWR_DTLG_out, uint8_t* FT_PWR_DASH_out, uint8_t* FT_PWR_FAN_BrakeF_out, uint8_t* FT_STW_Sensor_out, uint8_t* FT_STW_Cal_out, uint8_t* FT_DisFR_out, uint8_t* FT_DisFL_out, uint8_t* FT_DisRR_out, uint8_t* FT_DisRL_out, uint8_t* FT_DisFR_Cal_out, uint8_t* FT_DisFL_Cal_out, uint8_t* FT_DisRR_Cal_out, uint8_t* FT_DisRL_Cal_out, uint8_t* FT_Brake_FR_OT_out, uint8_t* FT_Brake_FL_OT_out, uint8_t* Volt_GLV_In_out);
 int ECUF_get_Status(ECUF_Status_t* data_out);
 void ECUF_Status_on_receive(int (*callback)(ECUF_Status_t* data));
 
 int ECUF_decode_Dashboard_s(const uint8_t* bytes, size_t length, ECUF_Dashboard_t* data_out);
-int ECUF_decode_Dashboard(const uint8_t* bytes, size_t length, uint8_t* TSON_out, uint8_t* START_out, uint8_t* SW1_out, uint8_t* SW2_out, uint8_t* SW3_out, uint8_t* AmbientLight_out, uint8_t* AmbientTemp_out);
+int ECUF_decode_Dashboard(const uint8_t* bytes, size_t length, uint8_t* TSON_out, uint8_t* START_out, uint8_t* WP_ON_out, uint8_t* TCS_ON_out, uint8_t* YC_ON_out, uint8_t* AmbientLight_out, uint8_t* AmbientTemp_out);
 int ECUF_get_Dashboard(ECUF_Dashboard_t* data_out);
 void ECUF_Dashboard_on_receive(int (*callback)(ECUF_Dashboard_t* data));
 
@@ -1110,6 +1179,11 @@ int MCF_decode_ThermalMeasuresB(const uint8_t* bytes, size_t length, uint8_t* TI
 int MCF_get_ThermalMeasuresB(MCF_ThermalMeasuresB_t* data_out);
 void MCF_ThermalMeasuresB_on_receive(int (*callback)(MCF_ThermalMeasuresB_t* data));
 
+int MCF_decode_ChannelMeasuresA_s(const uint8_t* bytes, size_t length, MCF_ChannelMeasuresA_t* data_out);
+int MCF_decode_ChannelMeasuresA(const uint8_t* bytes, size_t length, int16_t* SPEED_out, int16_t* TORQUE_out, int16_t* PWRIN_out, uint16_t* VDC_out);
+int MCF_get_ChannelMeasuresA(MCF_ChannelMeasuresA_t* data_out);
+void MCF_ChannelMeasuresA_on_receive(int (*callback)(MCF_ChannelMeasuresA_t* data));
+
 int MCR_decode_GeneralReport_s(const uint8_t* bytes, size_t length, MCR_GeneralReport_t* data_out);
 int MCR_decode_GeneralReport(const uint8_t* bytes, size_t length, uint8_t* SDC_IN_out, uint8_t* SDC_MSCB_out, uint8_t* SDC_MPCB_out, uint8_t* SDC_HVC_out, uint8_t* SDC_MPCA_out, uint8_t* SDC_MSCA_out, uint8_t* DISCH_out, uint8_t* POA_out, uint8_t* POA_PS_out, uint8_t* POB_out, uint8_t* POB_PS_out, uint8_t* PWMA_out, uint8_t* FWA_out, uint8_t* GENA_out, uint8_t* DIRA_out, uint8_t* PWMB_out, uint8_t* FWB_out, uint8_t* GENB_out, uint8_t* DIRB_out, uint8_t* HB_out);
 int MCR_get_GeneralReport(MCR_GeneralReport_t* data_out);
@@ -1126,7 +1200,7 @@ int MCR_get_ThermalMeasuresB(MCR_ThermalMeasuresB_t* data_out);
 void MCR_ThermalMeasuresB_on_receive(int (*callback)(MCR_ThermalMeasuresB_t* data));
 
 int VDCU_decode_Status_s(const uint8_t* bytes, size_t length, VDCU_Status_t* data_out);
-int VDCU_decode_Status(const uint8_t* bytes, size_t length, uint8_t* State_out, uint8_t* FT_Dis_Cal_out, uint8_t* FT_Sensor_out, uint8_t* Temp_derating_out, uint8_t* ACP_derate_out, uint8_t* Disch_ACT_out, uint8_t* Reverse_ACT_out, uint8_t* TV_ENABLED_out, uint8_t* TC_ENABLED_out, uint8_t* YC_ENABLED_out, uint8_t* TC_ACT_out, uint8_t* YC_ACT_out);
+int VDCU_decode_Status(const uint8_t* bytes, size_t length, enum VDCU_VDCU_State* State_out, uint8_t* TV_ENABLED_out, uint8_t* TC_ENABLED_out, uint8_t* YC_ENABLED_out, uint8_t* FT_Dis_Cal_out, uint8_t* FT_Sensor_out, uint8_t* TEMP_derating_out, uint8_t* ACP_derating_out, uint8_t* Disch_ACT_out, uint8_t* Reverse_ACT_out, uint8_t* TC_ACT_out, uint8_t* YC_ACT_out);
 int VDCU_get_Status(VDCU_Status_t* data_out);
 void VDCU_Status_on_receive(int (*callback)(VDCU_Status_t* data));
 
