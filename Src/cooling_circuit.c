@@ -17,7 +17,7 @@ uint32_t last_temp_check_EngineSensors_diff; //temperature during last temperatu
 
 #define MAX_ENGINE_TEMP 110 //maximal alowed engines temperature
 #define MOTORS_COOL 35 //temperature below what we shut down cooling circuit
-#define TEMP_LIMIT 90 //temp when all goes to max and warnings are sended via can message
+#define TEMP_LIMIT 75 //temp when all goes to max and warnings are sended via can message
 #define CAN_TEMP_OFSET 40 //ofset of temperature in can message
 #define TEMP_CHECK_TIME_DIFERENCE 1000 //ms time between two checks of temperature
 
@@ -105,7 +105,7 @@ int pwm_check(ECUB_Status_t *ECUB_Status,CAN_HandleTypeDef *hcan){
 	return pwm_check_bool; //returns if any error present
 }
 
-void Cooling_process_intern(TIM_HandleTypeDef *fans,TIM_HandleTypeDef *pumps, uint32_t temp_left_before, uint32_t temp_left_after, uint32_t temp_right_before, uint32_t temp_right_after)
+void Cooling_process_intern(TIM_HandleTypeDef *fans,TIM_HandleTypeDef *pumps, uint32_t temp_left_before, uint32_t temp_left_after, uint32_t temp_right_before, uint32_t temp_right_after,ECUB_Status_t *ECUB_Status)
 {
 		if(!MCR_get_ThermalMeasuresA(&MCR_Engine_A)){ //if can message not recived
 			fan_pwm_process(fans,100); //sets fans to 100%
@@ -219,5 +219,17 @@ void Cooling_process_intern(TIM_HandleTypeDef *fans,TIM_HandleTypeDef *pumps, ui
 		}
 		if(ECUB_COOL.FAN1>0){
 			pump_pwm_process(pumps,100);
+			ECUB_Status->PWR_FAN1_EN = 1; //can message
+			ECUB_Status->PWR_FAN2_EN = 1; //can message
+			ECUB_Status->PWR_FAN3_EN = 1; //can message
+			ECUB_Status->PWR_WP1_EN = 1; //can message 
+			ECUB_Status->PWR_WP2_EN = 1; //can message
+		}else{
+			pump_pwm_process(pumps,0);
+			ECUB_Status->PWR_FAN1_EN = 0; //can message
+			ECUB_Status->PWR_FAN2_EN = 0; //can message
+			ECUB_Status->PWR_FAN3_EN = 0; //can message
+			ECUB_Status->PWR_WP1_EN = 0; //can message 
+			ECUB_Status->PWR_WP2_EN = 0; //can message
 		}
 }

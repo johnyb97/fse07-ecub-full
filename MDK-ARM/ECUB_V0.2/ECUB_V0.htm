@@ -3,7 +3,7 @@
 <title>Static Call Graph - [ECUB_V0.2\ECUB_V0.2]</title></head>
 <body><HR>
 <H1>Static Call Graph for image ECUB_V0.2\ECUB_V0.2</H1><HR>
-<BR><P>#&#060CALLGRAPH&#062# ARM Linker, 5060528: Last Updated: Sun Jul 29 15:48:53 2018
+<BR><P>#&#060CALLGRAPH&#062# ARM Linker, 5060528: Last Updated: Wed Aug 01 18:44:49 2018
 <BR><P>
 <H3>Maximum Stack Usage =        280 bytes + Unknown(Cycles, Untraceable Function Pointers)</H3><H3>
 Call chain for Maximum Stack Depth:</H3>
@@ -505,7 +505,7 @@ Global Symbols
 
 <P><STRONG><a name="[163]"></a>scalbn</STRONG> (Thumb, 0 bytes, Stack size 16 bytes, dscalb.o(.text), UNUSED)
 
-<P><STRONG><a name="[142]"></a>__aeabi_cdcmpeq</STRONG> (Thumb, 0 bytes, Stack size 0 bytes, cdcmple.o(.text))
+<P><STRONG><a name="[143]"></a>__aeabi_cdcmpeq</STRONG> (Thumb, 0 bytes, Stack size 0 bytes, cdcmple.o(.text))
 <BR><BR>[Called By]<UL><LI><a href="#[a3]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;log
 </UL>
 
@@ -641,8 +641,8 @@ Global Symbols
 <BR>[Called By]<UL><LI><a href="#[45]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;main
 </UL>
 
-<P><STRONG><a name="[88]"></a>Cooling_process_intern</STRONG> (Thumb, 328 bytes, Stack size 40 bytes, cooling_circuit.o(i.Cooling_process_intern))
-<BR><BR>[Stack]<UL><LI>Max Depth = 56<LI>Call Chain = Cooling_process_intern &rArr; pump_pwm_process
+<P><STRONG><a name="[88]"></a>Cooling_process_intern</STRONG> (Thumb, 386 bytes, Stack size 56 bytes, cooling_circuit.o(i.Cooling_process_intern))
+<BR><BR>[Stack]<UL><LI>Max Depth = 72<LI>Call Chain = Cooling_process_intern &rArr; pump_pwm_process
 </UL>
 <BR>[Calls]<UL><LI><a href="#[8b]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;MCR_get_ThermalMeasuresB
 <LI><a href="#[89]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;MCR_get_ThermalMeasuresA
@@ -892,7 +892,7 @@ Global Symbols
 <BR>[Calls]<UL><LI><a href="#[ab]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;HAL_DMA_Start_IT
 <LI><a href="#[6b]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;ADC_Enable
 </UL>
-<BR>[Called By]<UL><LI><a href="#[145]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;start_ADC
+<BR>[Called By]<UL><LI><a href="#[146]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;start_ADC
 </UL>
 
 <P><STRONG><a name="[7e]"></a>HAL_CAN_ConfigFilter</STRONG> (Thumb, 238 bytes, Stack size 20 bytes, stm32f1xx_hal_can.o(i.HAL_CAN_ConfigFilter))
@@ -1921,7 +1921,7 @@ Global Symbols
 
 <P><STRONG><a name="[16a]"></a>__scatterload_zeroinit</STRONG> (Thumb, 14 bytes, Stack size unknown bytes, handlers.o(i.__scatterload_zeroinit), UNUSED)
 
-<P><STRONG><a name="[141]"></a>__set_errno</STRONG> (Thumb, 6 bytes, Stack size 0 bytes, errno.o(i.__set_errno))
+<P><STRONG><a name="[142]"></a>__set_errno</STRONG> (Thumb, 6 bytes, Stack size 0 bytes, errno.o(i.__set_errno))
 <BR><BR>[Called By]<UL><LI><a href="#[a3]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;log
 </UL>
 
@@ -2048,11 +2048,11 @@ Global Symbols
 <BR>[Called By]<UL><LI><a href="#[45]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;main
 </UL>
 
-<P><STRONG><a name="[144]"></a>carstate_init</STRONG> (Thumb, 18 bytes, Stack size 0 bytes, carstate.o(i.carstate_init))
+<P><STRONG><a name="[145]"></a>carstate_init</STRONG> (Thumb, 18 bytes, Stack size 0 bytes, carstate.o(i.carstate_init))
 <BR><BR>[Called By]<UL><LI><a href="#[45]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;main
 </UL>
 
-<P><STRONG><a name="[135]"></a>carstate_process</STRONG> (Thumb, 776 bytes, Stack size 48 bytes, carstate.o(i.carstate_process))
+<P><STRONG><a name="[135]"></a>carstate_process</STRONG> (Thumb, 756 bytes, Stack size 48 bytes, carstate.o(i.carstate_process))
 <BR><BR>[Stack]<UL><LI>Max Depth = 176<LI>Call Chain = carstate_process &rArr; measure_SDC &rArr; config_SDC_spi &rArr; HAL_SPI_Init &rArr; HAL_SPI_MspInit &rArr; HAL_GPIO_Init
 </UL>
 <BR>[Calls]<UL><LI><a href="#[139]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;units_set
@@ -2156,12 +2156,13 @@ Global Symbols
 <LI><a href="#[6c]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;BMS_Process
 </UL>
 
-<P><STRONG><a name="[13e]"></a>cooling_poccess</STRONG> (Thumb, 190 bytes, Stack size 40 bytes, adc.o(i.cooling_poccess))
+<P><STRONG><a name="[13e]"></a>cooling_poccess</STRONG> (Thumb, 196 bytes, Stack size 40 bytes, adc.o(i.cooling_poccess))
 <BR><BR>[Stack]<UL><LI>Max Depth = 112<LI>Call Chain = cooling_poccess &rArr; ECUB_send_TEMPAux_s &rArr; txSendCANMessage &rArr; SendCANMessage &rArr; HAL_CAN_Transmit
 </UL>
 <BR>[Calls]<UL><LI><a href="#[8e]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;pump_pwm_process
 <LI><a href="#[140]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;get_state
 <LI><a href="#[13f]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;get_dash
+<LI><a href="#[141]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;get_can_state
 <LI><a href="#[8a]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;fan_pwm_process
 <LI><a href="#[fd]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;HAL_CAN_Receive_IT
 <LI><a href="#[9e]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;ECUB_send_TEMPAux_s
@@ -2187,8 +2188,9 @@ Global Symbols
 <BR>[Called By]<UL><LI><a href="#[124]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;medianFilt
 </UL>
 
-<P><STRONG><a name="[146]"></a>get_can_state</STRONG> (Thumb, 4 bytes, Stack size 0 bytes, carstate.o(i.get_can_state))
-<BR><BR>[Called By]<UL><LI><a href="#[45]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;main
+<P><STRONG><a name="[141]"></a>get_can_state</STRONG> (Thumb, 4 bytes, Stack size 0 bytes, carstate.o(i.get_can_state))
+<BR><BR>[Called By]<UL><LI><a href="#[13e]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;cooling_poccess
+<LI><a href="#[45]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;main
 </UL>
 
 <P><STRONG><a name="[13f]"></a>get_dash</STRONG> (Thumb, 18 bytes, Stack size 0 bytes, carstate.o(i.get_dash))
@@ -2218,14 +2220,14 @@ Global Symbols
 <LI><a href="#[5f]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__aeabi_drsub
 <LI><a href="#[60]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__aeabi_ddiv
 <LI><a href="#[5a]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__aeabi_dadd
-<LI><a href="#[141]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__set_errno
+<LI><a href="#[142]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__set_errno
 <LI><a href="#[115]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__kernel_poly
 <LI><a href="#[119]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__mathlib_dbl_invalid
 <LI><a href="#[117]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__mathlib_dbl_infnan
 <LI><a href="#[116]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__mathlib_dbl_divzero
 <LI><a href="#[5e]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__aeabi_dsub
 <LI><a href="#[64]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__aeabi_dmul
-<LI><a href="#[142]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__aeabi_cdcmpeq
+<LI><a href="#[143]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__aeabi_cdcmpeq
 <LI><a href="#[118]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__ARM_scalbn
 </UL>
 <BR>[Called By]<UL><LI><a href="#[a2]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;GetTemperature
@@ -2241,15 +2243,15 @@ Global Symbols
 <LI><a href="#[139]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;units_set
 <LI><a href="#[11a]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;aux_set
 <LI><a href="#[78]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;HAL_GPIO_TogglePin
-<LI><a href="#[146]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;get_can_state
 <LI><a href="#[135]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;carstate_process
-<LI><a href="#[144]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;carstate_init
+<LI><a href="#[145]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;carstate_init
 <LI><a href="#[83]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;HAL_NVIC_SetPriority
 <LI><a href="#[82]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;HAL_NVIC_EnableIRQ
 <LI><a href="#[7b]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;CAN_eforce
 <LI><a href="#[eb]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;HAL_GPIO_WritePin
+<LI><a href="#[141]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;get_can_state
 <LI><a href="#[fd]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;HAL_CAN_Receive_IT
-<LI><a href="#[145]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;start_ADC
+<LI><a href="#[146]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;start_ADC
 <LI><a href="#[13e]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;cooling_poccess
 <LI><a href="#[e9]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;HAL_UART_Init
 <LI><a href="#[bf]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;HAL_SPI_MspInit
@@ -2273,7 +2275,7 @@ Global Symbols
 <LI><a href="#[f8]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;LV_init
 <LI><a href="#[ea]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;LTC_DRV_SPI_CSHigh
 <LI><a href="#[149]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;txProcess
-<LI><a href="#[143]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;txInit
+<LI><a href="#[144]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;txInit
 <LI><a href="#[133]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;candbInit
 <LI><a href="#[9c]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;ECUB_send_Power_dist_s
 <LI><a href="#[95]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;ECUB_Power_dist_need_to_send
@@ -2411,7 +2413,7 @@ Global Symbols
 <BR>[Called By]<UL><LI><a href="#[124]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;medianFilt
 </UL>
 
-<P><STRONG><a name="[145]"></a>start_ADC</STRONG> (Thumb, 8 bytes, Stack size 0 bytes, adc.o(i.start_ADC))
+<P><STRONG><a name="[146]"></a>start_ADC</STRONG> (Thumb, 8 bytes, Stack size 0 bytes, adc.o(i.start_ADC))
 <BR><BR>[Stack]<UL><LI>Max Depth = 60<LI>Call Chain = start_ADC &rArr; HAL_ADC_Start_DMA &rArr; HAL_DMA_Start_IT &rArr; DMA_SetConfig
 </UL>
 <BR>[Calls]<UL><LI><a href="#[aa]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;HAL_ADC_Start_DMA
@@ -2495,7 +2497,7 @@ Global Symbols
 <BR><BR>[Called By]<UL><LI><a href="#[149]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;txProcess
 </UL>
 
-<P><STRONG><a name="[143]"></a>txInit</STRONG> (Thumb, 28 bytes, Stack size 0 bytes, tx2_can.o(i.txInit))
+<P><STRONG><a name="[144]"></a>txInit</STRONG> (Thumb, 28 bytes, Stack size 0 bytes, tx2_can.o(i.txInit))
 <BR><BR>[Called By]<UL><LI><a href="#[45]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;main
 </UL>
 

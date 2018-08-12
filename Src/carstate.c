@@ -430,11 +430,13 @@ void carstate_process(SPI_HandleTypeDef * SPI_handle,CAN_HandleTypeDef* hcan){ /
 			goto there_is_no_escape;
 		}
 	}
+	/*
 	if (state >= ECUB_CarState_PRECHARGE){
 		if (VDCU_data.State==VDCU_VDCU_State_ERROR){
 			state = ECUB_CarState_TS_READY;
 		}
 	}
+	*/
 	check_voltage(); //check if LV battery have high enougth voltage
 	brakelightprocess(ECUP_data,&ECUB_Status); //check brake light
 	switch (state){ //main state automat
@@ -494,10 +496,10 @@ void carstate_process(SPI_HandleTypeDef * SPI_handle,CAN_HandleTypeDef* hcan){ /
 			break;
 			
 			
-		case ECUB_CarState_PRECHARGE: //precharge condenser if i got it right
+		case ECUB_CarState_PRECHARGE: //precharge
 			if((ECUB_Status.SDC_TSMS!=1)&&(HAL_GetTick()>TSMS_set_countdown)){
 				state = ECUB_CarState_TS_READY;
-				HAL_GPIO_WritePin(SDC_complete_GPIO_Port,SDC_complete_Pin,GPIO_PIN_RESET); //connects HV SDC
+				HAL_GPIO_WritePin(SDC_complete_GPIO_Port,SDC_complete_Pin,GPIO_PIN_RESET); //disconnects HV SDC
 			}
 			blink_led(7); //sets to 4bliks period of debug led			
 			if ((!ECUA_data.FT_ANY)&&(ECUA_data.AIRsState == 9)&&(ECUB_Status.SDC_TSMS==1)){//(!ECUA_data.AMSState)&&(ECUA_data.AIRsState)){ //mising precharge finished

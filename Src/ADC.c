@@ -45,7 +45,7 @@ void cooling_poccess(TIM_HandleTypeDef *fans, TIM_HandleTypeDef *pumps,CAN_Handl
 	ECUF_Dashboard_t dash =  get_dash();
 	if(dash.WP_ON != 1){
 		if((*get_state())>=ECUB_CarState_TS_ON){ //cooling only if not on LV battery
-			Cooling_process_intern(fans,pumps,ntc0_value,ntc1_value,ntc2_value,ntc3_value); //intern function for cooling circuit logit
+			Cooling_process_intern(fans,pumps,ntc0_value,ntc1_value,ntc2_value,ntc3_value,get_can_state()); //intern function for cooling circuit logit
 		}else{
 			fan_pwm_process(fans,0); //stops fans
 			pump_pwm_process(pumps,0); //stops pumps
